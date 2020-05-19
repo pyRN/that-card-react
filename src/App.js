@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-//Import Components
-import MainComponent from './MainComponent'
-import NavBarComponent from './NavBarComponent'
+//Components
+import CardsComponent from './components/CardsComponent'
+import LoginComponent from './components/LoginComponent'
+import MainComponent from './components/MainComponent'
+import NavBarComponent from './components/NavBarComponent'
+import SetComponent from './components/SetComponent'
 
 const App = () => {
-
+    //States
     const [searchedCardName, setSearchedCardName] = useState('')
     const [cardList, setCardList] = useState([])
-    const [expansionList, setExpansionList] = useState([])
 
     const handleCardSearch = (searchedCardName) => {
         setSearchedCardName(searchedCardName)
@@ -38,6 +40,9 @@ const App = () => {
                     <NavBarComponent handleCardSearch={handleCardSearch}/>
                 </div>
                 <Route path="/" exact render={props => <MainComponent searchedCardName={searchedCardName} cardList={cardList}/>}/>
+                <Route path="/sets" exact render={props => <SetComponent />}/>
+                <Route path="/cards" exact render={props => <CardsComponent searchedCardName={searchedCardName} cardList={cardList} />}/>
+                <Route path="/login" exact render={props => <LoginComponent />}/>
             </Router>
         </div>
     );

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 function NavBarComponent({handleCardSearch}){
     function getCardName(e){
@@ -18,6 +19,18 @@ function NavBarComponent({handleCardSearch}){
             {/* <MainClockComponent/> */}
             <div className="collapse navbar-collapse" id="navbarResponsive">                        
                 <ul className="navbar-nav ml-auto">
+                    <li className="nav-item" >
+                        <Link className="nav-link text-primary" to="/">Main</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link text-primary" to="/sets">Sets</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link text-primary" to="/cards">Cards</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link text-primary" to="/login">Login</Link>
+                    </li>
                     <li>
                         <form className="form-inline" onSubmit={getCardName}>
                             <input className="form-control mr-sm-2" type="search" id="searchInput" placeholder="Search" aria-label="Search"/>
