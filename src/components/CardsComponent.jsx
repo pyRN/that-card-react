@@ -4,7 +4,7 @@ import CardComponent from './CardComponent'
 function CardsComponent({searchedCardName, cardList}){
     let cards = cardList !== undefined ? cardList.map(function(cardInfo){
         if(!cardInfo.digital)       //Do not show online only versions of the card
-            return <CardComponent cardInfo={cardInfo} />
+            return <CardComponent cardInfo={cardInfo} key={cardInfo.oracle_id}/>
     })
     :
     ''

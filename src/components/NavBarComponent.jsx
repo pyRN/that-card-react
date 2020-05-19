@@ -1,12 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 function NavBarComponent({handleCardSearch}){
+    const history = useHistory()
+
     function getCardName(e){
         e.preventDefault();
         let sCardName = document.getElementById("searchInput")
         handleCardSearch(sCardName.value)
         sCardName.value = ''
+        history.push('/cards')
     }
     return ( 
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
