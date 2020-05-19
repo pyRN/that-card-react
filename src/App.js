@@ -39,7 +39,7 @@ const App = () => {
                 <div className="static-top sticky-top">
                     <NavBarComponent handleCardSearch={handleCardSearch}/>
                 </div>
-                <Route path="/" exact render={props => <MainComponent searchedCardName={searchedCardName} cardList={cardList}/>}/>
+                <Route path="/" exact render={props => <MainComponent/>}/>
                 <Route path="/sets" exact render={props => <SetComponent />}/>
                 <Route path="/cards" exact render={props => <CardsComponent searchedCardName={searchedCardName} cardList={cardList} />}/>
                 <Route path="/login" exact render={props => <LoginComponent />}/>

@@ -1,6 +1,7 @@
 import React from 'react'
 
 function CardComponent({cardInfo}){
+    console.log(cardInfo)
     return ( 
         <div className="card m-1 border border-dark bg-dark rounded" style={{width: "18rem"}}>
             <img src={cardInfo.image_uris.normal} className="card-img-top" alt={cardInfo.name}/>
