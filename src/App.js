@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+//Import Components
+import MainComponent from './MainComponent'
+import NavBarComponent from './NavBarComponent'
+
+const App = () => {
+
+    const [searchedCardName, setSearchedCardName] = useState('')
+    const [cardList, setCardList] = useState([])
+    const [expansionList, setExpansionList] = useState([])
+
+    const handleCardSearch = (searchedCardName) => {
+        setSearchedCardName(searchedCardName)
+
+        fetch(`https://api.scryfall.com/cards/search?unique=prints&q=%22${searchedCardName}%22`)
+            .then(response => response.json())
+            .then(data => {
+                setCardList(data.data)
+            });
+    }
+
+    // fetch('https://api.scryfall.com/sets')
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         console.log(data)
+    //         setExpansionList(data.data)
+    //     });
+
+
+    return (
+        <div className="mainContainer">      
+            <Router>      
+                <div className="static-top sticky-top">
+                    <NavBarComponent handleCardSearch={handleCardSearch}/>
+                </div>
+                <Route path="/" exact render={props => <MainComponent searchedCardName={searchedCardName} cardList={cardList}/>}/>
+            </Router>
+        </div>
+    );
 }
 
-export default App;
+export default App
