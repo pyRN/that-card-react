@@ -2,27 +2,15 @@ import React from 'react'
 
 import ExpansionComponent from './ExpansionComponent'
 
-function SetComponent({expansionList}){
-    console.log(expansionList.length)
-    console.log(expansionList.length > 0)
-    console.log(expansionList[0])
-    console.log(expansionList)
-
+function SetComponent({expansionList, onSetClicked}){
     let expansions = expansionList.length !== 0 ? 
                         expansionList.map(function(expansion){
-                            return <ExpansionComponent expansionName={expansion.name} expansionIcon={expansion.icon_svg_uri} key={expansion.code}/> 
+                            return <ExpansionComponent expansionName={expansion.name} expansionIcon={expansion.icon_svg_uri} key={expansion.code} expansionCode={expansion.code} onSetClicked={onSetClicked}/> 
                         }) 
                         : ""
 
     return ( 
-        <div 
-            style={
-                {
-                    display: "block",
-                    backgroundColor: "black",
-                    margin: 3
-                }
-        }>
+        <div align="center" className="justify-content-center" style={{backgroundColor: "black"}}>
             {
                 expansions.length ? expansions : null
             }

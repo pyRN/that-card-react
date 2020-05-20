@@ -10,16 +10,7 @@ function CardsComponent({searchedCardName, cardList}){
     ''
 
     return (         
-        <div 
-            style={
-                {
-                    display: "grid",
-                    gridTemplateColumns: 'repeat(5, 1fr)',
-                    gridGap: 10,
-                    margin: 10,
-                    backgroundColor: "black"
-                }
-        }>
+        <div align="center" className="justify-content-center" style={{backgroundColor: "black"}}>
             {
                 cards
             }

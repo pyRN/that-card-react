@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -26,6 +26,17 @@ const App = () => {
             });
     }
 
+    const onSetClicked = (setClicked) => {
+        // const history = useHistory()
+        fetch(`https://api.scryfall.com/cards/search?order=set&q=e%3A${setClicked}&unique=prints`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                console.log(data.data)
+                setCardList(data.data)
+            });
+    }
+
     useEffect(() => {
         fetch('https://api.scryfall.com/sets')
         .then(response => response.json())
@@ -34,7 +45,6 @@ const App = () => {
         });
     }, [])
 
-
     return (
         <div className="mainContainer">      
             <Router>      
@@ -42,7 +52,7 @@ const App = () => {
                     <NavBarComponent handleCardSearch={handleCardSearch}/>
                 </div>
                 <Route path="/" exact render={props => <MainComponent/>}/>
-                <Route path="/sets" exact render={props => <SetComponent expansionList={expansionList}/>}/>
+                <Route path="/sets" exact render={props => <SetComponent expansionList={expansionList} onSetClicked={onSetClicked}/>}/>
                 <Route path="/cards" exact render={props => <CardsComponent searchedCardName={searchedCardName} cardList={cardList} />}/>
                 <Route path="/login" exact render={props => <LoginComponent />}/>
             </Router>
