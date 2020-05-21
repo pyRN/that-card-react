@@ -2,14 +2,16 @@ import  React from 'react'
 
 function CardNavBarComponent(){
     return(
-        <nav className="navbar navbar-expand-lg  navbar-dark border border-primary fixed-bottom mr-auto row" style={{backgroundColor: "black"}}>
-            <h5 className="text-primary mr-3">Card Name / Set Name</h5>
+        <nav className="navbar navbar-expand-lg  fixed-bottom justify-content-end">
             <div className="btn-group btn-group-toggle" data-toggle="buttons">
                 <label className="btn btn-secondary active">
-                    <input type="radio" name="options" id="cardViewBtn" autocomplete="off" checked/> Card View
+                    <input type="radio" name="options" id="cardViewBtn" autoComplete="off" checked/> Card View
                 </label>
                 <label className="btn btn-secondary">
-                    <input type="radio" name="options" id="tblViewBtn" autocomplete="off"/> Table View
+                    <input type="radio" name="options" id="tblViewBtn" autoComplete="off"/> Table View
+                </label>
+                <label className="btn btn-secondary">
+                    <input type="radio" name="options" id="tblViewBtn" autoComplete="off"/> Checklist
                 </label>
             </div>
         </nav>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom';
 
-function NavBarComponent({handleCardSearch}){
+function NavBarComponent({handleCardSearch, navTitle, setNavTitle}){
     const history = useHistory()
 
     console.log("TESTING: NavBarComponent Render")
@@ -10,12 +10,14 @@ function NavBarComponent({handleCardSearch}){
         e.preventDefault();
         let sCardName = document.getElementById("searchInput")
         handleCardSearch(sCardName.value)
+        setNavTitle(`Do I Have: ${sCardName.value.toUpperCase()}`)
         sCardName.value = ''
         history.push('/cards')
     }
+
     return ( 
         <nav className="navbar navbar-expand-lg  navbar-dark border border-primary" style={{backgroundColor: "black"}}>
-            <h2 className="navbar-brand text-primary">Do I Have That Card?</h2>
+            <h2 className="navbar-brand text-primary">{navTitle}</h2>
             <button className="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarResponsive"    
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>

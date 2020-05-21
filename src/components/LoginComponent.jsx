@@ -13,8 +13,8 @@ function LoginComponent(){
                 <input type="password" id="inputPassword" className="form-control" placeholder="Password" required/>
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                 <div className="row">
-                    <a href="#" className="mt-5 text-muted col-sm">Forgot Password</a>
-                    <a href="#" className="mt-5 text-muted col-sm">Register</a>
+                    <a href="#forgotPassword" className="mt-5 text-muted col-sm">Forgot Password</a>
+                    <a href="#register" className="mt-5 text-muted col-sm">Register</a>
                 </div>
                 
             </form>

@@ -15,6 +15,7 @@ const App = () => {
     //States
     const [cardList, setCardList] = useState([])
     const [expansionList, setExpansionList] = useState([])
+    const [navTitle, setNavTitle] = useState("Do I Have That Card?")
     
     const handleCardSearch = (searchedCardName) => {
 
@@ -26,9 +27,11 @@ const App = () => {
     }
 
     const onSetClicked = (setClicked) => {
+        console.log(setClicked)
         fetch(`https://api.scryfall.com/cards/search?order=set&q=e%3A${setClicked}&unique=prints`)
             .then(response => response.json())
             .then(data => {
+                console.log("sets:  ", data.data)
                 setCardList(data.data)
             });
     }
@@ -45,10 +48,10 @@ const App = () => {
         <div className="mainContainer">      
             <Router>      
                 <div className="static-top sticky-top">
-                    <NavBarComponent handleCardSearch={handleCardSearch}/>
+                    <NavBarComponent handleCardSearch={handleCardSearch} navTitle={navTitle} setNavTitle={setNavTitle}/>
                 </div>
                 <Route path="/" exact render={props => <MainComponent/>}/>
-                <Route path="/sets" exact render={props => <SetComponent expansionList={expansionList} onSetClicked={onSetClicked}/>}/>
+                <Route path="/sets" exact render={props => <SetComponent expansionList={expansionList} onSetClicked={onSetClicked} setNavTitle={setNavTitle}/>}/>
                 <Route path="/cards" exact render={props => <CardsComponent cardList={cardList} />}/>
                 <Route path="/login" exact render={props => <LoginComponent />}/>
             </Router>
