@@ -1,13 +1,9 @@
-/*
-    TODO:
-    1)This isn't very good on mobile - need to fix sizing
- */
-
 import React from 'react'
 import { useHistory } from 'react-router-dom';
 
-function ExpansionComponent({expansionName, expansionIcon, onSetClicked, expansionCode}){
+function ExpansionComponent({expansionName, expansionIcon, expansionCode, onSetClicked}){
     const history = useHistory()
+    
     const handleOnClick = (e) => {
         e.preventDefault()
         onSetClicked(expansionCode)

@@ -4,6 +4,8 @@ import { Link, useHistory } from 'react-router-dom';
 function NavBarComponent({handleCardSearch}){
     const history = useHistory()
 
+    console.log("TESTING: NavBarComponent Render")
+
     function getCardName(e){
         e.preventDefault();
         let sCardName = document.getElementById("searchInput")
@@ -18,8 +20,6 @@ function NavBarComponent({handleCardSearch}){
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
-            
-            {/* <MainClockComponent/> */}
             <div className="collapse navbar-collapse" id="navbarResponsive">                        
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item" >
@@ -31,7 +31,7 @@ function NavBarComponent({handleCardSearch}){
                     <li className="nav-item">
                         <Link className="nav-link text-primary" to="/cards">Cards</Link>
                     </li>
-                    <li className="nav-item">
+                    <li className="nav-item mr-4">
                         <Link className="nav-link text-primary" to="/login">Login</Link>
                     </li>
                     <li>

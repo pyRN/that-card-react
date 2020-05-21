@@ -11,13 +11,12 @@ import NavBarComponent from './components/NavBarComponent'
 import SetComponent from './components/SetComponent'
 
 const App = () => {
+    console.log("TESTING: App Render")
     //States
-    const [searchedCardName, setSearchedCardName] = useState('')
     const [cardList, setCardList] = useState([])
     const [expansionList, setExpansionList] = useState([])
     
     const handleCardSearch = (searchedCardName) => {
-        setSearchedCardName(searchedCardName)
 
         fetch(`https://api.scryfall.com/cards/search?unique=prints&q=%22${searchedCardName}%22`)
             .then(response => response.json())
@@ -27,12 +26,9 @@ const App = () => {
     }
 
     const onSetClicked = (setClicked) => {
-        // const history = useHistory()
         fetch(`https://api.scryfall.com/cards/search?order=set&q=e%3A${setClicked}&unique=prints`)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
-                console.log(data.data)
                 setCardList(data.data)
             });
     }
@@ -53,7 +49,7 @@ const App = () => {
                 </div>
                 <Route path="/" exact render={props => <MainComponent/>}/>
                 <Route path="/sets" exact render={props => <SetComponent expansionList={expansionList} onSetClicked={onSetClicked}/>}/>
-                <Route path="/cards" exact render={props => <CardsComponent searchedCardName={searchedCardName} cardList={cardList} />}/>
+                <Route path="/cards" exact render={props => <CardsComponent cardList={cardList} />}/>
                 <Route path="/login" exact render={props => <LoginComponent />}/>
             </Router>
         </div>
