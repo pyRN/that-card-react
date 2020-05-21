@@ -11,7 +11,6 @@ function CardsComponent({cardList}){
                                                     return <CardComponent cardInfo={cardInfo} key={key}/>
                                                 }
                                             }) : null
-    console.log("CardList", cardList)
     if(!cards.length){
         cards = <div>
                     <h3 className="text-primary">Search for a card</h3>

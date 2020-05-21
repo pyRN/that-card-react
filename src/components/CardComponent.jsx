@@ -26,10 +26,10 @@ function CardComponent({cardInfo}){
                     <h5 className="text-primary text-center">{cardInfo.set_name}</h5>
                 </div>
                 <div className="row d-flex justify-content-start">
-                    {cardInfo.prices.usd ? <p className="card-subtitle card-text text-primary col-sm">Price: ${cardInfo.prices.usd}</p> : null}
+                    <p className="card-subtitle card-text text-primary col-sm">Reg: {!cardInfo.prices.usd ? 'N/A' : '$' + cardInfo.prices.usd }</p>
                 </div>
                 <div className="row d-flex justify-content-start">
-                    {cardInfo.prices.usd_foil ? <p className="card-subtitle card-text text-primary col-sm">Foil: ${cardInfo.prices.usd_foil}</p> : null}
+                    <p className="card-subtitle card-text text-primary col-sm">Foil: {!cardInfo.foil ? 'No Foil' : !cardInfo.prices.usd_foil ? 'N/A' : '$' + cardInfo.prices.usd_foil}</p>
                 </div>
             </div>
         </div>
