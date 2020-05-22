@@ -4,13 +4,13 @@ import CardNavBarComponent from './CardNavBarComponent'
 import LastChance from '../multimedia/Last-chance.jpg'
 import VampiricTutor from '../multimedia/Vampiric-tutor.jpg'
 
-function CardsComponent({cardList}){
+function CardsComponent({cardList, isUserLogin}){
     console.log("TESTING: CardsComponent Render")
     let key = 0
     let cards = cardList !== undefined ? cardList.map(function(cardInfo){
                                                 if(!cardInfo.digital){       
                                                     key++
-                                                    return <CardComponent cardInfo={cardInfo} key={key}/>
+                                                    return <CardComponent cardInfo={cardInfo} key={key} isUserLogin={isUserLogin}/>
                                                 }
                                             }) : null
 
