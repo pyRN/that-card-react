@@ -17,7 +17,7 @@ function NavBarComponent({handleCardSearch, navTitle, setNavTitle}){
 
     return ( 
         <nav className="navbar navbar-expand-lg  navbar-dark border border-primary" style={{backgroundColor: "black"}}>
-            <h2 className="navbar-brand text-primary">{navTitle}</h2>
+            <h2 className="navbar-brand text-primary text-wrap">{navTitle}</h2>
             <button className="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarResponsive"    
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
