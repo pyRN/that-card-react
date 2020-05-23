@@ -9,7 +9,8 @@ function SetComponent({ expansionList, onSetClicked, setNavTitle }){
         return ( 
             <div align="center" className="justify-content-center mt-3" style={{backgroundColor: "black"}}>
                 {expansionList.map(function(expansion){
-                    return <ExpansionComponent expansionName={expansion.name} expansionIcon={expansion.icon_svg_uri} key={expansion.code} expansionCode={expansion.code} onSetClicked={onSetClicked} setNavTitle={setNavTitle}/> 
+                    if(!expansion.digital)
+                        return <ExpansionComponent expansionName={expansion.name} expansionIcon={expansion.icon_svg_uri} key={expansion.code} expansionCode={expansion.code} onSetClicked={onSetClicked} setNavTitle={setNavTitle}/> 
                 }) }
             </div>
         )
