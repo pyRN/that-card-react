@@ -1,19 +1,31 @@
-import React from 'react'
+import React, {useState} from 'react'
+
+//Components
 import CardComponent from './CardComponent'
 import CardNavBarComponent from './CardNavBarComponent'
+import TableComponent from './TableComponent'
+
+//Media
 import LastChance from '../multimedia/Last-chance.jpg'
 import VampiricTutor from '../multimedia/Vampiric-tutor.jpg'
 
-function CardsComponent({cardList, isUserLogin}){
+function CardsComponent({ cardList, isUserLogin, isFromSet }){
     console.log("TESTING: CardsComponent Render")
-    let key = 0
-    let cards = cardList !== undefined ? cardList.map(function(cardInfo){
-                                                if(!cardInfo.digital){       
-                                                    key++
-                                                    return <CardComponent cardInfo={cardInfo} key={key} isUserLogin={isUserLogin}/>
-                                                }
-                                            }) : null
+    const [viewSelected, setViewSelected] = useState('cardView')
 
+    let key = 0
+    let cards = cardList !== undefined ? 
+        cardList.map(function(cardInfo){
+                        if(!cardInfo.digital){       
+                            key++
+                            if(viewSelected === 'cardView')
+                                return <CardComponent cardInfo={cardInfo} key={key} isUserLogin={isUserLogin} isFromSet={isFromSet}/>
+                            if(viewSelected === 'tblView')
+                                return <TableComponent cardInfo={cardInfo} key={key} isUserLogin={isUserLogin}/>
+                        }
+                    }) 
+        : null
+                                        
     if(cardList === undefined){
         return(
             <div align="center" className="justify-content-center mt-3" style={{backgroundColor: "black"}}>
@@ -32,8 +44,22 @@ function CardsComponent({cardList, isUserLogin}){
     }                                  
     return (     
         <div align="center" className="justify-content-center mt-3 mb-5" style={{backgroundColor: "black"}}>
-            { cards }
-            <CardNavBarComponent/> 
+            { viewSelected === 'cardView' ? cards :     <table className="table table-dark table-striped table-bordered table-hover table-sm table-responsive-sm">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Card Name</th>
+                                                                    <th>Set Name</th>
+                                                                    <th>Rarity</th>
+                                                                    <th>Price</th>
+                                                                    {isUserLogin ? <th>Regular Quantity</th> : null}
+                                                                    {isUserLogin ? <th>Foil Quantity</th> :null}
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {cards}
+                                                            </tbody>
+                                                        </table>}
+            <CardNavBarComponent setViewSelected={setViewSelected}/> 
         </div>
     )
 }

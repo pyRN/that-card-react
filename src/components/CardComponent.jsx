@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 
-function CardComponent({cardInfo, isUserLogin}){
+function CardComponent({cardInfo, isUserLogin, isFromSet}){
     let cardImage
     let cardImagesSrcs = []
     const [currentRegCount, setCurrentRegCount] = useState(0)
     const [currentFoilCount, setCurrentFoilCount] = useState(0)
+
+    console.log(cardInfo)
 
     const handleOnClick = (e) => {
         e.preventDefault()
@@ -14,11 +16,12 @@ function CardComponent({cardInfo, isUserLogin}){
 
     const handleOnChangeReg = (e) => {
         e.preventDefault()
-        console.log(e)
+        setCurrentRegCount(e.target.value)
     }
 
     const handleOnChangeFoil = (e) => {
-        console.log(e)
+        e.preventDefault()
+        setCurrentFoilCount(e.target.value)
     }
     
     if(cardInfo.card_faces && cardInfo.card_faces[0].image_uris){           //For flip cards
@@ -34,7 +37,7 @@ function CardComponent({cardInfo, isUserLogin}){
             {cardImage}
             <div className="card-body">
                 <div className="row d-flex justify-content-center">
-                    <h5 className="text-primary text-center">{cardInfo.set_name}</h5>
+                    <h5 className="text-primary text-center text-wrap">{isFromSet ? `${cardInfo.name} (${cardInfo.rarity.slice(0,1).toUpperCase()})` : cardInfo.set_name}</h5>
                 </div>
 
                 {isUserLogin ?  <div>

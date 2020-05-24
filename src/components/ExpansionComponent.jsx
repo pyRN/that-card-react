@@ -1,11 +1,12 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom';
 
-function ExpansionComponent({expansionName, expansionIcon, expansionCode, onSetClicked, setNavTitle}){
+function ExpansionComponent({expansionName, expansionIcon, expansionCode, onSetClicked, setNavTitle, setIsFromSet}){
     const history = useHistory()
     
     const handleOnClick = (e) => {
         e.preventDefault()
+        setIsFromSet(true)
         onSetClicked(expansionCode)
         setNavTitle(`Do I Have Cards From: ${expansionName.toUpperCase()}`)
         history.push('/cards')

@@ -1,7 +1,20 @@
 import React from 'react'
 
-function LoginComponent(){
+function LoginComponent({setIsUserLogin}){
     console.log("TESTING: LoginComponent Render")
+
+    const handleOnSubmit = () =>{
+        setIsUserLogin(true)
+    }
+
+    const handleForgtPass = () =>{
+        console.log("Forgot password button pressed")
+    }
+
+    const handleRegister = () =>{
+        console.log("Register button pressed")
+    }
+
     return (
         <div align="center" className="justify-content-center mt-5">
             <form className="form-signin">
@@ -11,10 +24,10 @@ function LoginComponent(){
                 <input type="email" id="inputEmail" className="form-control" placeholder="Email address" required autofocus/>
                 <label for="inputPassword" className="sr-only">Password</label>
                 <input type="password" id="inputPassword" className="form-control" placeholder="Password" required/>
-                <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={handleOnSubmit}>Sign in</button>
                 <div className="row">
-                    <a href="#forgotPassword" className="mt-5 text-muted col-sm">Forgot Password</a>
-                    <a href="#register" className="mt-5 text-muted col-sm">Register</a>
+                    <a href="#forgotPassword" className="mt-5 text-muted col-sm" onClick={handleForgtPass}>Forgot Password</a>
+                    <a href="#register" className="mt-5 text-muted col-sm" onClick={handleRegister}>Register</a>
                 </div>
                 
             </form>

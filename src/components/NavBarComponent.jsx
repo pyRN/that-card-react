@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom';
 
-function NavBarComponent({handleCardSearch, navTitle, setNavTitle}){
+function NavBarComponent({handleCardSearch, navTitle, setNavTitle, setIsFromSet}){
     const history = useHistory()
 
     console.log("TESTING: NavBarComponent Render")
@@ -9,6 +9,7 @@ function NavBarComponent({handleCardSearch, navTitle, setNavTitle}){
     function getCardName(e){
         e.preventDefault();
         let sCardName = document.getElementById("searchInput")
+        setIsFromSet(false)
         handleCardSearch(sCardName.value)
         setNavTitle(`Do I Have: ${sCardName.value.toUpperCase()}`)
         sCardName.value = ''

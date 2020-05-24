@@ -18,6 +18,7 @@ const App = () => {
     const [expansionList, setExpansionList] = useState([])
     const [navTitle, setNavTitle] = useState("Do I Have That Card?")
     const [isUserLogin, setIsUserLogin] = useState(false)
+    const [isFromSet, setIsFromSet] = useState(false)
     
     //Functions
     const handleCardSearch = (searchedCardName) => {
@@ -48,12 +49,12 @@ const App = () => {
         <div className="mainContainer">      
             <Router>      
                 <div className="static-top sticky-top">
-                    <NavBarComponent handleCardSearch={handleCardSearch} navTitle={navTitle} setNavTitle={setNavTitle}/>
+                    <NavBarComponent handleCardSearch={handleCardSearch} navTitle={navTitle} setNavTitle={setNavTitle} setIsFromSet={setIsFromSet}/>
                 </div>
                 <Route path="/" exact render={props => <MainComponent/>}/>
-                <Route path="/sets" exact render={props => <SetComponent expansionList={expansionList} onSetClicked={onSetClicked} setNavTitle={setNavTitle}/>}/>
-                <Route path="/cards" exact render={props => <CardsComponent cardList={cardList} isUserLogin={isUserLogin}/>}/>
-                <Route path="/login" exact render={props => <LoginComponent />}/>
+                <Route path="/sets" exact render={props => <SetComponent expansionList={expansionList} onSetClicked={onSetClicked} setNavTitle={setNavTitle} setIsFromSet={setIsFromSet}/>}/>
+                <Route path="/cards" exact render={props => <CardsComponent cardList={cardList} isUserLogin={isUserLogin} isFromSet={isFromSet}/>}/>
+                <Route path="/login" exact render={props => <LoginComponent setIsUserLogin={setIsUserLogin}/>}/>
             </Router>
         </div>
     );
