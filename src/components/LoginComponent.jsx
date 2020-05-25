@@ -8,14 +8,6 @@ function LoginComponent({setIsUserLogin}){
         setIsUserLogin(true)
     }
 
-    const handleForgtPass = () =>{
-        console.log("Forgot password button pressed")
-    }
-
-    const handleRegister = () =>{
-        console.log("Register button pressed")
-    }
-
     return (
         <div align="center" className="justify-content-center mt-5">
             <form className="form-signin">
@@ -29,11 +21,9 @@ function LoginComponent({setIsUserLogin}){
                     <Link className="nav-link text-primary" to="/forgotPass">Forgot Password</Link>
                     <Link className="nav-link text-primary" to="register/">Register</Link>
                 </div>
-                
             </form>
-            
         </div>
-        )
+    )
 }
 
 export default LoginComponent
