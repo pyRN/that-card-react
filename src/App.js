@@ -5,9 +5,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 //Components
 import CardsComponent from './components/CardsComponent'
+import ForgotComponent from './components/ForgotComponent'
 import LoginComponent from './components/LoginComponent'
 import MainComponent from './components/MainComponent'
 import NavBarComponent from './components/NavBarComponent'
+import RegisterComponent from './components/RegisterComponent'
 import SetComponent from './components/SetComponent'
 
 const App = () => {
@@ -55,6 +57,8 @@ const App = () => {
                 <Route path="/sets" exact render={props => <SetComponent expansionList={expansionList} onSetClicked={onSetClicked} setNavTitle={setNavTitle} setIsFromSet={setIsFromSet}/>}/>
                 <Route path="/cards" exact render={props => <CardsComponent cardList={cardList} isUserLogin={isUserLogin} isFromSet={isFromSet}/>}/>
                 <Route path="/login" exact render={props => <LoginComponent setIsUserLogin={setIsUserLogin}/>}/>
+                <Route path="/forgotPass" exact render={props => <ForgotComponent setIsUserLogin={setIsUserLogin}/>}/>
+                <Route path="/register" exact render={props => <RegisterComponent setIsUserLogin={setIsUserLogin}/>}/>
             </Router>
         </div>
     );
