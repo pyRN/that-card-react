@@ -69,6 +69,7 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
                                                                 {cards}
                                                             </tbody>
                                                         </table>}
+            
             <CardNavBarComponent setViewSelected={setViewSelected}/> 
         </div>
     )
