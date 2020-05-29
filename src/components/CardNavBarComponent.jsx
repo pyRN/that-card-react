@@ -2,7 +2,7 @@ import  React from 'react'
 
 import FilterNavBarComponent from './FilterNavBarComponent'
 
-function CardNavBarComponent({setViewSelected}){
+function CardNavBarComponent({setViewSelected, setCardFilter}){
     
     const handleSave = (e) =>{
         console.log("save btn clicked")
@@ -19,7 +19,7 @@ function CardNavBarComponent({setViewSelected}){
                 </label>
             </div>
             <div className="btn-group">
-                <FilterNavBarComponent/>
+                <FilterNavBarComponent setCardFilter={setCardFilter}/>
             </div>
             <div className="btn-group">
                 <button className="btn btn-sm btn-outline-success bg-dark m-3" type="submit" onClick={handleSave}>SAVE</button>

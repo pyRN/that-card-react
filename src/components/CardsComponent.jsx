@@ -14,6 +14,7 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
 
     //States
     const [viewSelected, setViewSelected] = useState('cardView')
+    const [cardFilter, setCardFilter] = useState(null)
 
     if(isLoadingContent){
         return(
@@ -21,6 +22,45 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
                 <h2 className="text-primary">Loading. . .</h2>
             </div>
         )
+    }
+
+    console.log("Card filter", cardFilter)
+
+    if(cardList !== undefined){
+        console.log(cardList)
+        //If cardFilter is null, bypass, no filters being used
+        if(cardFilter !== null){
+            //Check if filtered by color
+            if(['W', 'B', 'U', 'R', 'G'].includes(cardFilter)){
+                cardList = cardList.filter(function(card){
+                    return card.color_identity.includes(cardFilter)
+                })
+            }
+            //Check if filtered by colorless
+            if(cardFilter === "Colorless"){
+                cardList = cardList.filter(function(card){
+                    return card.color_identity.length === 0
+                })
+            }
+
+            //Check if filtered by rarity
+            if(['Mythic', 'Rare', 'Uncommon', 'Common'].includes(cardFilter)){
+                cardList = cardList.filter(function(card){
+                    return card.rarity.toLowerCase() === cardFilter.toLowerCase()
+                })
+            }
+
+            //Check if filtered by price
+            if(cardFilter === "LowToHigh"){
+                cardList = cardList.sort((a, b) => (parseFloat(a.prices.usd) > parseFloat(b.prices.usd)) ? 1 : -1)
+            }
+            if(cardFilter === "HighToLow"){
+                cardList = cardList.sort((a, b) => (parseFloat(a.prices.usd) < parseFloat(b.prices.usd)) ? 1 : -1)
+            }
+        }
+        else{
+            cardList = cardList
+        }
     }
 
     let key = 0
@@ -70,7 +110,7 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
                                                             </tbody>
                                                         </table>}
             
-            <CardNavBarComponent setViewSelected={setViewSelected}/> 
+            <CardNavBarComponent setViewSelected={setViewSelected} setCardFilter={setCardFilter}/> 
         </div>
     )
 }
