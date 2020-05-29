@@ -18,7 +18,9 @@ function TableComponent({ cardInfo, isUserLogin }){
 
     return(
         <tr>
-            <td>{cardInfo.name}</td>
+            <td>
+                <button type="button" className="btn btn-primary-outline text-primary" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">{cardInfo.name}</button>
+            </td>
             <td>{cardInfo.set_name}</td>
             <td>{cardInfo.rarity.slice(0,1).toUpperCase()}</td>
             <td>${cardInfo.prices.usd} (Foil: ${cardInfo.prices.usd_foil})</td>

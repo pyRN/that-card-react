@@ -14,7 +14,7 @@ function RegisterComponent(){
                 <label for="inputPassword" className="sr-only">Password</label>
                 <input type="password" id="inputPassword" className="form-control" placeholder="Password" required/>
                 <input type="password" id="inputPasswordConfirm" className="form-control" placeholder="Confirm Password" required/>
-                <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={handleOnSubmit}>Register</button>
+                <button className="btn btn-lg btn-primary btn-block mt-3" type="submit" onClick={handleOnSubmit}>Register</button>
             </form>
         </div>
     )

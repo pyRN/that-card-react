@@ -6,8 +6,6 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
     const [currentRegCount, setCurrentRegCount] = useState(0)
     const [currentFoilCount, setCurrentFoilCount] = useState(0)
 
-    console.log(cardInfo)
-
     const handleOnClick = (e) => {
         e.preventDefault()
         let currentSource = e.target.src === cardImagesSrcs[0] ? cardImagesSrcs[1] : cardImagesSrcs[0]

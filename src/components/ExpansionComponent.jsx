@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 
 function ExpansionComponent({expansionInfo, onSetClicked, setNavTitle, setIsFromSet, isUserLogin}){
     const history = useHistory()
-    console.log(expansionInfo)
     
     const handleOnClick = (e) => {
         e.preventDefault()
