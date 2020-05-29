@@ -33,32 +33,32 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
     }
 
     return ( 
-        <div className="card m-2 p-1 border border-success bg-dark rounded d-inline-flex" style={{width: "15rem"}}>
+        <div className="card m-2 p-1 border border-success bg-dark rounded d-inline-flex col-md-2" style={{width: "15rem"}}>
             {cardImage}
             <div className="card-body">
                 <div className="row d-flex justify-content-center">
                     <h5 className="text-primary text-center text-wrap">{isFromSet ? `${cardInfo.name} (${cardInfo.rarity.slice(0,1).toUpperCase()})` : cardInfo.set_name}</h5>
                 </div>
 
-                {isUserLogin ?  <div>
+                {isUserLogin ?  <div className="justify-content-center">
                                     <div className="input-group mb-3">
                                         <div className="input-group-prepend">  
-                                            <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Reg: {!cardInfo.prices.usd ? 'N/A' : '$' + cardInfo.prices.usd }</button>
+                                            <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Reg: {!cardInfo.prices.usd ? null : '$' + cardInfo.prices.usd }</button>
                                         </div>                                           
                                         <input className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={currentRegCount} onChange={handleOnChangeReg}/>
                                     </div>
-                                    <div className="input-group mb-3">
+                                    {cardInfo.foil ? <div className="input-group mb-3">
                                         <div className="input-group-prepend">
-                                            <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Foil: {!cardInfo.foil ? 'No Foil' : !cardInfo.prices.usd_foil ? 'N/A' : '$' + cardInfo.prices.usd_foil}</button>
+                                            <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}> {!cardInfo.foil ? null : !cardInfo.prices.usd_foil ? 'Foil' : 'Foil: $' + cardInfo.prices.usd_foil}</button> 
                                         </div>
                                         {isUserLogin && cardInfo.foil ? <input className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={currentFoilCount} onChange={handleOnChangeFoil}/>
                                             : null}
-                                    </div>
+                                    </div> : null}
                                 </div>
                 :   <div>
-                        <div className="input-group">
-                            <button className=" text-primary mr-1 border border-primary" disabled style={{backgroundColor: "black"}}>Reg: {!cardInfo.prices.usd ? 'N/A' : '$' + cardInfo.prices.usd }</button>
-                            <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Foil: {!cardInfo.foil ? 'No Foil' : !cardInfo.prices.usd_foil ? 'N/A' : '$' + cardInfo.prices.usd_foil}</button>
+                        <div className="input-group justify-content-center">
+                            {cardInfo.prices.usd ? <button className=" text-primary mr-1 border border-primary" disabled style={{backgroundColor: "black"}}>Reg: ${cardInfo.prices.usd }</button> : null}
+                            {cardInfo.foil ? <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Foil: ${cardInfo.prices.usd_foil}</button> : null}
                         </div>
                     </div>}
             </div>

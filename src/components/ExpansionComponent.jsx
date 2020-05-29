@@ -13,18 +13,14 @@ function ExpansionComponent({expansionName, expansionIcon, expansionCode, onSetC
     }
 
     return ( 
-        <button className="card border border-dark bg-dark rounded m-2 d-inline-flex" style={{height: 100, width: "20%"}} onClick={handleOnClick}>
-            <div className="row no-gutters">
-                <div className="col-md-4">
-                    <img src={expansionIcon} className="card-img-top" alt={expansionName} style={{height: 100, width: 100}}/>
-                </div>
-                <div className="col-md-8">
-                    <div className="card-body">
-                        <p className="text-primary text-center">{expansionName}</p>
-                    </div>
-                </div>
+        <div className="card m-2 p-1 border border-success bg-dark rounded col-md-2" onClick={handleOnClick} style={{cursor: "pointer"}}>
+            <div align="center">
+                <img src={expansionIcon} align="center" className="card-img-top" alt={expansionName} style={{height: 100, width: 100}}/>
             </div>
-        </button>
+            <div className="card-body justify-content-center">
+                <p className="text-primary text-center">{expansionName}</p>
+            </div>
+        </div>
     )
 }
 

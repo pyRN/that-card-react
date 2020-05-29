@@ -9,9 +9,19 @@ import TableComponent from './TableComponent'
 import LastChance from '../multimedia/Last-chance.jpg'
 import VampiricTutor from '../multimedia/Vampiric-tutor.jpg'
 
-function CardsComponent({ cardList, isUserLogin, isFromSet }){
+function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
     console.log("TESTING: CardsComponent Render")
+
+    //States
     const [viewSelected, setViewSelected] = useState('cardView')
+
+    if(isLoadingContent){
+        return(
+            <div align="center" className="justify-content-center mt-3">
+                <h2 className="text-primary">Loading. . .</h2>
+            </div>
+        )
+    }
 
     let key = 0
     let cards = cardList !== undefined ? 
@@ -43,8 +53,8 @@ function CardsComponent({ cardList, isUserLogin, isFromSet }){
         )
     }                                  
     return (     
-        <div align="center" className="justify-content-center mt-3 mb-5" style={{backgroundColor: "black"}}>
-            { viewSelected === 'cardView' ? cards :     <table className="table table-dark table-striped table-bordered table-hover table-sm table-responsive-sm">
+        <div align="center" className="justify-content-center mt-3 mb-5" style={{backgroundColor: "black", display: "flex", flexWrap: "wrap"}}>
+            { viewSelected === 'cardView' ? cards :     <table className="table table-dark table-striped table-bordered table-hover  table-responsive-sm">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Card Name</th>

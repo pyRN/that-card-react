@@ -7,7 +7,7 @@ function SetComponent({ expansionList, onSetClicked, setNavTitle,setIsFromSet })
 
     if(expansionList !== undefined && expansionList.length){
         return ( 
-            <div align="center" className="justify-content-center mt-3" style={{backgroundColor: "black"}}>
+            <div align="center" className="justify-content-center mt-3 mb-5" style={{backgroundColor: "black", display: "flex", flexWrap: "wrap"}}>
                 {expansionList.map(function(expansion){
                     if(!expansion.digital)
                         return <ExpansionComponent expansionName={expansion.name} expansionIcon={expansion.icon_svg_uri} key={expansion.code} expansionCode={expansion.code} onSetClicked={onSetClicked} setNavTitle={setNavTitle} setIsFromSet={setIsFromSet}/> 
