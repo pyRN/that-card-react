@@ -6,6 +6,7 @@ function SetComponent({ expansionList, onSetClicked, setNavTitle, setIsFromSet, 
     console.log("TESTING: SetComponent Render")
 
     if(expansionList !== undefined && expansionList.length){
+        console.log(expansionList)
         return ( 
             <div align="center" className="justify-content-center mt-3 mb-5" style={{backgroundColor: "black", display: "flex", flexWrap: "wrap"}}>
                 {expansionList.map(function(expansion){
@@ -15,7 +16,8 @@ function SetComponent({ expansionList, onSetClicked, setNavTitle, setIsFromSet, 
                                     onSetClicked={onSetClicked} 
                                     setNavTitle={setNavTitle} 
                                     setIsFromSet={setIsFromSet} 
-                                    isUserLogin={isUserLogin}/> 
+                                    isUserLogin={isUserLogin}
+                                    key={expansion.id}/> 
                     }
                 }) }
             </div>
