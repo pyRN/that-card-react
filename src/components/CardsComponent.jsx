@@ -24,8 +24,9 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
         )
     }
 
-    console.log("Card filter", cardFilter)
+    console.log("Card filter " + cardFilter)
 
+    //Handle filtering of cards
     if(cardList !== undefined){
         //If cardFilter is null, bypass, no filters being used
         if(cardFilter !== null){
@@ -57,24 +58,27 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
                 cardList = cardList.sort((a, b) => (parseFloat(a.prices.usd) < parseFloat(b.prices.usd)) ? 1 : -1)
             }
         }
+        //If no filters
         else{
             cardList = cardList
         }
     }
 
-    console.log(cardList)
-    let cards = cardList !== undefined ? 
-        cardList.map(function(cardInfo){
-                        if(!cardInfo.digital){   
-                            if(viewSelected === 'cardView')
-                                return <CardComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin} isFromSet={isFromSet}/>
-                            if(viewSelected === 'tblView')
-                                return <TableComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin}/>
-                        }
-                    }) 
-        : null
-                                        
-    if(cardList === undefined){
+    let cards
+
+    if(cardList !== undefined){
+        cards = cardList.map(function(cardInfo){
+            if(!cardInfo.digital){   
+                if(viewSelected === 'cardView')
+                    return <CardComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin} isFromSet={isFromSet}/>
+                if(viewSelected === 'tblView')
+                    return <TableComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin}/>
+            }
+        }) 
+    }
+    else{
+        cards = null
+        //If cardList is undefined, this means the search was invalid
         return(
             <div align="center" className="justify-content-center mt-3" style={{backgroundColor: "black"}}>
                 <h3 className="text-primary">Not a valid search</h3>
@@ -82,7 +86,9 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
             </div>
         )
     }
-    else if(!cards.length){
+
+    //If cardList has no length, no cards are viewed.
+    if(!cards.length  && !cardFilter){
         return(
             <div align="center" className="justify-content-center mt-3" style={{backgroundColor: "black"}}>
                 <h3 className="text-primary">Search for a card</h3>

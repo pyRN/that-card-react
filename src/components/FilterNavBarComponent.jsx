@@ -4,9 +4,7 @@ function FilterNavBarComponent({setCardFilter}){
     
     const handleOnChange = (e) =>{
         e.preventDefault()
-        console.log("here")
-        console.log(e.target.name)
-        e.target.name === "All" ? setCardFilter(null) : setCardFilter(e.target.name)
+        e.target.value === "All" ? setCardFilter(null) : setCardFilter(e.target.value)
     }
 
     return(
