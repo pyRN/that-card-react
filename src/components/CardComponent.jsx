@@ -1,4 +1,12 @@
+/*TODO:
+    1)Need to add flip button for double sided cards
+    2)Add code to have modal pop up when double sided cards are clicked
+    3)Refactor Code */
+
 import React, { useState } from 'react'
+
+//Components
+import CardModalComponent from './CardModalComponent'
 
 function CardComponent({cardInfo, isUserLogin, isFromSet}){
     let cardImage
@@ -22,12 +30,16 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
         setCurrentFoilCount(e.target.value)
     }
     
-    if(cardInfo.card_faces && cardInfo.card_faces[0].image_uris){           //For flip cards
+    //Check for double sided cards
+    if(cardInfo.card_faces && cardInfo.card_faces[0].image_uris){   
         cardImagesSrcs = [cardInfo.card_faces[0].image_uris.normal, cardInfo.card_faces[1].image_uris.normal]
         cardImage = <input className="card-img-top" type="image" src={cardInfo.card_faces[0].image_uris.normal} onClick={handleOnClick} alt={cardInfo.name}/>
     }
+    //Use for single sided cards
     else{
-        cardImage = <img src={cardInfo.image_uris.normal} className="card-img-top" alt={cardInfo.name}/>
+        //If cardInfo.id starts with a number, it will not work, need to add alpha at beginning of string
+        let imgId = /^[A-Za-z]/.test(cardInfo.id) ? cardInfo.id : 'a' + cardInfo.id
+        cardImage = <img src={cardInfo.image_uris.normal} className="card-img-top" alt={cardInfo.name} data-toggle="modal" data-target={'#' + imgId.replace(/-/g, "")}/>
     }
 
     return ( 
@@ -38,7 +50,8 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
                     <h5 className="text-primary text-center text-wrap">{isFromSet ? `${cardInfo.name} (${cardInfo.rarity.slice(0,1).toUpperCase()})` : cardInfo.set_name}</h5>
                 </div>
 
-                {isUserLogin ?  <div className="justify-content-center">
+                {isUserLogin ?  
+                                <div className="justify-content-center">
                                     <div className="input-group mb-3">
                                         <div className="input-group-prepend">  
                                             <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Reg: {!cardInfo.prices.usd ? null : '$' + cardInfo.prices.usd }</button>
@@ -53,13 +66,15 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
                                             : null}
                                     </div> : null}
                                 </div>
-                :   <div>
-                        <div className="input-group justify-content-center">
-                            {cardInfo.prices.usd ? <button className=" text-primary mr-1 border border-primary" disabled style={{backgroundColor: "black"}}>Reg: ${cardInfo.prices.usd }</button> : null}
-                            {cardInfo.foil ? <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Foil: ${cardInfo.prices.usd_foil}</button> : null}
-                        </div>
-                    </div>}
+                            :   
+                                <div>
+                                    <div className="input-group justify-content-center">
+                                        {cardInfo.prices.usd ? <button className=" text-primary mr-1 border border-primary" disabled style={{backgroundColor: "black"}}>Reg: ${cardInfo.prices.usd }</button> : null}
+                                        {cardInfo.foil ? <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Foil: ${cardInfo.prices.usd_foil}</button> : null}
+                                    </div>
+                                </div>}
             </div>
+            <CardModalComponent cardInfo={cardInfo}/>
         </div>
     )
 }

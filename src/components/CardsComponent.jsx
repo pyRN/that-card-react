@@ -27,7 +27,6 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
     console.log("Card filter", cardFilter)
 
     if(cardList !== undefined){
-        console.log(cardList)
         //If cardFilter is null, bypass, no filters being used
         if(cardFilter !== null){
             //Check if filtered by color
@@ -63,15 +62,14 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
         }
     }
 
-    let key = 0
+    console.log(cardList)
     let cards = cardList !== undefined ? 
         cardList.map(function(cardInfo){
-                        if(!cardInfo.digital){       
-                            key++
+                        if(!cardInfo.digital){   
                             if(viewSelected === 'cardView')
-                                return <CardComponent cardInfo={cardInfo} key={key} isUserLogin={isUserLogin} isFromSet={isFromSet}/>
+                                return <CardComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin} isFromSet={isFromSet}/>
                             if(viewSelected === 'tblView')
-                                return <TableComponent cardInfo={cardInfo} key={key} isUserLogin={isUserLogin}/>
+                                return <TableComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin}/>
                         }
                     }) 
         : null
@@ -91,28 +89,38 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
                 <img className="w-25" src={VampiricTutor} alt="Vampiric Tutor"/>
             </div>
         )
-    }                                  
-    return (     
-        <div align="center" className="justify-content-center mt-3 mb-5" style={{backgroundColor: "black", display: "flex", flexWrap: "wrap"}}>
-            { viewSelected === 'cardView' ? cards :     <table className="table table-dark table-striped table-bordered table-hover  table-responsive-sm">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Card Name</th>
-                                                                    <th>Set Name</th>
-                                                                    <th>Rarity</th>
-                                                                    <th>Price</th>
-                                                                    {isUserLogin ? <th>Regular Quantity</th> : null}
-                                                                    {isUserLogin ? <th>Foil Quantity</th> :null}
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {cards}
-                                                            </tbody>
-                                                        </table>}
-            
-            <CardNavBarComponent setViewSelected={setViewSelected} setCardFilter={setCardFilter}/> 
-        </div>
-    )
+    }  
+    else{
+        if(viewSelected === 'cardView'){
+            return(
+                <div align="center" className="justify-content-center mt-3 mb-5" style={{backgroundColor: "black", display: "flex", flexWrap: "wrap"}}>
+                    {cards}
+                    <CardNavBarComponent setViewSelected={setViewSelected} setCardFilter={setCardFilter}/> 
+                </div>) 
+        }
+        if(viewSelected === 'tblView'){
+            return(
+                <div className="">
+                    <table className="table table-dark table-striped table-bordered table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Card Name</th>
+                                <th>Set Name</th>
+                                <th>Rarity</th>
+                                <th>Price</th>
+                                {isUserLogin ? <th>Regular Quantity</th> : null}
+                                {isUserLogin ? <th>Foil Quantity</th> :null}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {cards}
+                        </tbody>
+                    </table>            
+                    <CardNavBarComponent setViewSelected={setViewSelected} setCardFilter={setCardFilter} /> 
+                </div>
+            )
+        }
+    }            
 }
 
 export default CardsComponent
