@@ -8,9 +8,9 @@ function FilterNavBarComponent({setCardFilter}){
     }
 
     return(
-        <select className="custom-select" onChange={handleOnChange}>
+        <select className="custom-select text-primary border border-primary" onChange={handleOnChange} style={{backgroundColor: "black"}}>
             <optgroup label="Color">
-                <option name="All" value="All">All</option>
+                <option name="All" value="All">Filter: All</option>
                 <option name="W" value="W">White</option>
                 <option name="U" value="U">Blue</option>
                 <option name="B" value="B">Black</option>
