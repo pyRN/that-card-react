@@ -36,7 +36,6 @@ html, .mainContainer{
 
 
 /*Styling for resources dropdown*/
-.resourceHover:hover{
-    background-color: blue;
-    color: white;
+.linkTextHover:hover{
+    cursor: pointer;
 }

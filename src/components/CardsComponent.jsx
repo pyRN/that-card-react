@@ -9,13 +9,15 @@ import TableComponent from './TableComponent'
 import LastChance from '../multimedia/Last-chance.jpg'
 import VampiricTutor from '../multimedia/Vampiric-tutor.jpg'
 
-function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
+function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent, onSetClicked, setIsFromSet }){
     console.log("TESTING: CardsComponent Render")
 
     //States
     const [viewSelected, setViewSelected] = useState('cardView')
     const [cardFilter, setCardFilter] = useState(null)
+    let cards
 
+    //Render "Loading..." if waiting for promise to resolve
     if(isLoadingContent){
         return(
             <div align="center" className="justify-content-center mt-3">
@@ -24,9 +26,7 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
         )
     }
 
-    console.log("Card filter " + cardFilter)
-
-    //Handle filtering of cards
+    //Filtering Cards
     if(cardList !== undefined){
         //If cardFilter is null, bypass, no filters being used
         if(cardFilter !== null){
@@ -64,21 +64,19 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
         }
     }
 
-    let cards
-
     if(cardList !== undefined){
         cards = cardList.map(function(cardInfo){
             if(!cardInfo.digital){   
                 if(viewSelected === 'cardView')
-                    return <CardComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin} isFromSet={isFromSet}/>
+                    return <CardComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin} isFromSet={isFromSet} onSetClicked={onSetClicked} setIsFromSet={setIsFromSet}/>
                 if(viewSelected === 'tblView')
                     return <TableComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin}/>
             }
         }) 
     }
+    //If cardList is undefined, this means the search was invalid
     else{
         cards = null
-        //If cardList is undefined, this means the search was invalid
         return(
             <div align="center" className="justify-content-center mt-3" style={{backgroundColor: "black"}}>
                 <h3 className="text-primary">Not a valid search</h3>

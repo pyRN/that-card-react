@@ -1,16 +1,17 @@
 /*TODO:
-    1)Need to add flip button for double sided cards
-    2)Add code to have modal pop up when double sided cards are clicked
-    3)Refactor Code */
+    1)Refactor Code 
+*/
 
 import React, { useState } from 'react'
 
 //Components
 import CardModalComponent from './CardModalComponent'
 
-function CardComponent({cardInfo, isUserLogin, isFromSet}){
+function CardComponent({cardInfo, isUserLogin, isFromSet, onSetClicked, setIsFromSet}){
     let cardImage
     let cardImagesSrcs = []
+
+    //States
     const [currentRegCount, setCurrentRegCount] = useState(0)
     const [currentFoilCount, setCurrentFoilCount] = useState(0)
     const [frontOfCard, setFrontOfCard] = useState(true)
@@ -30,7 +31,14 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
         e.preventDefault()
         setCurrentFoilCount(e.target.value)
     }
+
+    const handleLinkClick = (e) => {
+        e.preventDefault()
+        setIsFromSet(true)
+        onSetClicked(cardInfo.set)
+    }
     
+    //If cardInfo.id starts with a number, id will be invalid in DOM, need to add alpha at beginning of string
     let imgId = /^[A-Za-z]/.test(cardInfo.id) ? cardInfo.id : 'a' + cardInfo.id
 
     //Check for double sided cards
@@ -42,9 +50,9 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
                 <input className="btn btn-primary btn-block mt-1" type="submit" value="Flip"/>
             </form>
     }
+
     //Use for single sided cards
     else{
-        //If cardInfo.id starts with a number, it will not work, need to add alpha at beginning of string
         cardImage = <img src={cardInfo.image_uris.normal} className="card-img-top" alt={cardInfo.name} data-toggle="modal" data-target={'#' + imgId.replace(/-/g, "")}/>
     }
 
@@ -53,7 +61,14 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
             {cardImage}
             <div className="card-body">
                 <div className="row d-flex justify-content-center">
-                    <h5 className="text-primary text-center text-wrap">{isFromSet ? `${cardInfo.name} (${cardInfo.rarity.slice(0,1).toUpperCase()})` : cardInfo.set_name}</h5>
+                    {
+                        isFromSet ?
+                            <h5 className="text-primary text-center text-wrap">
+                                {`${cardInfo.name} (${cardInfo.rarity.slice(0,1).toUpperCase()})`}
+                            </h5>
+                        :
+                            <h5 className="text-primary text-center text-wrap linkTextHover" onClick={handleLinkClick} style={{textDecoration: "underline"}}>{cardInfo.set_name}</h5>
+                    }
                 </div>
 
                 {isUserLogin ?  
