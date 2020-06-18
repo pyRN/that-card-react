@@ -106,7 +106,7 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
         }
         if(viewSelected === 'tblView'){
             return(
-                <div className="">
+                <div>
                     <table className="table table-dark table-striped table-bordered table-hover table-condensed">
                         <thead>
                             <tr>

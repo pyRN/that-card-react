@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom';
 
-function NavBarComponent({handleCardSearch, navTitle, setNavTitle, setIsFromSet}){
+function NavBarComponent({handleCardSearch, navTitle, setNavTitle, setIsFromSet, isUserLogin}){
     const history = useHistory()
 
     console.log("TESTING: NavBarComponent Render")
@@ -33,6 +33,28 @@ function NavBarComponent({handleCardSearch, navTitle, setNavTitle, setIsFromSet}
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link text-primary" to="/cards">Cards</Link>
+                    </li>
+                    <li>
+                        {isUserLogin ? 
+                            <div className="dropdown show">
+                                <a className="nav-link text-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Resources
+                                </a>
+                                <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" style={{backgroundColor: "black"}}>
+                                    <Link className="dropdown-item text-primary resourceHover" to="/counter">Life Counter</Link>
+                                    <Link className="dropdown-item text-primary resourceHover" to="/check">Check Deck</Link>
+                                </div>
+                            </div>
+                            :
+                            <div className="dropdown show">
+                                <a className="nav-link text-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Resources
+                                </a>
+                                <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" style={{backgroundColor: "black"}}>
+                                    <Link className="dropdown-item text-primary resourceHover" to="/counter">Life Counter</Link>
+                                </div>
+                            </div>
+                        }
                     </li>
                     <li className="nav-item mr-4">
                         <Link className="nav-link text-primary" to="/login">Login</Link>

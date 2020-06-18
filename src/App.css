@@ -33,3 +33,10 @@ html, .mainContainer{
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+
+/*Styling for resources dropdown*/
+.resourceHover:hover{
+    background-color: blue;
+    color: white;
+}

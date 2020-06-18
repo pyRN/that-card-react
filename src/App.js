@@ -10,6 +10,7 @@ import LoginComponent from './components/LoginComponent'
 import MainComponent from './components/MainComponent'
 import NavBarComponent from './components/NavBarComponent'
 import RegisterComponent from './components/RegisterComponent'
+import LifeCounterComponent from './components/LifeCounterComponent'
 import SetComponent from './components/SetComponent'
 
 const App = () => {
@@ -80,12 +81,13 @@ const App = () => {
         <div className="mainContainer">      
             <Router>      
                 <div className="static-top sticky-top">
-                    <NavBarComponent handleCardSearch={handleCardSearch} navTitle={navTitle} setNavTitle={setNavTitle} setIsFromSet={setIsFromSet}/>
+                    <NavBarComponent handleCardSearch={handleCardSearch} navTitle={navTitle} setNavTitle={setNavTitle} setIsFromSet={setIsFromSet} isUserLogin={isUserLogin}/>
                 </div>
                 <Route path="/" exact render={props => <MainComponent/>}/>
                 <Route path="/sets" exact render={props => <SetComponent expansionList={expansionList} onSetClicked={onSetClicked} setNavTitle={setNavTitle} setIsFromSet={setIsFromSet} isUserLogin={isUserLogin}/>}/>
                 <Route path="/cards" exact render={props => <CardsComponent cardList={cardList} isUserLogin={isUserLogin} isFromSet={isFromSet} isLoadingContent={isLoadingContent}/>}/>
                 <Route path="/login" exact render={props => <LoginComponent setIsUserLogin={setIsUserLogin}/>}/>
+                <Route path="/counter" exact render={props => <LifeCounterComponent />}/>
                 <Route path="/forgotPass" exact render={props => <ForgotComponent setIsUserLogin={setIsUserLogin}/>}/>
                 <Route path="/register" exact render={props => <RegisterComponent setIsUserLogin={setIsUserLogin}/>}/>
             </Router>
