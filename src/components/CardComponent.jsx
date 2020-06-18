@@ -13,11 +13,12 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
     let cardImagesSrcs = []
     const [currentRegCount, setCurrentRegCount] = useState(0)
     const [currentFoilCount, setCurrentFoilCount] = useState(0)
+    const [frontOfCard, setFrontOfCard] = useState(true)
 
     const handleOnClick = (e) => {
         e.preventDefault()
-        let currentSource = e.target.src === cardImagesSrcs[0] ? cardImagesSrcs[1] : cardImagesSrcs[0]
-        e.target.src = currentSource
+        document.getElementById(e.target.name).src = document.getElementById(e.target.name).src === cardImagesSrcs[0] ? cardImagesSrcs[1] : cardImagesSrcs[0]
+        setFrontOfCard(!frontOfCard)
     }
 
     const handleOnChangeReg = (e) => {
@@ -30,15 +31,20 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
         setCurrentFoilCount(e.target.value)
     }
     
+    let imgId = /^[A-Za-z]/.test(cardInfo.id) ? cardInfo.id : 'a' + cardInfo.id
+
     //Check for double sided cards
     if(cardInfo.card_faces && cardInfo.card_faces[0].image_uris){   
         cardImagesSrcs = [cardInfo.card_faces[0].image_uris.normal, cardInfo.card_faces[1].image_uris.normal]
-        cardImage = <input className="card-img-top" type="image" src={cardInfo.card_faces[0].image_uris.normal} onClick={handleOnClick} alt={cardInfo.name}/>
+        cardImage = 
+            <form onSubmit={handleOnClick} name={'card' + imgId.replace(/-/g, "")}>
+                <img className="card-img-top" alt={cardInfo.name} id={'card' + imgId.replace(/-/g, "")} src={cardInfo.card_faces[0].image_uris.normal} data-toggle="modal" data-target={'#' + imgId.replace(/-/g, "")}/>
+                <input className="btn btn-primary btn-block mt-1" type="submit" value="Flip"/>
+            </form>
     }
     //Use for single sided cards
     else{
         //If cardInfo.id starts with a number, it will not work, need to add alpha at beginning of string
-        let imgId = /^[A-Za-z]/.test(cardInfo.id) ? cardInfo.id : 'a' + cardInfo.id
         cardImage = <img src={cardInfo.image_uris.normal} className="card-img-top" alt={cardInfo.name} data-toggle="modal" data-target={'#' + imgId.replace(/-/g, "")}/>
     }
 
@@ -74,7 +80,7 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
                                     </div>
                                 </div>}
             </div>
-            <CardModalComponent cardInfo={cardInfo}/>
+            <CardModalComponent cardInfo={cardInfo} frontOfCard={frontOfCard}/>
         </div>
     )
 }
