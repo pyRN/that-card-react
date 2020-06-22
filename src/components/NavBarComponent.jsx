@@ -37,9 +37,9 @@ function NavBarComponent({handleCardSearch, navTitle, setNavTitle, setIsFromSet,
                     <li>
                         {isUserLogin ? 
                             <div className="dropdown show">
-                                <a className="nav-link text-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <p className="nav-link text-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Resources
-                                </a>
+                                </p>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" style={{backgroundColor: "black"}}>
                                     <Link className="dropdown-item text-primary resourceHover" to="/counter">Life Counter</Link>
                                     <Link className="dropdown-item text-primary resourceHover" to="/check">Check Deck</Link>
@@ -47,9 +47,9 @@ function NavBarComponent({handleCardSearch, navTitle, setNavTitle, setIsFromSet,
                             </div>
                             :
                             <div className="dropdown show">
-                                <a className="nav-link text-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <p className="nav-link text-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Resources
-                                </a>
+                                </p>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" style={{backgroundColor: "black"}}>
                                     <Link className="dropdown-item text-primary resourceHover" to="/counter">Life Counter</Link>
                                 </div>

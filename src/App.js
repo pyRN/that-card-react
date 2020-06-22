@@ -1,6 +1,6 @@
 /*TODO:
     1)Implement Redux
-    3)Finish LifeCounterComponent
+    3)Finish LifeCounterComponent - add reset, keep state when nav away from view
 */
 
 import React, { useState, useEffect } from 'react';
