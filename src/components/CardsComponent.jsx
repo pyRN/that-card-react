@@ -9,13 +9,15 @@ import TableComponent from './TableComponent'
 import LastChance from '../multimedia/Last-chance.jpg'
 import VampiricTutor from '../multimedia/Vampiric-tutor.jpg'
 
-function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
+function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent, onSetClicked, setIsFromSet, setNavTitle }){
     console.log("TESTING: CardsComponent Render")
 
     //States
     const [viewSelected, setViewSelected] = useState('cardView')
     const [cardFilter, setCardFilter] = useState(null)
+    let cards
 
+    //Render "Loading..." if waiting for promise to resolve
     if(isLoadingContent){
         return(
             <div align="center" className="justify-content-center mt-3">
@@ -24,8 +26,7 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
         )
     }
 
-    console.log("Card filter", cardFilter)
-
+    //Filtering Cards
     if(cardList !== undefined){
         //If cardFilter is null, bypass, no filters being used
         if(cardFilter !== null){
@@ -57,24 +58,25 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
                 cardList = cardList.sort((a, b) => (parseFloat(a.prices.usd) < parseFloat(b.prices.usd)) ? 1 : -1)
             }
         }
+        //If no filters
         else{
             cardList = cardList
         }
     }
 
-    console.log(cardList)
-    let cards = cardList !== undefined ? 
-        cardList.map(function(cardInfo){
-                        if(!cardInfo.digital){   
-                            if(viewSelected === 'cardView')
-                                return <CardComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin} isFromSet={isFromSet}/>
-                            if(viewSelected === 'tblView')
-                                return <TableComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin}/>
-                        }
-                    }) 
-        : null
-                                        
-    if(cardList === undefined){
+    if(cardList !== undefined){
+        cards = cardList.map(function(cardInfo){
+            if(!cardInfo.digital){   
+                if(viewSelected === 'cardView')
+                    return <CardComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin} isFromSet={isFromSet} onSetClicked={onSetClicked} setIsFromSet={setIsFromSet} setNavTitle={setNavTitle}/>
+                if(viewSelected === 'tblView')
+                    return <TableComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin}/>
+            }
+        }) 
+    }
+    //If cardList is undefined, this means the search was invalid
+    else{
+        cards = null
         return(
             <div align="center" className="justify-content-center mt-3" style={{backgroundColor: "black"}}>
                 <h3 className="text-primary">Not a valid search</h3>
@@ -82,7 +84,9 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
             </div>
         )
     }
-    else if(!cards.length){
+
+    //If cardList has no length, no cards are viewed.
+    if(!cards.length  && !cardFilter){
         return(
             <div align="center" className="justify-content-center mt-3" style={{backgroundColor: "black"}}>
                 <h3 className="text-primary">Search for a card</h3>
@@ -100,7 +104,7 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent }){
         }
         if(viewSelected === 'tblView'){
             return(
-                <div className="">
+                <div>
                     <table className="table table-dark table-striped table-bordered table-hover table-condensed">
                         <thead>
                             <tr>

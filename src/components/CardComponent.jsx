@@ -1,23 +1,21 @@
-/*TODO:
-    1)Need to add flip button for double sided cards
-    2)Add code to have modal pop up when double sided cards are clicked
-    3)Refactor Code */
-
 import React, { useState } from 'react'
 
 //Components
 import CardModalComponent from './CardModalComponent'
 
-function CardComponent({cardInfo, isUserLogin, isFromSet}){
+function CardComponent({cardInfo, isUserLogin, isFromSet, onSetClicked, setIsFromSet, setNavTitle}){
     let cardImage
     let cardImagesSrcs = []
+
+    //States
     const [currentRegCount, setCurrentRegCount] = useState(0)
     const [currentFoilCount, setCurrentFoilCount] = useState(0)
+    const [frontOfCard, setFrontOfCard] = useState(true)
 
     const handleOnClick = (e) => {
         e.preventDefault()
-        let currentSource = e.target.src === cardImagesSrcs[0] ? cardImagesSrcs[1] : cardImagesSrcs[0]
-        e.target.src = currentSource
+        document.getElementById(e.target.name).src = document.getElementById(e.target.name).src === cardImagesSrcs[0] ? cardImagesSrcs[1] : cardImagesSrcs[0]
+        setFrontOfCard(!frontOfCard)
     }
 
     const handleOnChangeReg = (e) => {
@@ -29,16 +27,30 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
         e.preventDefault()
         setCurrentFoilCount(e.target.value)
     }
+
+    const handleLinkClick = (e) => {
+        e.preventDefault()
+        setIsFromSet(true)
+        setNavTitle(`Do I Have Cards From: ${cardInfo.set_name.toUpperCase()}`)
+        onSetClicked(cardInfo.set)
+        
+    }
     
+    //If cardInfo.id starts with a number, id will be invalid in DOM, need to add alpha at beginning of string
+    let imgId = /^[A-Za-z]/.test(cardInfo.id) ? cardInfo.id : 'a' + cardInfo.id
+
     //Check for double sided cards
     if(cardInfo.card_faces && cardInfo.card_faces[0].image_uris){   
         cardImagesSrcs = [cardInfo.card_faces[0].image_uris.normal, cardInfo.card_faces[1].image_uris.normal]
-        cardImage = <input className="card-img-top" type="image" src={cardInfo.card_faces[0].image_uris.normal} onClick={handleOnClick} alt={cardInfo.name}/>
+        cardImage = 
+            <form onSubmit={handleOnClick} name={'card' + imgId.replace(/-/g, "")}>
+                <img className="card-img-top" alt={cardInfo.name} id={'card' + imgId.replace(/-/g, "")} src={cardInfo.card_faces[0].image_uris.normal} data-toggle="modal" data-target={'#' + imgId.replace(/-/g, "")}/>
+                <input className="btn btn-primary btn-block mt-1" type="submit" value="Flip"/>
+            </form>
     }
+
     //Use for single sided cards
     else{
-        //If cardInfo.id starts with a number, it will not work, need to add alpha at beginning of string
-        let imgId = /^[A-Za-z]/.test(cardInfo.id) ? cardInfo.id : 'a' + cardInfo.id
         cardImage = <img src={cardInfo.image_uris.normal} className="card-img-top" alt={cardInfo.name} data-toggle="modal" data-target={'#' + imgId.replace(/-/g, "")}/>
     }
 
@@ -47,7 +59,14 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
             {cardImage}
             <div className="card-body">
                 <div className="row d-flex justify-content-center">
-                    <h5 className="text-primary text-center text-wrap">{isFromSet ? `${cardInfo.name} (${cardInfo.rarity.slice(0,1).toUpperCase()})` : cardInfo.set_name}</h5>
+                    {
+                        isFromSet ?
+                            <h5 className="text-primary text-center text-wrap">
+                                {`${cardInfo.name} (${cardInfo.rarity.slice(0,1).toUpperCase()})`}
+                            </h5>
+                        :
+                            <h5 className="text-primary text-center text-wrap linkTextHover" onClick={handleLinkClick} style={{textDecoration: "underline"}}>{cardInfo.set_name}</h5>
+                    }
                 </div>
 
                 {isUserLogin ?  
@@ -74,7 +93,7 @@ function CardComponent({cardInfo, isUserLogin, isFromSet}){
                                     </div>
                                 </div>}
             </div>
-            <CardModalComponent cardInfo={cardInfo}/>
+            <CardModalComponent cardInfo={cardInfo} frontOfCard={frontOfCard}/>
         </div>
     )
 }

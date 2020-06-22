@@ -9,7 +9,7 @@ function CardNavBarComponent({setViewSelected, setCardFilter}){
     }
 
     return(
-        <nav className="navbar navbar-expand-lg  fixed-bottom justify-content-end">
+        <nav className="navbar navbar-expand-sm  fixed-bottom justify-content-end">
             <div className="btn-group btn-group-toggle" data-toggle="buttons">
                 <label className="btn btn-sm active btn-outline-primary btn-secondary" style={{color: "black"}}>
                     <input type="radio" name="options" id="cardViewBtn" autoComplete="off" checked onClick={() => setViewSelected('cardView')}/> Card View
@@ -18,11 +18,11 @@ function CardNavBarComponent({setViewSelected, setCardFilter}){
                     <input className="text-light" type="radio" name="options" id="tblViewBtn" autoComplete="off" onClick={() => setViewSelected('tblView')}/> Table View
                 </label>
             </div>
-            <div className="btn-group">
+            <div className="btn-group m-3">
                 <FilterNavBarComponent setCardFilter={setCardFilter}/>
             </div>
             <div className="btn-group">
-                <button className="btn btn-sm btn-outline-success bg-dark m-3" type="submit" onClick={handleSave}>SAVE</button>
+                <button className="btn btn-sm btn-success btn-outline-success" type="submit" onClick={handleSave} style={{color: "black"}}>SAVE</button>
             </div>
             
         </nav>

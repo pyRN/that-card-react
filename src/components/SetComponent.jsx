@@ -15,7 +15,8 @@ function SetComponent({ expansionList, onSetClicked, setNavTitle, setIsFromSet, 
                                     onSetClicked={onSetClicked} 
                                     setNavTitle={setNavTitle} 
                                     setIsFromSet={setIsFromSet} 
-                                    isUserLogin={isUserLogin}/> 
+                                    isUserLogin={isUserLogin}
+                                    key={expansion.id}/> 
                     }
                 }) }
             </div>
