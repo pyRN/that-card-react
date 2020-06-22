@@ -9,7 +9,7 @@ import TableComponent from './TableComponent'
 import LastChance from '../multimedia/Last-chance.jpg'
 import VampiricTutor from '../multimedia/Vampiric-tutor.jpg'
 
-function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent, onSetClicked, setIsFromSet }){
+function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent, onSetClicked, setIsFromSet, setNavTitle }){
     console.log("TESTING: CardsComponent Render")
 
     //States
@@ -68,7 +68,7 @@ function CardsComponent({ cardList, isUserLogin, isFromSet, isLoadingContent, on
         cards = cardList.map(function(cardInfo){
             if(!cardInfo.digital){   
                 if(viewSelected === 'cardView')
-                    return <CardComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin} isFromSet={isFromSet} onSetClicked={onSetClicked} setIsFromSet={setIsFromSet}/>
+                    return <CardComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin} isFromSet={isFromSet} onSetClicked={onSetClicked} setIsFromSet={setIsFromSet} setNavTitle={setNavTitle}/>
                 if(viewSelected === 'tblView')
                     return <TableComponent cardInfo={cardInfo} key={cardInfo.id} isUserLogin={isUserLogin}/>
             }

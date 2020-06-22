@@ -1,3 +1,8 @@
+/*TODO:
+    1)Implement Redux
+    3)Finish LifeCounterComponent
+*/
+
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
@@ -85,7 +90,21 @@ const App = () => {
                 </div>
                 <Route path="/" exact render={props => <MainComponent/>}/>
                 <Route path="/sets" exact render={props => <SetComponent expansionList={expansionList} onSetClicked={onSetClicked} setNavTitle={setNavTitle} setIsFromSet={setIsFromSet} isUserLogin={isUserLogin}/>}/>
-                <Route path="/cards" exact render={props => <CardsComponent cardList={cardList} isUserLogin={isUserLogin} isFromSet={isFromSet} isLoadingContent={isLoadingContent} onSetClicked={onSetClicked} setIsFromSet={setIsFromSet}/>}/>
+                <Route 
+                    path="/cards" 
+                    exact 
+                    render={
+                        props => 
+                            <CardsComponent 
+                                cardList={cardList} 
+                                isUserLogin={isUserLogin} 
+                                isFromSet={isFromSet} 
+                                isLoadingContent={isLoadingContent} 
+                                onSetClicked={onSetClicked} 
+                                setIsFromSet={setIsFromSet}
+                                setNavTitle={setNavTitle}/>
+                    }
+                />
                 <Route path="/login" exact render={props => <LoginComponent setIsUserLogin={setIsUserLogin}/>}/>
                 <Route path="/counter" exact render={props => <LifeCounterComponent />}/>
                 <Route path="/forgotPass" exact render={props => <ForgotComponent setIsUserLogin={setIsUserLogin}/>}/>

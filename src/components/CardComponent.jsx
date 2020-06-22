@@ -1,13 +1,9 @@
-/*TODO:
-    1)Refactor Code 
-*/
-
 import React, { useState } from 'react'
 
 //Components
 import CardModalComponent from './CardModalComponent'
 
-function CardComponent({cardInfo, isUserLogin, isFromSet, onSetClicked, setIsFromSet}){
+function CardComponent({cardInfo, isUserLogin, isFromSet, onSetClicked, setIsFromSet, setNavTitle}){
     let cardImage
     let cardImagesSrcs = []
 
@@ -35,7 +31,9 @@ function CardComponent({cardInfo, isUserLogin, isFromSet, onSetClicked, setIsFro
     const handleLinkClick = (e) => {
         e.preventDefault()
         setIsFromSet(true)
+        setNavTitle(`Do I Have Cards From: ${cardInfo.set_name.toUpperCase()}`)
         onSetClicked(cardInfo.set)
+        
     }
     
     //If cardInfo.id starts with a number, id will be invalid in DOM, need to add alpha at beginning of string
