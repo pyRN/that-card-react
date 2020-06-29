@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 function ExpansionComponent({ oExpansionInfo }){
     const fHistory = useHistory()
-    const oUserInfo = useSelector(state => state.currentUser)
+    const oUserInfo = useSelector(state => state.oCurrentUserReducer)
     
     const handleOnClick = (event) => {
         event.preventDefault()
