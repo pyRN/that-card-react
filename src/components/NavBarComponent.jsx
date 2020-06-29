@@ -1,24 +1,33 @@
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
 
-function NavBarComponent({handleCardSearch, navTitle, setNavTitle, setIsFromSet, isUserLogin}){
-    const history = useHistory()
+function NavBarComponent(){
+    const fDispatch = useDispatch()
+    const fHistory = useHistory()
+    const oHeaderInfo = useSelector(state => state.oDisplayedCardsReducer.oHeaderValues)
+    const oUserInfo = useSelector(state => state.oCurrentUserReducer)
 
     console.log("TESTING: NavBarComponent Render")
 
-    function getCardName(e){
-        e.preventDefault();
+    function getCardName(event){
+        event.preventDefault();
         let sCardName = document.getElementById("searchInput")
-        setIsFromSet(false)
-        handleCardSearch(sCardName.value)
-        setNavTitle(`Do I Have: ${sCardName.value.toUpperCase()}`)
-        sCardName.value = ''
-        history.push('/cards')
+
+        fDispatch({ 
+            type: 'SET_SEARCH_RESULTS',
+            payload: {
+                sTitle: `Do I Have: ${sCardName.value.trim().toUpperCase()}`,
+                bIsFromSet: false,
+                sInputValue: sCardName.value.trim()
+            }
+        })
+        // fHistory.push('/cards')
     }
 
     return ( 
         <nav className="navbar navbar-expand-lg  navbar-dark border border-primary" style={{backgroundColor: "black"}}>
-            <h2 className="navbar-brand text-primary text-wrap">{navTitle}</h2>
+            <h2 className="navbar-brand text-primary text-wrap">{oHeaderInfo.sTitle}</h2>
             <button className="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarResponsive"    
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
@@ -35,7 +44,7 @@ function NavBarComponent({handleCardSearch, navTitle, setNavTitle, setIsFromSet,
                         <Link className="nav-link text-primary" to="/cards">Cards</Link>
                     </li>
                     <li>
-                        {isUserLogin ? 
+                        {oUserInfo.userEmail ? 
                             <div className="dropdown show">
                                 <p className="nav-link text-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Resources
