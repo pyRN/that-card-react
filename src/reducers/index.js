@@ -1,21 +1,19 @@
 import { combineReducers } from 'redux'
 
 //Reducers
-import currentDisplayedCardsReducer from './displayedCardsReducer'
-import currentTitleReducer from './currentTitleReducer'
+import displayedCardsReducer from './displayedCardsReducer'
 import currentUserReducer from './currentUserReducer'
 import currentUserCollectionReducer from './currentUserCollectionReducer'
 import dirtyFlagReducer from './dirtyFlagReducer'
 import expansionsListReducer from './expansionsListReducer'
 
-//The keys in the rootReducer are the entities that are call with connect
+//The keys in the rootReducer are the entities that are call with useSelector Hook
 const rootReducer = combineReducers({
-    currentDisplayedCards: currentDisplayedCardsReducer,
-    currentTitle: currentTitleReducer,
-    currentUser: currentUserReducer,
-    currentUserCollection: currentUserCollectionReducer,
-    dirtyFlag: dirtyFlagReducer,
-    expansionsList: expansionsListReducer
+    oDisplayedCardsReducer: displayedCardsReducer,
+    oCurrentUserReducer: currentUserReducer,
+    oCurrentUserCollectionReducer: currentUserCollectionReducer,
+    oDirtyFlagReducer: dirtyFlagReducer,
+    oExpansionsListReducer: expansionsListReducer
 })
 
 export default rootReducer
