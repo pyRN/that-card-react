@@ -2,7 +2,7 @@
 import { GET_CURRENT_USER } from '../actions/types'
 
 const initialState = {
-    userEmail: null, 
+    userEmail: "jacobmayeux@gmail.com", 
     collectionId: null
 }
 
