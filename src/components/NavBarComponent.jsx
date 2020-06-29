@@ -22,6 +22,8 @@ function NavBarComponent(){
                 sInputValue: sCardName.value.trim()
             }
         })
+
+        document.getElementById("searchInput").value = ''
         // fHistory.push('/cards')
     }
 
