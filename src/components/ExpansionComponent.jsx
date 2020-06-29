@@ -1,16 +1,22 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 function ExpansionComponent({ oExpansionInfo }){
     const fHistory = useHistory()
     const oUserInfo = useSelector(state => state.oCurrentUserReducer)
+    const fDispatch = useDispatch()
     
     const handleOnClick = (event) => {
         event.preventDefault()
-        // setIsFromSet(true)
-        // onSetClicked(oExpansionInfo.code)
-        // setNavTitle(`Do I Have Cards From: ${oExpansionInfo.name.toUpperCase()}`)
+        fDispatch({ 
+            type: 'SET_SEARCH_RESULTS',
+            payload: {
+                sTitle: `Do I Have Cards From: ${oExpansionInfo.name}`,
+                bIsFromSet: true,
+                sInputValue: oExpansionInfo.code
+            }
+        })
 
         // fetch(`https://api.scryfall.com/cards/search?order=set&q=e%3A${setClicked}&unique=prints`)
         //     .then(response => response.json())
