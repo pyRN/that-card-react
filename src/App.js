@@ -1,15 +1,6 @@
-/*TODO:
-    1)Implement Redux
-    3)Finish LifeCounterComponent - add reset, keep state when nav away from view
-*/
-
-//Dependencies
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux'
-
-import { connect } from 'react-redux'
-
 import store from './store'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -17,26 +8,16 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 //Components
 import CardsComponent from './components/CardsComponent'
 import ForgotComponent from './components/ForgotComponent'
+import LifeCounterComponent from './components/LifeCounterComponent'
 import LoginComponent from './components/LoginComponent'
 import MainComponent from './components/MainComponent'
 import NavBarComponent from './components/NavBarComponent'
 import RegisterComponent from './components/RegisterComponent'
-import LifeCounterComponent from './components/LifeCounterComponent'
-import SetComponent from './components/SetComponent'
 
-//Actions
-import { setExpansionListState } from './actions'
-import { render } from 'react-dom';
+//Containers
+import ExpansionListContainer from './containers/ExpansionListContainer'
 
 class App extends React.Component{
-
-    //States
-    // const [cardList, setCardList] = useState([])
-    // const [expansionList, setExpansionList] = useState([])
-    // const [navTitle, setNavTitle] = useState("Do I Have That Card?")
-    // const [isUserLogin, setIsUserLogin] = useState(false)
-    // const [isFromSet, setIsFromSet] = useState(false)
-    // const [isLoadingContent, setIsLoadingContent] = useState(false)
     
     //Functions
     // const handleCardSearch = (searchedCardName) => {
@@ -114,7 +95,7 @@ class App extends React.Component{
                             <NavBarComponent />
                         </div>
                         <Route path="/" exact render={props => <MainComponent/>}/>
-                        <Route path="/sets" exact render={props => <SetComponent />}/>
+                        <Route path="/sets" exact render={props => <ExpansionListContainer />}/>
                         <Route path="/cards" exact render={props => <CardsComponent />}/>
                         <Route path="/login" exact render={props => <LoginComponent />}/>
                         <Route path="/counter" exact render={props => <LifeCounterComponent />}/>
@@ -158,13 +139,5 @@ class App extends React.Component{
         );
     }
 }
-
-// const mapStateToProps = state => {
-//     console.log("States")
-//     console.log(state.expansionsList)
-//     return {
-//         expansions: SetComponent(state.expansionsList)
-//         }
-//     }
 
 export default App
