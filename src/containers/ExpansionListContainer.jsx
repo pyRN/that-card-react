@@ -39,6 +39,8 @@ function ExpansionListContainer(){
             </div>
         )
     }
+
+    //If no expansion list, show loading 
     return(
         <div align="center" className="justify-content-center mt-3">
             <h2 className="text-primary">Loading. . .</h2>
