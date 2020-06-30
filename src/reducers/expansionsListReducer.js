@@ -1,7 +1,6 @@
 import { SET_EXPANSION_LIST } from '../actions/types'
 
 const initialState = {
-    
     expansions: []
 }
 
