@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 
 //Components
 import CardModalComponent from './CardModalComponent'
 
-function CardComponent({cardInfo, isUserLogin, isFromSet, onSetClicked, setIsFromSet, setNavTitle}){
+function CardComponent({ oCardInfo }){
+// function CardComponent({oCardInfo, bIsUserLoggedIn, isFromSet, onSetClicked, setIsFromSet, setNavTitle}){
     let cardImage
     let cardImagesSrcs = []
 
-    //States
+    //Global States
+    const bIsUserLoggedIn = useSelector(state => state.oCurrentUserReducer.userEmail) ? true : false
+    const oHeaderValues = useSelector(state => state.oDisplayedCardsReducer.oHeaderValues)
+
+    //Local States
     const [currentRegCount, setCurrentRegCount] = useState(0)
     const [currentFoilCount, setCurrentFoilCount] = useState(0)
     const [frontOfCard, setFrontOfCard] = useState(true)
@@ -30,28 +36,28 @@ function CardComponent({cardInfo, isUserLogin, isFromSet, onSetClicked, setIsFro
 
     const handleLinkClick = (e) => {
         e.preventDefault()
-        setIsFromSet(true)
-        setNavTitle(`Do I Have Cards From: ${cardInfo.set_name.toUpperCase()}`)
-        onSetClicked(cardInfo.set)
+        // setIsFromSet(true)
+        // setNavTitle(`Do I Have Cards From: ${oCardInfo.set_name.toUpperCase()}`)
+        // onSetClicked(oCardInfo.set)
         
     }
     
-    //If cardInfo.id starts with a number, id will be invalid in DOM, need to add alpha at beginning of string
-    let imgId = /^[A-Za-z]/.test(cardInfo.id) ? cardInfo.id : 'a' + cardInfo.id
+    //If oCardInfo.id starts with a number, id will be invalid in DOM, need to add alpha at beginning of string
+    let imgId = /^[A-Za-z]/.test(oCardInfo.id) ? oCardInfo.id : 'a' + oCardInfo.id
 
     //Check for double sided cards
-    if(cardInfo.card_faces && cardInfo.card_faces[0].image_uris){   
-        cardImagesSrcs = [cardInfo.card_faces[0].image_uris.normal, cardInfo.card_faces[1].image_uris.normal]
+    if(oCardInfo.card_faces && oCardInfo.card_faces[0].image_uris){   
+        cardImagesSrcs = [oCardInfo.card_faces[0].image_uris.normal, oCardInfo.card_faces[1].image_uris.normal]
         cardImage = 
             <form onSubmit={handleOnClick} name={'card' + imgId.replace(/-/g, "")}>
-                <img className="card-img-top" alt={cardInfo.name} id={'card' + imgId.replace(/-/g, "")} src={cardInfo.card_faces[0].image_uris.normal} data-toggle="modal" data-target={'#' + imgId.replace(/-/g, "")}/>
+                <img className="card-img-top" alt={oCardInfo.name} id={'card' + imgId.replace(/-/g, "")} src={oCardInfo.card_faces[0].image_uris.normal} data-toggle="modal" data-target={'#' + imgId.replace(/-/g, "")}/>
                 <input className="btn btn-primary btn-block mt-1" type="submit" value="Flip"/>
             </form>
     }
 
     //Use for single sided cards
     else{
-        cardImage = <img src={cardInfo.image_uris.normal} className="card-img-top" alt={cardInfo.name} data-toggle="modal" data-target={'#' + imgId.replace(/-/g, "")}/>
+        cardImage = <img src={oCardInfo.image_uris.normal} className="card-img-top" alt={oCardInfo.name} data-toggle="modal" data-target={'#' + imgId.replace(/-/g, "")}/>
     }
 
     return ( 
@@ -60,40 +66,40 @@ function CardComponent({cardInfo, isUserLogin, isFromSet, onSetClicked, setIsFro
             <div className="card-body">
                 <div className="row d-flex justify-content-center">
                     {
-                        isFromSet ?
+                        oHeaderValues.bIsFromSet ?
                             <h5 className="text-primary text-center text-wrap">
-                                {`${cardInfo.name} (${cardInfo.rarity.slice(0,1).toUpperCase()})`}
+                                {`${oCardInfo.name} (${oCardInfo.rarity.slice(0,1).toUpperCase()})`}
                             </h5>
                         :
-                            <h5 className="text-primary text-center text-wrap linkTextHover" onClick={handleLinkClick} style={{textDecoration: "underline"}}>{cardInfo.set_name}</h5>
+                            <h5 className="text-primary text-center text-wrap linkTextHover" onClick={handleLinkClick} style={{textDecoration: "underline"}}>{oCardInfo.set_name}</h5>
                     }
                 </div>
 
-                {isUserLogin ?  
+                {bIsUserLoggedIn ?  
                                 <div className="justify-content-center">
                                     <div className="input-group mb-3">
                                         <div className="input-group-prepend">  
-                                            <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Reg: {!cardInfo.prices.usd ? null : '$' + cardInfo.prices.usd }</button>
+                                            <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Reg: {!oCardInfo.prices.usd ? null : '$' + oCardInfo.prices.usd }</button>
                                         </div>                                           
                                         <input className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={currentRegCount} onChange={handleOnChangeReg}/>
                                     </div>
-                                    {cardInfo.foil ? <div className="input-group mb-3">
+                                    {oCardInfo.foil ? <div className="input-group mb-3">
                                         <div className="input-group-prepend">
-                                            <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}> {!cardInfo.foil ? null : !cardInfo.prices.usd_foil ? 'Foil' : 'Foil: $' + cardInfo.prices.usd_foil}</button> 
+                                            <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}> {!oCardInfo.foil ? null : !oCardInfo.prices.usd_foil ? 'Foil' : 'Foil: $' + oCardInfo.prices.usd_foil}</button> 
                                         </div>
-                                        {isUserLogin && cardInfo.foil ? <input className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={currentFoilCount} onChange={handleOnChangeFoil}/>
+                                        {bIsUserLoggedIn && oCardInfo.foil ? <input className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={currentFoilCount} onChange={handleOnChangeFoil}/>
                                             : null}
                                     </div> : null}
                                 </div>
                             :   
                                 <div>
                                     <div className="input-group justify-content-center">
-                                        {cardInfo.prices.usd ? <button className=" text-primary mr-1 border border-primary" disabled style={{backgroundColor: "black"}}>Reg: ${cardInfo.prices.usd }</button> : null}
-                                        {cardInfo.foil ? <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Foil: ${cardInfo.prices.usd_foil}</button> : null}
+                                        {oCardInfo.prices.usd ? <button className=" text-primary mr-1 border border-primary" disabled style={{backgroundColor: "black"}}>Reg: ${oCardInfo.prices.usd }</button> : null}
+                                        {oCardInfo.foil ? <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Foil: ${oCardInfo.prices.usd_foil}</button> : null}
                                     </div>
                                 </div>}
             </div>
-            <CardModalComponent cardInfo={cardInfo} frontOfCard={frontOfCard}/>
+            <CardModalComponent oCardInfo={oCardInfo} frontOfCard={frontOfCard}/>
         </div>
     )
 }
