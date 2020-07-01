@@ -3,33 +3,37 @@ import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 
 function ExpansionComponent({ oExpansionInfo }){
+    const fDispatch = useDispatch()
     const fHistory = useHistory()
     const oUserInfo = useSelector(state => state.oCurrentUserReducer)
-    const fDispatch = useDispatch()
     
     const handleOnClick = (event) => {
         event.preventDefault()
-        fDispatch({ 
-            type: 'SET_SEARCH_RESULTS',
-            payload: {
-                sTitle: `Do I Have Cards From: ${oExpansionInfo.name}`,
-                bIsFromSet: true,
-                sInputValue: oExpansionInfo.code
-            }
-        })
 
-        // fetch(`https://api.scryfall.com/cards/search?order=set&q=e%3A${setClicked}&unique=prints`)
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         if(data.has_more){
-        //             handleMultiplePagesSearch(data.data, data.next_page)
-        //         }
-        //         else{
-        //             setIsLoadingContent(false)
-        //             setCardList(data.data)
-        //         }
-        //     });
-        // fHistory.push('/cards')
+        function getCardsFromExpansion(cards, currentURL){
+            fetch(currentURL)
+                .then(response => response.json())
+                .then(data => {
+                    cards = cards.concat(data.data)
+                    if(data.has_more){
+                        getCardsFromExpansion(cards, data.next_page)
+                    }
+                    else{
+                        fDispatch({ 
+                            type: 'SET_SEARCH_RESULTS',
+                            payload: {
+                                sTitle: `Do I Have Cards From: ${oExpansionInfo.name}`,
+                                bIsFromSet: true,
+                                sInputValue: oExpansionInfo.code,
+                                aDisplayedCards: cards
+                            }
+                        })
+                    }
+                });
+        }
+
+        getCardsFromExpansion([], `https://api.scryfall.com/cards/search?order=set&q=e%3A${oExpansionInfo.code}&unique=prints`)
+        fHistory.push('/cards')
     }
 
     return ( 
