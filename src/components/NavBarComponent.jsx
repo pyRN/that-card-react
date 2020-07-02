@@ -20,12 +20,27 @@ function NavBarComponent(){
             fetch(currentURL)
                 .then(response => response.json())
                 .then(data => {
-                    //When searching for cards, only return cards that are printed (Not digital versions)
-                    let aNonDigitalCards = data.data.filter(card => {return !card.digital})
-                    cards = cards.concat(aNonDigitalCards)
-                    if(data.has_more){
-                        getCardsFromExpansion(cards, data.next_page)
+                    //Check to see if search query returns cards
+                    if(data.object === "list"){
+                        //When searching for cards, only return cards that are printed (Not digital versions)
+                        let aNonDigitalCards = data.data.filter(card => {return !card.digital})
+                        cards = cards.concat(aNonDigitalCards)
+                        if(data.has_more){
+                            getCardsFromExpansion(cards, data.next_page)
+                        }
+                        else{
+                            fDispatch({ 
+                                type: 'SET_SEARCH_RESULTS',
+                                payload: {
+                                    sTitle: `Do I Have: ${sSearchInput.trim().toUpperCase()}`,
+                                    bIsFromSet: false,
+                                    sInputValue: sSearchInput.trim().toUpperCase(),
+                                    aDisplayedCards: cards
+                                }
+                            })
+                        }
                     }
+                    //If search is invalid (error 404), return undefined card list
                     else{
                         fDispatch({ 
                             type: 'SET_SEARCH_RESULTS',
@@ -33,7 +48,7 @@ function NavBarComponent(){
                                 sTitle: `Do I Have: ${sSearchInput.trim().toUpperCase()}`,
                                 bIsFromSet: false,
                                 sInputValue: sSearchInput.trim().toUpperCase(),
-                                aDisplayedCards: cards
+                                aDisplayedCards: undefined
                             }
                         })
                     }
