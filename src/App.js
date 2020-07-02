@@ -70,4 +70,4 @@ export default App
 //                     setCardList(cardsArray.concat(data.data))
 //                 }
 //             })
-    }
+    // }
