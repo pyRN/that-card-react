@@ -77,12 +77,15 @@ function CardComponent({ oCardInfo }){
 
                 {bIsUserLoggedIn ?  
                                 <div className="justify-content-center">
-                                    <div className="input-group mb-3">
-                                        <div className="input-group-prepend">  
-                                            <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Reg: {!oCardInfo.prices.usd ? null : '$' + oCardInfo.prices.usd }</button>
-                                        </div>                                           
-                                        <input className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={currentRegCount} onChange={handleOnChangeReg}/>
-                                    </div>
+                                    {oCardInfo.nonfoil ?
+                                        <div className="input-group mb-3">
+                                            <div className="input-group-prepend">  
+                                                <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Reg: {!oCardInfo.prices.usd ? null : '$' + oCardInfo.prices.usd }</button>
+                                            </div>                                           
+                                            <input className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={currentRegCount} onChange={handleOnChangeReg}/>
+                                        </div> 
+                                        : null
+                                    }
                                     {oCardInfo.foil ? <div className="input-group mb-3">
                                         <div className="input-group-prepend">
                                             <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}> {!oCardInfo.foil ? null : !oCardInfo.prices.usd_foil ? 'Foil' : 'Foil: $' + oCardInfo.prices.usd_foil}</button> 
@@ -94,7 +97,7 @@ function CardComponent({ oCardInfo }){
                             :   
                                 <div>
                                     <div className="input-group justify-content-center">
-                                        {oCardInfo.prices.usd ? <button className=" text-primary mr-1 border border-primary" disabled style={{backgroundColor: "black"}}>Reg: ${oCardInfo.prices.usd }</button> : null}
+                                        {oCardInfo.nonfoil ? <button className=" text-primary mr-1 border border-primary" disabled style={{backgroundColor: "black"}}>Reg: ${oCardInfo.prices.usd }</button> : null}
                                         {oCardInfo.foil ? <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Foil: ${oCardInfo.prices.usd_foil}</button> : null}
                                     </div>
                                 </div>}
