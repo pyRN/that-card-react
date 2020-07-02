@@ -5,26 +5,44 @@ import { useSelector, useDispatch } from 'react-redux'
 function NavBarComponent(){
     const fDispatch = useDispatch()
     const fHistory = useHistory()
+
+    //Global State
     const oHeaderInfo = useSelector(state => state.oDisplayedCardsReducer.oHeaderValues)
     const oUserInfo = useSelector(state => state.oCurrentUserReducer)
 
     console.log("TESTING: NavBarComponent Render")
 
-    function getCardName(event){
+    function handleOnSubmit(event){
         event.preventDefault();
-        let sCardName = document.getElementById("searchInput")
+        let sSearchInput = document.getElementById("searchInput").value
 
-        fDispatch({ 
-            type: 'SET_SEARCH_RESULTS',
-            payload: {
-                sTitle: `Do I Have: ${sCardName.value.trim().toUpperCase()}`,
-                bIsFromSet: false,
-                sInputValue: sCardName.value.trim()
-            }
-        })
+        function getCardsFromExpansion(cards, currentURL){
+            fetch(currentURL)
+                .then(response => response.json())
+                .then(data => {
+                    //When searching for cards, only return cards that are printed (Not digital versions)
+                    let aNonDigitalCards = data.data.filter(card => {return !card.digital})
+                    cards = cards.concat(aNonDigitalCards)
+                    if(data.has_more){
+                        getCardsFromExpansion(cards, data.next_page)
+                    }
+                    else{
+                        fDispatch({ 
+                            type: 'SET_SEARCH_RESULTS',
+                            payload: {
+                                sTitle: `Do I Have: ${sSearchInput.trim().toUpperCase()}`,
+                                bIsFromSet: false,
+                                sInputValue: sSearchInput.trim().toUpperCase(),
+                                aDisplayedCards: cards
+                            }
+                        })
+                    }
+                });
+        }
 
+        getCardsFromExpansion([], `https://api.scryfall.com/cards/search?unique=prints&q=%22${sSearchInput}%22`)
         document.getElementById("searchInput").value = ''
-        // fHistory.push('/cards')
+        fHistory.push('/cards')
     }
 
     return ( 
@@ -71,9 +89,9 @@ function NavBarComponent(){
                         <Link className="nav-link text-primary" to="/login">Login</Link>
                     </li>
                     <li>
-                        <form className="form-inline" onSubmit={getCardName}>
+                        <form className="form-inline" onSubmit={handleOnSubmit}>
                             <input className="form-control mr-sm-2" type="search" id="searchInput" placeholder="Search" aria-label="Search"/>
-                            <button className="btn btn-outline-success my-2 my-sm-0" type="submit" onClick={getCardName}>Search</button>
+                            <button className="btn btn-outline-success my-2 my-sm-0" type="submit" onClick={handleOnSubmit}>Search</button>
                         </form>
                     </li>
                 </ul>

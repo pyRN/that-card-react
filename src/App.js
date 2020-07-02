@@ -14,8 +14,8 @@ import NavBarComponent from './components/NavBarComponent'
 import RegisterComponent from './components/RegisterComponent'
 
 //Containers
-import ExpansionListContainer from './containers/ExpansionListContainer'
 import DisplayedCardsContainer from './containers/DisplayedCardsContainer'
+import ExpansionListContainer from './containers/ExpansionListContainer'
 
 class App extends React.Component{
     render(){
@@ -41,33 +41,3 @@ class App extends React.Component{
 }
 
 export default App
-
-// Functions
-//     const handleCardSearch = (searchedCardName) => {
-//         setIsLoadingContent(true)
-//         fetch(`https://api.scryfall.com/cards/search?unique=prints&q=%22${searchedCardName}%22`)
-//             .then(response => response.json())
-//             .then(data => {
-//                 if(data.has_more){
-//                     handleMultiplePagesSearch(data.data, data.next_page)
-//                 }
-//                 else{
-//                     setIsLoadingContent(false)
-//                     setCardList(data.data)
-//                 }
-//             });
-//     }
-
-//     const handleMultiplePagesSearch = (cardsArray, nextPageUrl) =>{
-//         fetch(nextPageUrl)
-//             .then(response => response.json())
-//             .then(data => {
-//                 if(data.has_more){
-//                     handleMultiplePagesSearch(cardsArray.concat(data.data), data.next_page)
-//                 }
-//                 else{
-//                     setIsLoadingContent(false)
-//                     setCardList(cardsArray.concat(data.data))
-//                 }
-//             })
-    // }
