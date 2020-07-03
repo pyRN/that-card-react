@@ -26,9 +26,6 @@ function TableComponent({ oCardInfo }){
     //If oCardInfo.id starts with a number, it will not work, need to add alpha beginning of string
     let sImageId = /^[A-Za-z]/.test(oCardInfo.id) ? oCardInfo.id : 'a' + oCardInfo.id
 
-    //Set price column for table
-
-
     return(
         <tr>
             <td>
@@ -62,7 +59,6 @@ function TableComponent({ oCardInfo }){
                     null
             }
             <CardModalComponent oCardInfo={oCardInfo}/>
-            
         </tr>
     )
 }
