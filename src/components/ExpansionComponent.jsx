@@ -11,6 +11,13 @@ function ExpansionComponent({ oExpansionInfo }){
         event.preventDefault()
 
         function getCardsFromExpansion(cards, currentURL){
+            fDispatch({ 
+                type: 'SET_LOADING',
+                payload: {
+                    bIsDataLoading: true
+                }
+            })
+
             fetch(currentURL)
                 .then(response => response.json())
                 .then(data => {
@@ -25,7 +32,8 @@ function ExpansionComponent({ oExpansionInfo }){
                                 sTitle: `Do I Have Cards From: ${oExpansionInfo.name}`,
                                 bIsFromSet: true,
                                 sInputValue: oExpansionInfo.code,
-                                aDisplayedCards: cards
+                                aDisplayedCards: cards,
+                                bIsDataLoading: false
                             }
                         })
                     }

@@ -16,6 +16,13 @@ function NavBarComponent(){
         event.preventDefault();
         let sSearchInput = document.getElementById("searchInput").value
 
+        fDispatch({ 
+            type: 'SET_LOADING',
+            payload: {
+                bIsDataLoading: true
+            }
+        })
+
         function getCardsFromExpansion(cards, currentURL){
             fetch(currentURL)
                 .then(response => response.json())
@@ -35,7 +42,8 @@ function NavBarComponent(){
                                     sTitle: `Do I Have: ${sSearchInput.trim().toUpperCase()}`,
                                     bIsFromSet: false,
                                     sInputValue: sSearchInput.trim().toUpperCase(),
-                                    aDisplayedCards: cards
+                                    aDisplayedCards: cards,
+                                    bIsDataLoading: false
                                 }
                             })
                         }
@@ -78,13 +86,13 @@ function NavBarComponent(){
                     <li className="nav-item">
                         <Link className="nav-link text-primary" to="/cards">Cards</Link>
                     </li>
-                    <li>
+                    <li className="nav-item">
                         {oUserInfo.userEmail ? 
                             <div className="dropdown show">
-                                <p className="nav-link text-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <p className="nav-link text-primary dropdown-toggle my-0" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Resources
                                 </p>
-                                <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" style={{backgroundColor: "black"}}>
+                                <div className="dropdown-menu border border-primary" aria-labelledby="dropdownMenuLink" style={{backgroundColor: "black"}}>
                                     <Link className="dropdown-item text-primary resourceHover" to="/counter">Life Counter</Link>
                                     <Link className="dropdown-item text-primary resourceHover" to="/check">Check Deck</Link>
                                 </div>

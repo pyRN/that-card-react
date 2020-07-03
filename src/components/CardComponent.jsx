@@ -5,33 +5,32 @@ import { useSelector } from 'react-redux'
 import CardModalComponent from './CardModalComponent'
 
 function CardComponent({ oCardInfo }){
-// function CardComponent({oCardInfo, bIsUserLoggedIn, isFromSet, onSetClicked, setIsFromSet, setNavTitle}){
-    let cardImage
-    let cardImagesSrcs = []
+    let aCardImage
+    let aCardImagesSrcs = []
 
     //Global States
     const bIsUserLoggedIn = useSelector(state => state.oCurrentUserReducer.userEmail) ? true : false
     const oHeaderValues = useSelector(state => state.oDisplayedCardsReducer.oHeaderValues)
 
     //Local States
-    const [currentRegCount, setCurrentRegCount] = useState(0)
-    const [currentFoilCount, setCurrentFoilCount] = useState(0)
-    const [frontOfCard, setFrontOfCard] = useState(true)
+    const [nCurrentRegCount, fSetCurrentRegCount] = useState(0)
+    const [nCurrentFoilCount, fSetCurrentFoilCount] = useState(0)
+    const [bFrontOfCard, fSetFrontOfCard] = useState(true)
 
     const handleOnClick = (e) => {
         e.preventDefault()
-        document.getElementById(e.target.name).src = document.getElementById(e.target.name).src === cardImagesSrcs[0] ? cardImagesSrcs[1] : cardImagesSrcs[0]
-        setFrontOfCard(!frontOfCard)
+        document.getElementById(e.target.name).src = document.getElementById(e.target.name).src === aCardImagesSrcs[0] ? aCardImagesSrcs[1] : aCardImagesSrcs[0]
+        fSetFrontOfCard(!bFrontOfCard)
     }
 
     const handleOnChangeReg = (e) => {
         e.preventDefault()
-        setCurrentRegCount(e.target.value)
+        fSetCurrentRegCount(e.target.value)
     }
 
     const handleOnChangeFoil = (e) => {
         e.preventDefault()
-        setCurrentFoilCount(e.target.value)
+        fSetCurrentFoilCount(e.target.value)
     }
 
     const handleLinkClick = (e) => {
@@ -43,26 +42,26 @@ function CardComponent({ oCardInfo }){
     }
     
     //If oCardInfo.id starts with a number, id will be invalid in DOM, need to add alpha at beginning of string
-    let imgId = /^[A-Za-z]/.test(oCardInfo.id) ? oCardInfo.id : 'a' + oCardInfo.id
+    let sImageId = /^[A-Za-z]/.test(oCardInfo.id) ? oCardInfo.id : 'a' + oCardInfo.id
 
     //Check for double sided cards
     if(oCardInfo.card_faces && oCardInfo.card_faces[0].image_uris){   
-        cardImagesSrcs = [oCardInfo.card_faces[0].image_uris.normal, oCardInfo.card_faces[1].image_uris.normal]
-        cardImage = 
-            <form onSubmit={handleOnClick} name={'card' + imgId.replace(/-/g, "")}>
-                <img className="card-img-top" alt={oCardInfo.name} id={'card' + imgId.replace(/-/g, "")} src={oCardInfo.card_faces[0].image_uris.normal} data-toggle="modal" data-target={'#' + imgId.replace(/-/g, "")}/>
+        aCardImagesSrcs = [oCardInfo.card_faces[0].image_uris.normal, oCardInfo.card_faces[1].image_uris.normal]
+        aCardImage = 
+            <form onSubmit={handleOnClick} name={'card' + sImageId.replace(/-/g, "")}>
+                <img className="card-img-top" alt={oCardInfo.name} id={'card' + sImageId.replace(/-/g, "")} src={oCardInfo.card_faces[0].image_uris.normal} data-toggle="modal" data-target={'#' + sImageId.replace(/-/g, "")}/>
                 <input className="btn btn-primary btn-block mt-1" type="submit" value="Flip"/>
             </form>
     }
 
     //Use for single sided cards
     else{
-        cardImage = <img src={oCardInfo.image_uris.normal} className="card-img-top" alt={oCardInfo.name} data-toggle="modal" data-target={'#' + imgId.replace(/-/g, "")}/>
+        aCardImage = <img src={oCardInfo.image_uris.normal} className="card-img-top" alt={oCardInfo.name} data-toggle="modal" data-target={'#' + sImageId.replace(/-/g, "")}/>
     }
 
     return ( 
         <div className="card m-2 p-1 border border-success bg-dark rounded d-inline-flex col-md-2" style={{width: "15rem"}}>
-            {cardImage}
+            {aCardImage}
             <div className="card-body">
                 <div className="row d-flex justify-content-center">
                     {
@@ -82,7 +81,7 @@ function CardComponent({ oCardInfo }){
                                             <div className="input-group-prepend">  
                                                 <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Reg: {!oCardInfo.prices.usd ? null : '$' + oCardInfo.prices.usd }</button>
                                             </div>                                           
-                                            <input className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={currentRegCount} onChange={handleOnChangeReg}/>
+                                            <input className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={nCurrentRegCount} onChange={handleOnChangeReg}/>
                                         </div> 
                                         : null
                                     }
@@ -90,7 +89,7 @@ function CardComponent({ oCardInfo }){
                                         <div className="input-group-prepend">
                                             <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}> {!oCardInfo.foil ? null : !oCardInfo.prices.usd_foil ? 'Foil' : 'Foil: $' + oCardInfo.prices.usd_foil}</button> 
                                         </div>
-                                        {bIsUserLoggedIn && oCardInfo.foil ? <input className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={currentFoilCount} onChange={handleOnChangeFoil}/>
+                                        {bIsUserLoggedIn && oCardInfo.foil ? <input className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={nCurrentFoilCount} onChange={handleOnChangeFoil}/>
                                             : null}
                                     </div> : null}
                                 </div>
@@ -102,7 +101,7 @@ function CardComponent({ oCardInfo }){
                                     </div>
                                 </div>}
             </div>
-            <CardModalComponent oCardInfo={oCardInfo} frontOfCard={frontOfCard}/>
+            <CardModalComponent oCardInfo={oCardInfo} bFrontOfCard={bFrontOfCard}/>
         </div>
     )
 }

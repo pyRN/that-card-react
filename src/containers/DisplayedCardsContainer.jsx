@@ -11,78 +11,39 @@ import LastChance from '../multimedia/Last-chance.jpg'
 import VampiricTutor from '../multimedia/Vampiric-tutor.jpg'
 
 function DisplayedCardsContainer(){
+    let aFilterdCardList, aDisplayCards
+
     //Global States
-    const aDisplayedCardList = useSelector(state => state.oDisplayedCardsReducer.data)
+    const aDisplayedCardList = useSelector(state => state.oDisplayedCardsReducer.aDisplayedCards)
+    const bIsDataLoading = useSelector(state => state.oDisplayedCardsReducer.bIsDataLoading)
     const bIsUserLoggedIn = useSelector(state => state.oCurrentUserReducer.userEmail) ? true : false
+    const sSearchInput = useSelector(state => state.oDisplayedCardsReducer.oHeaderValues.sInputValue)
 
     //Local States
-    const [cardFilter, setCardFilter] = useState(null)
-    const [viewSelected, setViewSelected] = useState('cardView')
-
-    let aFilterdCardList, cards
+    const [sCardFilter, fSetCardFilter] = useState(null)
+    const [sViewSelected, fSetViewSelected] = useState('cardView')
 
     console.log("TESTING: CardsComponent Render")
 
-    //Render "Loading..." if waiting for promise to resolve
-    if(aDisplayedCardList && !aDisplayedCardList.length){
+    //Render "Loading..." while loading data
+    if(bIsDataLoading){
         return(
             <div align="center" className="justify-content-center mt-3">
                 <h2 className="text-primary">Loading. . .</h2>
             </div>
         )
     }
-
-    //Filtering Cards
-    if(aDisplayedCardList !== undefined){
-        //If cardFilter is null, bypass, no filters being used
-        if(cardFilter !== null){
-            //Check if filtered by color
-            if(['W', 'B', 'U', 'R', 'G'].includes(cardFilter)){
-                aFilterdCardList = aDisplayedCardList.filter(function(card){
-                    return card.color_identity.includes(cardFilter)
-                })
-            }
-            //Check if filtered by colorless
-            if(cardFilter === "Colorless"){
-                aFilterdCardList = aDisplayedCardList.filter(function(card){
-                    return card.color_identity.length === 0
-                })
-            }
-
-            //Check if filtered by rarity
-            if(['Mythic', 'Rare', 'Uncommon', 'Common'].includes(cardFilter)){
-                aFilterdCardList = aDisplayedCardList.filter(function(card){
-                    return card.rarity.toLowerCase() === cardFilter.toLowerCase()
-                })
-            }
-
-            //Check if filtered by price
-            if(cardFilter === "LowToHigh"){
-                aFilterdCardList = aDisplayedCardList.sort((a, b) => (parseFloat(a.prices.usd) > parseFloat(b.prices.usd)) ? 1 : -1)
-            }
-            if(cardFilter === "HighToLow"){
-                aFilterdCardList = aDisplayedCardList.sort((a, b) => (parseFloat(a.prices.usd) < parseFloat(b.prices.usd)) ? 1 : -1)
-            }
-        }
-        //If no filters
-        else{
-            aFilterdCardList = aDisplayedCardList
-        }
+    //Render if on card page without search
+    else if(!sSearchInput){
+        return(
+            <div align="center" className="justify-content-center mt-3" style={{backgroundColor: "black"}}>
+                <h3 className="text-primary">Search for a card</h3>
+                <img className="w-25" src={VampiricTutor} alt="Vampiric Tutor"/>
+            </div>
+        )
     }
-    
-    if(aFilterdCardList && aFilterdCardList !== undefined){
-        cards = aFilterdCardList.map(function(oCardInfo){
-            if(!aFilterdCardList.digital){   
-                if(viewSelected === 'cardView')
-                    return <CardComponent oCardInfo={oCardInfo} key={oCardInfo.id}/>
-                if(viewSelected === 'tblView')
-                    return <TableComponent oCardInfo={oCardInfo} key={oCardInfo.id}/>
-            }
-        }) 
-    }
-    //If cardList is undefined, this means the search was invalid
-    else{
-        cards = null
+    //Render if search is invalid
+    else if(!aDisplayedCardList){
         return(
             <div align="center" className="justify-content-center mt-3" style={{backgroundColor: "black"}}>
                 <h3 className="text-primary">Not a valid search</h3>
@@ -90,25 +51,61 @@ function DisplayedCardsContainer(){
             </div>
         )
     }
-
-    //If cardList has no length, no cards are viewed.
-    if(!cards.length  && !cardFilter){
-        return(
-            <div align="center" className="justify-content-center mt-3" style={{backgroundColor: "black"}}>
-                <h3 className="text-primary">Search for a card</h3>
-                <img className="w-25" src={VampiricTutor} alt="Vampiric Tutor"/>
-            </div>
-        )
-    }  
+    //Render loaded cards
     else{
-        if(viewSelected === 'cardView'){
+        //Filtering Cards
+        if(aDisplayedCardList !== undefined){
+            //If sCardFilter is null, bypass, no filters being used
+            if(sCardFilter !== null){
+                //Check if filtered by color
+                if(['W', 'B', 'U', 'R', 'G'].includes(sCardFilter)){
+                    aFilterdCardList = aDisplayedCardList.filter(function(card){
+                        return card.color_identity.includes(sCardFilter)
+                    })
+                }
+                //Check if filtered by colorless
+                if(sCardFilter === "Colorless"){
+                    aFilterdCardList = aDisplayedCardList.filter(function(card){
+                        return card.color_identity.length === 0
+                    })
+                }
+
+                //Check if filtered by rarity
+                if(['Mythic', 'Rare', 'Uncommon', 'Common'].includes(sCardFilter)){
+                    aFilterdCardList = aDisplayedCardList.filter(function(card){
+                        return card.rarity.toLowerCase() === sCardFilter.toLowerCase()
+                    })
+                }
+
+                //Check if filtered by price
+                if(sCardFilter === "LowToHigh"){
+                    aFilterdCardList = aDisplayedCardList.sort((a, b) => (parseFloat(a.prices.usd) > parseFloat(b.prices.usd)) ? 1 : -1)
+                }
+                if(sCardFilter === "HighToLow"){
+                    aFilterdCardList = aDisplayedCardList.sort((a, b) => (parseFloat(a.prices.usd) < parseFloat(b.prices.usd)) ? 1 : -1)
+                }
+            }
+            //If no filters
+            else{
+                aFilterdCardList = aDisplayedCardList
+            }
+        }
+        
+        if(aFilterdCardList && aFilterdCardList !== undefined){
+            aDisplayCards = aFilterdCardList.map(function(oCardInfo){
+                return sViewSelected === 'cardView' ? <CardComponent oCardInfo={oCardInfo} key={oCardInfo.id}/> : <TableComponent oCardInfo={oCardInfo} key={oCardInfo.id}/>
+            }) 
+        }
+
+        if(sViewSelected === 'cardView'){
             return(
                 <div align="center" className="justify-content-center mt-3 mb-5" style={{backgroundColor: "black", display: "flex", flexWrap: "wrap"}}>
-                    {cards}
-                    <CardNavBarComponent /> 
+                    {aDisplayCards}
+                    <CardNavBarComponent fSetCardFilter={fSetCardFilter} fSetViewSelected={fSetViewSelected}/> 
                 </div>) 
         }
-        if(viewSelected === 'tblView'){
+        
+        if(sViewSelected === 'tblView'){
             return(
                 <div>
                     <table className="table table-dark table-striped table-bordered table-hover table-condensed">
@@ -118,19 +115,19 @@ function DisplayedCardsContainer(){
                                 <th>Set Name</th>
                                 <th>Rarity</th>
                                 <th>Price</th>
-                                {bIsUserLoggedIn? <th>Regular Quantity</th> : null}
+                                {bIsUserLoggedIn ? <th>Regular Quantity</th> : null}
                                 {bIsUserLoggedIn ? <th>Foil Quantity</th> :null}
                             </tr>
                         </thead>
                         <tbody>
-                            {cards}
+                            {aDisplayCards}
                         </tbody>
                     </table>            
-                    <CardNavBarComponent /> 
+                    <CardNavBarComponent fSetCardFilter={fSetCardFilter} fSetViewSelected={fSetViewSelected}/> 
                 </div>
             )
         }
-    }            
+    }
 }
 
 export default DisplayedCardsContainer

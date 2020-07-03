@@ -9,6 +9,17 @@ function MainComponent(){
     return ( 
         <div id="carouselExampleCaptions" className="carousel slide mt-3" data-ride="carousel">
             <div className="carousel-inner" align="center">
+                {/* <div className="jumbotron jumbotron-fluid carousel-item active bg-dark text-primary border border-success">
+                    <h1 className="display-4">Release Calendar</h1>
+                    <hr className="my-4"/>
+                    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+                </div>
+                <div className="jumbotron jumbotron-fluid carousel-item bg-dark text-primary border border-success">
+                    <h1 className="display-4">Banned and Restricted List</h1>
+                    <hr className="my-4"/>
+                    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+                </div> */}
+
                 <div className="carousel-item active">
                     <img src={CarouselImg1} className="d-block w-75" alt="..."/>
                     <div className="carousel-caption d-none d-md-block">
