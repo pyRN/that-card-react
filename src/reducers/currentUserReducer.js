@@ -2,8 +2,9 @@
 import { GET_CURRENT_USER } from '../actions/types'
 
 const initialState = {
-    userEmail: "jacobmayeux@gmail.com", 
-    collectionId: null
+    sUserEmail: null, 
+    nCollectionId: null,
+    bIsLoggedIn: false
 }
 
 export default function currentUser(state = initialState, action) {
