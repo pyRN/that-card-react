@@ -50,13 +50,13 @@ function RegisterComponent(){
     }
 
     return(
-        <div align="center" className="justify-content-center mt-5">
+        <div align="center " className="justify-content-center mt-5">
             {bRegistration.bEmailAlreadyExists ? <h2 className="mb-1 font-weight-normal text-danger">Email already in use!</h2> : null}
-            <form className="card form-signin border border-primary bg-dark">
+            <form className="card form-signin border border-primary bg-dark rounded">
                 <h1 className="h3 mb-3 font-weight-normal text-primary">Register</h1>                
-                <input type="email" id="inputEmail" aria-describedby="emailHelp" name="inputEmail" className="form-control mb-0" placeholder="Email address" onChange={handleOnChange} required autoFocus/>
+                <input type="email" id="inputEmail" aria-describedby="emailHelp" name="inputEmail" className="form-control mb-1" placeholder="Email address" onChange={handleOnChange} required autoFocus/>
                 {!bIsEmailValid && bIsEmailValid !== null ? <small id="emailHelp" className="form-text text-danger mb-2">Not a valid email address</small> : null}
-                <input type="password" id="inputPassword" aria-describedby="passwordHelp" name="inputPassword" className="form-control mb-0" onChange={handleOnChange} placeholder="Password (Min 6 characters)" required/>
+                <input type="password" id="inputPassword" aria-describedby="passwordHelp" name="inputPassword" className="form-control mb-1" onChange={handleOnChange} placeholder="Password (Min 6 characters)" required/>
                 {!bIsPasswordValid && bIsPasswordValid !== null ? <small id="passwordHelp" className="form-text text-danger mb-2">Passwords do not match or are too short</small> : null}
                 <input type="password" id="inputPasswordConfirm" name="inputPasswordConfirm" className="form-control mt-2a" onChange={handleOnChange} placeholder="Confirm Password" required/>
                 {bIsEmailValid && bIsPasswordValid ? 
