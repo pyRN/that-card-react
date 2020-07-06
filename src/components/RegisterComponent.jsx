@@ -39,8 +39,6 @@ function RegisterComponent(){
         }
     }
 
-    console.log(bRegistration)
-
     if(bRegistration.bRegistrationSuccessfull){
         return(
             <div align="center" className="justify-content-center mt-5">
