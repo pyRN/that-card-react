@@ -4,7 +4,8 @@ import { GET_CURRENT_USER } from '../actions/types'
 const initialState = {
     sUserEmail: null, 
     nCollectionId: null,
-    bIsLoggedIn: false
+    bIsLoggedIn: false,
+    bIsLoading: false
 }
 
 export default function currentUser(state = initialState, action) {

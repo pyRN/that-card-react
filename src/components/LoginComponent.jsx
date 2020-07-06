@@ -1,12 +1,23 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { addNewUser, getCurrentUser } from '../actions'
+import { useSelector, useDispatch } from 'react-redux'
 
 function LoginComponent({setIsUserLogin}){
+    const fnDispatch = useDispatch()
     console.log("TESTING: LoginComponent Render")
 
-    const handleOnSubmit = () =>{
-        setIsUserLogin(true)
+    const handleOnSubmit = (event) =>{
+        event.preventDefault()
+        let sUserEmail = document.getElementById("inputEmail").value
+        let sPasswordHash = document.getElementById("inputPassword").value
+
+        // fnDispatch(getCurrentUser(sUserEmail))
+        fnDispatch(addNewUser(sUserEmail, sPasswordHash))
+
     }
+
+
 
     return (
         <div align="center" className="justify-content-center mt-5">
