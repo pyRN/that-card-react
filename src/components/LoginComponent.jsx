@@ -12,7 +12,7 @@ function LoginComponent(){
         let sUserEmail = document.getElementById("inputEmail").value
         let sPassword = document.getElementById("inputPassword").value
 
-        // fnDispatch(getCurrentUser(sUserEmail))
+        fnDispatch(getCurrentUser(sUserEmail))
     }
 
     const handleOnChange = (event) =>{

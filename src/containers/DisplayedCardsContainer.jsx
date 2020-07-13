@@ -12,11 +12,13 @@ import VampiricTutor from '../multimedia/Vampiric-tutor.jpg'
 
 function DisplayedCardsContainer(){
     let aFilterdCardList, aDisplayCards
+    let collection = useSelector(state => state.oCurrentUserCollectionReducer)
+    console.log("Collection", collection)
 
     //Global States
     const aDisplayedCardList = useSelector(state => state.oDisplayedCardsReducer.aDisplayedCards)
     const bIsDataLoading = useSelector(state => state.oDisplayedCardsReducer.bIsDataLoading)
-    const bIsUserLoggedIn = useSelector(state => state.oCurrentUserReducer.userEmail) ? true : false
+    const bIsUserLoggedIn = true //useSelector(state => state.oCurrentUserReducer.userEmail) ? true : false
     const sSearchInput = useSelector(state => state.oDisplayedCardsReducer.oHeaderValues.sInputValue)
 
     //Local States
@@ -24,6 +26,7 @@ function DisplayedCardsContainer(){
     const [sViewSelected, fSetViewSelected] = useState('cardView')
 
     console.log("TESTING: CardsComponent Render")
+
 
     //Render "Loading..." while loading data
     if(bIsDataLoading){

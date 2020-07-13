@@ -2,8 +2,8 @@
 import { GET_CURRENT_USER } from '../actions/types'
 
 const initialState = {
-    sUserEmail: null, 
-    nCollectionId: null,
+    sEmailAddress: null, 
+    sUserCollectionId: null,
     bIsLoggedIn: false,
     bIsLoading: false
 }
@@ -11,7 +11,12 @@ const initialState = {
 export default function currentUser(state = initialState, action) {
     switch (action.type) {
         case GET_CURRENT_USER:
-            return {...state }
+            return {
+                        sEmailAddress: action.payload.sEmailAddress, 
+                        sUserCollectionId: action.payload.sUserCollectionId,
+                        bIsLoggedIn: action.payload.bIsLoggedIn,
+                        bIsLoading: action.payload.bIsLoading
+                    }
         default:
             return state
     }
