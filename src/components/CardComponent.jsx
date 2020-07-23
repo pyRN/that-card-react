@@ -14,10 +14,9 @@ function CardComponent({ oCardInfo }){
     //const bIsUserLoggedIn = useSelector(state => state.oCurrentUserReducer.userEmail) ? true : false
 
     const oHeaderValues = useSelector(state => state.oDisplayedCardsReducer.oHeaderValues)
+    const oCurrentCardAmts = useSelector(state => state.oCurrentUserCollectionReducer.oUserCollection[oCardInfo.id])
 
     //Local States
-    const [nCurrentRegCount, fSetCurrentRegCount] = useState(0)
-    const [nCurrentFoilCount, fSetCurrentFoilCount] = useState(0)
     const [bFrontOfCard, fnSetFrontOfCard] = useState(true)
 
     const handleOnClick = (event) => {
@@ -39,12 +38,11 @@ function CardComponent({ oCardInfo }){
         })
     }
 
-    const handleLinkClick = (e) => {
-        e.preventDefault()
+    const handleLinkClick = (event) => {
+        event.preventDefault()
         // setIsFromSet(true)
         // setNavTitle(`Do I Have Cards From: ${oCardInfo.set_name.toUpperCase()}`)
         // onSetClicked(oCardInfo.set)
-        
     }
     
     //If oCardInfo.id starts with a number, id will be invalid in DOM, need to add alpha at beginning of string
@@ -87,7 +85,7 @@ function CardComponent({ oCardInfo }){
                                             <div className="input-group-prepend">  
                                                 <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Reg: {!oCardInfo.prices.usd ? null : '$' + oCardInfo.prices.usd }</button>
                                             </div>                                           
-                                            <input name="nRegularAmount" className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={nCurrentRegCount} onChange={handleOnChangeAmt}/>
+                                            <input name="nRegularAmount" className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" value={oCurrentCardAmts ? oCurrentCardAmts.nRegularAmount : 0} onChange={handleOnChangeAmt}/>
                                         </div> 
                                         : null
                                     }
@@ -95,7 +93,7 @@ function CardComponent({ oCardInfo }){
                                         <div className="input-group-prepend">
                                             <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}> {!oCardInfo.foil ? null : !oCardInfo.prices.usd_foil ? 'Foil' : 'Foil: $' + oCardInfo.prices.usd_foil}</button> 
                                         </div>
-                                        {bIsUserLoggedIn && oCardInfo.foil ? <input name="nFoilAmount" className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={nCurrentFoilCount} onChange={handleOnChangeAmt}/>
+                                        {bIsUserLoggedIn && oCardInfo.foil ? <input name="nFoilAmount" className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" value={oCurrentCardAmts ? oCurrentCardAmts.nFoilAmount : 0} onChange={handleOnChangeAmt}/>
                                             : null}
                                     </div> : null}
                                 </div>
