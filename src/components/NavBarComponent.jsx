@@ -87,26 +87,16 @@ function NavBarComponent(){
                         <Link className="nav-link text-primary" to="/cards">Cards</Link>
                     </li>
                     <li className="nav-item">
-                        {oUserInfo.userEmail ? 
-                            <div className="dropdown show">
+                        {/* {oUserInfo.userEmail ?  */}
+                            <div className="dropdown show my-0">
                                 <p className="nav-link text-primary dropdown-toggle my-0" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Resources
                                 </p>
                                 <div className="dropdown-menu border border-primary" aria-labelledby="dropdownMenuLink" style={{backgroundColor: "black"}}>
                                     <Link className="dropdown-item text-primary resourceHover" to="/counter">Life Counter</Link>
-                                    <Link className="dropdown-item text-primary resourceHover" to="/check">Check Deck</Link>
+                                    {oUserInfo.sUserEmail ? <Link className="dropdown-item text-primary resourceHover" to="/check">Check Deck</Link> : null}
                                 </div>
                             </div>
-                            :
-                            <div className="dropdown show">
-                                <p className="nav-link text-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Resources
-                                </p>
-                                <div className="dropdown-menu" aria-labelledby="dropdownMenuLink" style={{backgroundColor: "black"}}>
-                                    <Link className="dropdown-item text-primary resourceHover" to="/counter">Life Counter</Link>
-                                </div>
-                            </div>
-                        }
                     </li>
                     <li className="nav-item mr-4">
                         <Link className="nav-link text-primary" to="/login">Login</Link>

@@ -18,6 +18,7 @@ import DisplayedCardsContainer from './containers/DisplayedCardsContainer'
 import ExpansionListContainer from './containers/ExpansionListContainer'
 
 class App extends React.Component{
+    
     render(){
         return (
             <Provider store={store}>

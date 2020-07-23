@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 //Components
 import CardModalComponent from './CardModalComponent'
@@ -7,38 +7,42 @@ import CardModalComponent from './CardModalComponent'
 function CardComponent({ oCardInfo }){
     let aCardImage
     let aCardImagesSrcs = []
+    const fnDispatch = useDispatch()
 
     //Global States
-    const bIsUserLoggedIn = useSelector(state => state.oCurrentUserReducer.userEmail) ? true : false
+    const bIsUserLoggedIn = true //TESTING ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //const bIsUserLoggedIn = useSelector(state => state.oCurrentUserReducer.userEmail) ? true : false
+
     const oHeaderValues = useSelector(state => state.oDisplayedCardsReducer.oHeaderValues)
+    const oCurrentCardAmts = useSelector(state => state.oCurrentUserCollectionReducer.oUserCollection[oCardInfo.id])
 
     //Local States
-    const [nCurrentRegCount, fSetCurrentRegCount] = useState(0)
-    const [nCurrentFoilCount, fSetCurrentFoilCount] = useState(0)
-    const [bFrontOfCard, fSetFrontOfCard] = useState(true)
+    const [bFrontOfCard, fnSetFrontOfCard] = useState(true)
 
-    const handleOnClick = (e) => {
-        e.preventDefault()
-        document.getElementById(e.target.name).src = document.getElementById(e.target.name).src === aCardImagesSrcs[0] ? aCardImagesSrcs[1] : aCardImagesSrcs[0]
-        fSetFrontOfCard(!bFrontOfCard)
+    const handleOnClick = (event) => {
+        event.preventDefault()
+        document.getElementById(event.target.name).src = document.getElementById(event.target.name).src === aCardImagesSrcs[0] ? aCardImagesSrcs[1] : aCardImagesSrcs[0]
+        fnSetFrontOfCard(!bFrontOfCard)
     }
 
-    const handleOnChangeReg = (e) => {
-        e.preventDefault()
-        fSetCurrentRegCount(e.target.value)
+    const handleOnChangeAmt = (event) => {
+        event.preventDefault()
+
+        fnDispatch({
+            type: 'UPDATE_USER_COLLECTION',
+            payload: {
+                nAmt: event.target.value,
+                sCardId: oCardInfo.id,
+                sTypeName: event.target.name
+            }
+        })
     }
 
-    const handleOnChangeFoil = (e) => {
-        e.preventDefault()
-        fSetCurrentFoilCount(e.target.value)
-    }
-
-    const handleLinkClick = (e) => {
-        e.preventDefault()
+    const handleLinkClick = (event) => {
+        event.preventDefault()
         // setIsFromSet(true)
         // setNavTitle(`Do I Have Cards From: ${oCardInfo.set_name.toUpperCase()}`)
         // onSetClicked(oCardInfo.set)
-        
     }
     
     //If oCardInfo.id starts with a number, id will be invalid in DOM, need to add alpha at beginning of string
@@ -81,7 +85,7 @@ function CardComponent({ oCardInfo }){
                                             <div className="input-group-prepend">  
                                                 <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Reg: {!oCardInfo.prices.usd ? null : '$' + oCardInfo.prices.usd }</button>
                                             </div>                                           
-                                            <input className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={nCurrentRegCount} onChange={handleOnChangeReg}/>
+                                            <input name="nRegularAmount" className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" value={oCurrentCardAmts ? oCurrentCardAmts.nRegularAmount : 0} onChange={handleOnChangeAmt}/>
                                         </div> 
                                         : null
                                     }
@@ -89,7 +93,7 @@ function CardComponent({ oCardInfo }){
                                         <div className="input-group-prepend">
                                             <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}> {!oCardInfo.foil ? null : !oCardInfo.prices.usd_foil ? 'Foil' : 'Foil: $' + oCardInfo.prices.usd_foil}</button> 
                                         </div>
-                                        {bIsUserLoggedIn && oCardInfo.foil ? <input className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" placeholder={nCurrentFoilCount} onChange={handleOnChangeFoil}/>
+                                        {bIsUserLoggedIn && oCardInfo.foil ? <input name="nFoilAmount" className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" value={oCurrentCardAmts ? oCurrentCardAmts.nFoilAmount : 0} onChange={handleOnChangeAmt}/>
                                             : null}
                                     </div> : null}
                                 </div>

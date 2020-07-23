@@ -1,41 +1,60 @@
-import {
-    SET_USER_COLLECTION, 
-    GET_CURRENT_USER, 
-    GET_EXPANSIONS_LIST, 
-    GET_DISPLAYED_CARDS, 
-    SET_DIRTY_FLAG, 
-    SET_DYNAMIC_TITLE } from './types'
+import { GET_CURRENT_USER, SET_REGISTERED, CREATE_USER_COLLECTION } from './types'
+import axios from 'axios'
 
-export const getExpansionsList = () => {
-    return{type: 'GET_EXPANSIONS_LIST'}
+export const getCurrentUser = sEmailAddress => dispatch => {
+    axios.get(`/api/users/${sEmailAddress}`)
+        .then(res => {
+            dispatch({
+                type: GET_CURRENT_USER,
+                payload: res.data
+            })
+        })
 }
 
-export const getDisplayedCards = () => {
-    return {type: 'GET_DISPLAYED_CARDS'}
-}
+export const addNewUser = (sEmailAddress, sPassword) => dispatch => {
+    axios.post(`/api/users/`, {
+        sEmailAddress: sEmailAddress, 
+        sPassword: sPassword})
+        .then(res => {
+            //Dispatch that registration was successful
+            dispatch({
+                type: SET_REGISTERED,
+                payload: {
+                    bEmailAlreadyExists: false,
+                    bRegistrationSuccessfull: true
+                }
+            })
 
-export const getCurrentUser = user => {
-    return {type: 'GET_CURRENT_USER'}
-}
-
-// export const setUserCollection = collection => ({
-//     type: 'SET_USER_COLLECTION',
-//     currentUserCollection: collection
-// })
-
-// export const setCurrentUser = user => ({
-//     type: 'SET_CURRENT_USER',
-//     currentUser: user
-// })
-
-
-
-// export const setDirtyFlag = dirty => ({
-//     type: 'SET_DIRTY_FLAG',
-//     dirtyFlag: dirty
-// })
-
-// export const setDynamicTitle = title => ({
-//     type: 'SET_DYNAMIC_TITLE',
-//     currentTitle: title
-// })
+            //Dispatch user information
+            dispatch({
+                type: GET_CURRENT_USER,
+                payload: {
+                    sEmailAddress: res.data.sEmailAddress, 
+                    sUserCollectionId: res.data.sUserCollectionId,
+                    bIsLoggedIn: true,
+                    bIsLoading: true
+                }
+            })
+            
+            //Create userDB
+            axios.post(`/api/userCards/`, {sUserCollectionId: res.data.sUserCollectionId})
+                .then(res => {
+                    //Dispatch to create user DB
+                    dispatch({
+                        type: CREATE_USER_COLLECTION,
+                        payload: {
+                            sUserCollectionId: res.data.sUserCollectionId
+                        }
+                    })
+                })
+        })
+        .catch((err) => {
+            dispatch({
+                type: SET_REGISTERED,
+                payload: {
+                    bEmailAlreadyExists: true,
+                    bRegistrationSuccessfull: false
+                }
+            })
+        })
+}   

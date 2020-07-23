@@ -16,7 +16,8 @@ function DisplayedCardsContainer(){
     //Global States
     const aDisplayedCardList = useSelector(state => state.oDisplayedCardsReducer.aDisplayedCards)
     const bIsDataLoading = useSelector(state => state.oDisplayedCardsReducer.bIsDataLoading)
-    const bIsUserLoggedIn = useSelector(state => state.oCurrentUserReducer.userEmail) ? true : false
+    const bIsUserLoggedIn = true //TESTING ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //const bIsUserLoggedIn = useSelector(state => state.oCurrentUserReducer.userEmail) ? true : false
     const sSearchInput = useSelector(state => state.oDisplayedCardsReducer.oHeaderValues.sInputValue)
 
     //Local States
