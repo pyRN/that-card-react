@@ -15,31 +15,52 @@ function CardComponent({ oCardInfo }){
 
     const oHeaderValues = useSelector(state => state.oDisplayedCardsReducer.oHeaderValues)
     const oCurrentCardAmts = useSelector(state => state.oCurrentUserCollectionReducer.oUserCollection[oCardInfo.id])
+    const oStagedAmts = useSelector(state => state.oDirtyFlagReducer.oCardStaging[oCardInfo.id])
 
     //Local States
     const [bFrontOfCard, fnSetFrontOfCard] = useState(true)
+    const [nRegAmt, fnSetnRegAmt] = useState(oStagedAmts !== undefined ? oStagedAmts.nRegularAmount : (oCurrentCardAmts !== undefined ? oCurrentCardAmts.nRegularAmount : 0))
+    const [nFoilAmt, fnSetnFoilAmt] = useState(oStagedAmts !== undefined ? oStagedAmts.nFoilAmount : (oCurrentCardAmts !== undefined ? oCurrentCardAmts.nFoilAmount : 0))
 
-    const handleOnClick = (event) => {
+    const handleIncrement = (event) => {
+        event.target.name === 'nRegularAmount' ? fnSetnRegAmt(nRegAmt + 1) : fnSetnFoilAmt(nFoilAmt + 1)
+
+        fnDispatch({
+            type: 'UPDATE_STAGING_AREA',
+            payload: {
+                nAmt: event.target.name === "nRegularAmount" ? nRegAmt + 1 : nFoilAmt + 1,
+                sCardId: oCardInfo.id,
+                sTypeName: event.target.name,
+                sExpansionId: oCardInfo.set,
+                bIsDirtyFlag: true
+            }
+        }) 
+    }
+
+    const handleDecrement = (event) => {
+        event.target.name === 'nRegularAmount' ? (nRegAmt !== 0 ? fnSetnRegAmt(nRegAmt - 1) : fnSetnRegAmt(0)) : (nFoilAmt !== 0 ? fnSetnFoilAmt(nFoilAmt - 1) : fnSetnFoilAmt(0))
+
+        fnDispatch({
+            type: 'UPDATE_STAGING_AREA',
+            payload: {
+                nAmt: event.target.name === "nRegularAmount" ? (nRegAmt !== 0 ? nRegAmt - 1 : 0) : (nFoilAmt !== 0 ? nFoilAmt - 1 : 0),
+                sCardId: oCardInfo.id,
+                sTypeName: event.target.name,
+                sExpansionId: oCardInfo.set,
+                bIsDirtyFlag: true
+            }
+        }) 
+    }
+
+    const handleOnFlipClick = (event) => {
         event.preventDefault()
         document.getElementById(event.target.name).src = document.getElementById(event.target.name).src === aCardImagesSrcs[0] ? aCardImagesSrcs[1] : aCardImagesSrcs[0]
         fnSetFrontOfCard(!bFrontOfCard)
     }
 
-    const handleOnChangeAmt = (event) => {
-        event.preventDefault()
-
-        fnDispatch({
-            type: 'UPDATE_USER_COLLECTION',
-            payload: {
-                nAmt: event.target.value,
-                sCardId: oCardInfo.id,
-                sTypeName: event.target.name
-            }
-        })
-    }
-
     const handleLinkClick = (event) => {
         event.preventDefault()
+        console.log("TODO: Load cards when link clicked")
         // setIsFromSet(true)
         // setNavTitle(`Do I Have Cards From: ${oCardInfo.set_name.toUpperCase()}`)
         // onSetClicked(oCardInfo.set)
@@ -52,50 +73,61 @@ function CardComponent({ oCardInfo }){
     if(oCardInfo.card_faces && oCardInfo.card_faces[0].image_uris){   
         aCardImagesSrcs = [oCardInfo.card_faces[0].image_uris.normal, oCardInfo.card_faces[1].image_uris.normal]
         aCardImage = 
-            <form onSubmit={handleOnClick} name={'card' + sImageId.replace(/-/g, "")}>
-                <img className="card-img-top" alt={oCardInfo.name} id={'card' + sImageId.replace(/-/g, "")} src={oCardInfo.card_faces[0].image_uris.normal} data-toggle="modal" data-target={'#' + sImageId.replace(/-/g, "")}/>
+            <form onSubmit={handleOnFlipClick} name={'card' + sImageId.replace(/-/g, "")}>
+                <img className="card-img-top linkTextHover" alt={oCardInfo.name} id={'card' + sImageId.replace(/-/g, "")} src={oCardInfo.card_faces[0].image_uris.normal} data-toggle="modal" data-target={'#' + sImageId.replace(/-/g, "")}/>
                 <input className="btn btn-primary btn-block mt-1" type="submit" value="Flip"/>
             </form>
     }
 
     //Use for single sided cards
     else{
-        aCardImage = <img src={oCardInfo.image_uris.normal} className="card-img-top" alt={oCardInfo.name} data-toggle="modal" data-target={'#' + sImageId.replace(/-/g, "")}/>
+        aCardImage = <img src={oCardInfo.image_uris.normal} className="card-img-top linkTextHover" alt={oCardInfo.name} data-toggle="modal" data-target={'#' + sImageId.replace(/-/g, "")}/>
     }
 
     return ( 
         <div className="card m-2 p-1 border border-success bg-dark rounded d-inline-flex col-md-2" style={{width: "15rem"}}>
             {aCardImage}
-            <div className="card-body">
+            <div className="card-body pb-0">
                 <div className="row d-flex justify-content-center">
                     {
                         oHeaderValues.bIsFromSet ?
-                            <h5 className="text-primary text-center text-wrap">
+                            <h5 className="text-primary text-center text-wrap linkTextHover" style={{textDecoration: "underline"}} onClick={handleLinkClick}>
                                 {`${oCardInfo.name} (${oCardInfo.rarity.slice(0,1).toUpperCase()})`}
                             </h5>
                         :
-                            <h5 className="text-primary text-center text-wrap linkTextHover" onClick={handleLinkClick} style={{textDecoration: "underline"}}>{oCardInfo.set_name}</h5>
+                            <h5 className="text-primary text-center text-wrap linkTextHover" style={{textDecoration: "underline"}} onClick={handleLinkClick}>{oCardInfo.set_name}</h5>
                     }
                 </div>
 
                 {bIsUserLoggedIn ?  
                                 <div className="justify-content-center">
                                     {oCardInfo.nonfoil ?
-                                        <div className="input-group mb-3">
-                                            <div className="input-group-prepend">  
-                                                <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}>Reg: {!oCardInfo.prices.usd ? null : '$' + oCardInfo.prices.usd }</button>
-                                            </div>                                           
-                                            <input name="nRegularAmount" className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" value={oCurrentCardAmts ? oCurrentCardAmts.nRegularAmount : 0} onChange={handleOnChangeAmt}/>
+                                        <div className="input-group mb-3 d-inline">
+                                                <button className="text-primary border border-primary mb-1" disabled style={{backgroundColor: "black"}}>Reg: {!oCardInfo.prices.usd ? null : '$' + oCardInfo.prices.usd }</button> 
+                                            {bIsUserLoggedIn && oCardInfo.nonfoil ? 
+
+                                                <div className="row d-flex justify-content-center mb-3">
+                                                    <button className="btn text-danger border border-primary input-group-prepend" name="nRegularAmount" onClick={handleDecrement} style={{backgroundColor: "black"}}>-</button>
+                                                    <input className="text-white bg-secondary border-primary w-25 p-0 m-0" defaultValue={nRegAmt} style={{textAlign: "center"}} disabled readOnly/>
+                                                    <button className="btn text-success border border-primary input-group-append" name="nRegularAmount" onClick={handleIncrement} style={{backgroundColor: "black"}}>+</button>
+                                                </div>
+                                                
+                                            : null}                                          
                                         </div> 
-                                        : null
+                                    : null
                                     }
-                                    {oCardInfo.foil ? <div className="input-group mb-3">
-                                        <div className="input-group-prepend">
-                                            <button className="text-primary border border-primary" disabled style={{backgroundColor: "black"}}> {!oCardInfo.foil ? null : !oCardInfo.prices.usd_foil ? 'Foil' : 'Foil: $' + oCardInfo.prices.usd_foil}</button> 
-                                        </div>
-                                        {bIsUserLoggedIn && oCardInfo.foil ? <input name="nFoilAmount" className="form-control col-sx-1 border border-primary" style={{backgroundColor: "#A9A9A9", color: "blue"}} type="number" max="1000" min="0" value={oCurrentCardAmts ? oCurrentCardAmts.nFoilAmount : 0} onChange={handleOnChangeAmt}/>
+                                    {oCardInfo.foil ? 
+                                        <div className="input-group mb-3 d-inline">
+                                                <button className="text-primary border border-primary mb-1" disabled style={{backgroundColor: "black"}}> {!oCardInfo.foil ? null : !oCardInfo.prices.usd_foil ? 'Foil' : 'Foil: $' + oCardInfo.prices.usd_foil}</button> 
+                                            {bIsUserLoggedIn && oCardInfo.foil ? 
+                                                <div className="row d-flex justify-content-center mb-3">
+                                                    <button className="btn text-danger border border-primary input-group-prepend" name="nFoilAmount" onClick={handleDecrement} style={{backgroundColor: "black"}}>-</button>
+                                                    <input className="text-white bg-secondary border-primary w-25 p-0 m-0" defaultValue={nFoilAmt} style={{textAlign: "center"}} disabled readOnly/>
+                                                    <button className="btn text-success border border-primary input-group-append" name="nFoilAmount" onClick={handleIncrement} style={{backgroundColor: "black"}}>+</button>
+                                                </div>
                                             : null}
-                                    </div> : null}
+                                        </div> 
+                                    : null}
                                 </div>
                             :   
                                 <div>

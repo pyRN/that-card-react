@@ -6,11 +6,13 @@ import { CREATE_USER_COLLECTION, UPDATE_USER_COLLECTION } from '../actions/types
         oUserCollection: {
             "cardId": {
                 "nRegularAmount": "integer",
-                "nFoilAmount": "integer"
+                "nFoilAmount": "integer",
+                "sExpansionId" "string"
             },
             "cardId": {
                 "nRegularAmount": "integer",
-                "nFoilAmount": "integer"
+                "nFoilAmount": "integer",
+                "sExpansionId" "string"
             }
         }
     }
@@ -29,24 +31,16 @@ export default function currentUserCollection(state = initialState, action) {
                 oUserCollection: {}
             }
         case UPDATE_USER_COLLECTION:
-            //If first entry in state
-            if(Object.keys(state.oUserCollection).length === 0){
-                state.oUserCollection = {
-                    [action.payload.sCardId]: {
-                        [action.payload.sTypeName]: action.payload.nAmt
-                    }
-                }
+            //If card is not in state, create the object
+            if(!state.oUserCollection[action.payload.sCardId]){
+                state.oUserCollection[action.payload.sCardId] = {}
             }
-            //If Card not in state
-            else if(!(action.payload.sCardId in state.oUserCollection)){
-                state.oUserCollection[action.payload.sCardId] = {
-                    [action.payload.sTypeName]: action.payload.nAmt
-                }
-            }
-            else{
-                state.oUserCollection[action.payload.sCardId][action.payload.sTypeName] = action.payload.nAmt
-            }
+
+            //Update the object with owned amounts
+            state.oUserCollection[action.payload.sCardId][action.payload.sTypeName] = action.payload.nAmt
+            state.oUserCollection[action.payload.sCardId]["sExpansionId"] = action.payload.sExpansionId
             return {...state}
+            
         default:
             return state
     }

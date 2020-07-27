@@ -1,11 +1,42 @@
-import { SET_DIRTY_FLAG } from '../actions/types'
+import { UPDATE_STAGING_AREA } from '../actions/types'
 
-const initialState = false
+/*Example state
+    {
+        isDirtyFlag: false,
+        oCardStaging: {
+            "cardId": {
+                "nRegularAmount": "integer",
+                "nFoilAmount": "integer",
+                "sExpansionId" "string"
+            },
+            "cardId": {
+                "nRegularAmount": "integer",
+                "nFoilAmount": "integer",
+                "sExpansionId" "string"
+            }
+        }
+    }
+*/
+
+const initialState = {
+    isDirtyFlag: false,
+    oCardStaging: {}
+}
 
 export default function dirtyFlag(state = initialState, action) {
+    // console.log(action)
     switch (action.type) {
-        case SET_DIRTY_FLAG:
-            return action.dirty_flag
+        case UPDATE_STAGING_AREA:
+            //If card is not in state, create the object
+            if(!state.oCardStaging[action.payload.sCardId]){
+                state.oCardStaging[action.payload.sCardId] = {}
+            }
+
+            //Update the object with owned amounts
+            state.oCardStaging[action.payload.sCardId][action.payload.sTypeName] = action.payload.nAmt
+            state.oCardStaging[action.payload.sCardId]["sExpansionId"] = action.payload.sExpansionId
+            state.isDirtyFlag = true
+            return {...state}
         default:
             return state
     }
