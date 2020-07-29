@@ -24,6 +24,7 @@ const initialState = {
 }
 
 export default function currentUserCollection(state = initialState, action) {
+    console.log("Payload", action.payload)
     switch (action.type) {
         case CREATE_USER_COLLECTION:
             return {
@@ -31,14 +32,27 @@ export default function currentUserCollection(state = initialState, action) {
                 oUserCollection: {}
             }
         case UPDATE_USER_COLLECTION:
-            //If card is not in state, create the object
-            if(!state.oUserCollection[action.payload.sCardId]){
-                state.oUserCollection[action.payload.sCardId] = {}
-            }
+            //Iterate through all cards in staging area
+            for(let sCardId in action.payload.oCardsToUpdate){
 
-            //Update the object with owned amounts
-            state.oUserCollection[action.payload.sCardId][action.payload.sTypeName] = action.payload.nAmt
-            state.oUserCollection[action.payload.sCardId]["sExpansionId"] = action.payload.sExpansionId
+                //If card is not in state, create the object
+                if(!state.oUserCollection[sCardId]){
+                    state.oUserCollection[sCardId] = {}
+                }
+
+                //Update the object with owned amounts
+                if(action.payload.oCardsToUpdate[sCardId]["nRegularAmount"] || action.payload.oCardsToUpdate[sCardId]["nRegularAmount"] === 0){
+                    state.oUserCollection[sCardId]["nRegularAmount"] = action.payload.oCardsToUpdate[sCardId].nRegularAmount
+                } 
+
+                if(action.payload.oCardsToUpdate[sCardId].nFoilAmount || action.payload.oCardsToUpdate[sCardId]["nFoilAmount"] === 0){
+                    state.oUserCollection[sCardId]["nFoilAmount"] = action.payload.oCardsToUpdate[sCardId].nFoilAmount
+                } 
+
+                state.oUserCollection[sCardId]["sExpansionId"] = action.payload.oCardsToUpdate[sCardId].sExpansionId
+            }
+            console.log("State", state)
+
             return {...state}
             
         default:

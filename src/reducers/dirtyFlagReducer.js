@@ -1,4 +1,4 @@
-import { UPDATE_STAGING_AREA } from '../actions/types'
+import { RESET_STAGING_AREA, UPDATE_STAGING_AREA } from '../actions/types'
 
 /*Example state
     {
@@ -37,6 +37,11 @@ export default function dirtyFlag(state = initialState, action) {
             state.oCardStaging[action.payload.sCardId]["sExpansionId"] = action.payload.sExpansionId
             state.isDirtyFlag = true
             return {...state}
+        case RESET_STAGING_AREA:
+            return {
+                isDirtyFlag: false,
+                oCardStaging: {}
+            }
         default:
             return state
     }

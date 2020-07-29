@@ -19,11 +19,13 @@ function CardComponent({ oCardInfo }){
 
     //Local States
     const [bFrontOfCard, fnSetFrontOfCard] = useState(true)
-    const [nRegAmt, fnSetnRegAmt] = useState(oStagedAmts !== undefined ? oStagedAmts.nRegularAmount : (oCurrentCardAmts !== undefined ? oCurrentCardAmts.nRegularAmount : 0))
-    const [nFoilAmt, fnSetnFoilAmt] = useState(oStagedAmts !== undefined ? oStagedAmts.nFoilAmount : (oCurrentCardAmts !== undefined ? oCurrentCardAmts.nFoilAmount : 0))
+    const [nRegAmt, fnSetnRegAmt] = useState(oStagedAmts !== undefined ? (oStagedAmts.nRegularAmount ? oStagedAmts.nRegularAmount : 0) : (oCurrentCardAmts !== undefined ? (oCurrentCardAmts.nRegularAmount ? oCurrentCardAmts.nRegularAmount : 0) : 0))
+    const [nFoilAmt, fnSetnFoilAmt] = useState(oStagedAmts !== undefined ? (oStagedAmts.nFoilAmount ? oStagedAmts.nFoilAmount : 0) : (oCurrentCardAmts !== undefined ? (oCurrentCardAmts.nFoilAmount ? oCurrentCardAmts.nFoilAmount : 0) : 0))
 
     const handleIncrement = (event) => {
         event.target.name === 'nRegularAmount' ? fnSetnRegAmt(nRegAmt + 1) : fnSetnFoilAmt(nFoilAmt + 1)
+
+        console.log(event.target.name)
 
         fnDispatch({
             type: 'UPDATE_STAGING_AREA',
@@ -87,7 +89,7 @@ function CardComponent({ oCardInfo }){
     return ( 
         <div className="card m-2 p-1 border border-success bg-dark rounded d-inline-flex col-md-2" style={{width: "15rem"}}>
             {aCardImage}
-            <div className="card-body pb-0">
+            <div className="card-body">
                 <div className="row d-flex justify-content-center">
                     {
                         oHeaderValues.bIsFromSet ?
@@ -108,7 +110,7 @@ function CardComponent({ oCardInfo }){
 
                                                 <div className="row d-flex justify-content-center mb-3">
                                                     <button className="btn text-danger border border-primary input-group-prepend" name="nRegularAmount" onClick={handleDecrement} style={{backgroundColor: "black"}}>-</button>
-                                                    <input className="text-white bg-secondary border-primary w-25 p-0 m-0" defaultValue={nRegAmt} style={{textAlign: "center"}} disabled readOnly/>
+                                                    <input className="text-white bg-secondary border-primary w-25 p-0 m-0" value={parseInt(nRegAmt)} style={{textAlign: "center"}}/>
                                                     <button className="btn text-success border border-primary input-group-append" name="nRegularAmount" onClick={handleIncrement} style={{backgroundColor: "black"}}>+</button>
                                                 </div>
                                                 
@@ -122,7 +124,7 @@ function CardComponent({ oCardInfo }){
                                             {bIsUserLoggedIn && oCardInfo.foil ? 
                                                 <div className="row d-flex justify-content-center mb-3">
                                                     <button className="btn text-danger border border-primary input-group-prepend" name="nFoilAmount" onClick={handleDecrement} style={{backgroundColor: "black"}}>-</button>
-                                                    <input className="text-white bg-secondary border-primary w-25 p-0 m-0" defaultValue={nFoilAmt} style={{textAlign: "center"}} disabled readOnly/>
+                                                    <input className="text-white bg-secondary border-primary w-25 p-0 m-0" value={parseInt(nFoilAmt)} style={{textAlign: "center"}}/>
                                                     <button className="btn text-success border border-primary input-group-append" name="nFoilAmount" onClick={handleIncrement} style={{backgroundColor: "black"}}>+</button>
                                                 </div>
                                             : null}
