@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 //Components
@@ -6,6 +6,7 @@ import ExpansionComponent from '../components/ExpansionComponent'
 
 function ExpansionListContainer(){
     const aExpansionsList = useSelector(state => state.oExpansionsListReducer.aExpansions)
+    const [bIsDirtyFlag] = useState(useSelector(state => state.oDirtyFlagReducer.bIsDirtyFlag))
     const fDispatch = useDispatch()
 
     useEffect(() => {
@@ -20,19 +21,28 @@ function ExpansionListContainer(){
                 })
             });
         }
+        //Scroll to top when navigating to this page
+        window.scrollTo(0, 0)
     })
 
     //Only show expansions if they exist
     if(aExpansionsList !== undefined && aExpansionsList.length){
         return ( 
-            <div align="center" className="justify-content-center mt-3 mb-5" style={{backgroundColor: "black", display: "flex", flexWrap: "wrap"}}>
-                {
-                    aExpansionsList.map(
-                        function(oExpansionInfo){
-                            return !oExpansionInfo.digital ? <ExpansionComponent key={oExpansionInfo.name} oExpansionInfo={oExpansionInfo} />  : null
-                        }
-                    ) 
+            <div>
+                {bIsDirtyFlag ? 
+                    <h2 align="center" className="m-1 text-danger">You have unsaved data</h2>
+                    : 
+                    null
                 }
+                <div align="center" className="justify-content-center mt-3 mb-5" style={{backgroundColor: "black", display: "flex", flexWrap: "wrap"}}>
+                    {
+                        aExpansionsList.map(
+                            function(oExpansionInfo){
+                                return !oExpansionInfo.digital ? <ExpansionComponent key={oExpansionInfo.name} oExpansionInfo={oExpansionInfo} />  : null
+                            }
+                        ) 
+                    }
+                </div>
             </div>
         )
     }
@@ -40,7 +50,15 @@ function ExpansionListContainer(){
     //If no expansion list, show loading 
     return(
         <div align="center" className="justify-content-center mt-3">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
             <h2 className="text-primary">Loading. . .</h2>
+            {bIsDirtyFlag ? 
+                <h2 align="center" className="m-1 text-danger">You have unsaved data</h2>
+                : 
+                null
+            }
         </div>
     )
 }

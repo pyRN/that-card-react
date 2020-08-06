@@ -7,7 +7,6 @@ function CardNavBarComponent({fSetViewSelected, fSetCardFilter}){
 
     const handleOnSave = (event) =>{
         event.preventDefault()
-        console.log(oStagedAmts)
 
         //Update currentUserCollection State
         fnDispatch({

@@ -2,7 +2,7 @@ import { RESET_STAGING_AREA, UPDATE_STAGING_AREA } from '../actions/types'
 
 /*Example state
     {
-        isDirtyFlag: false,
+        bIsDirtyFlag: false,
         oCardStaging: {
             "cardId": {
                 "nRegularAmount": "integer",
@@ -19,7 +19,7 @@ import { RESET_STAGING_AREA, UPDATE_STAGING_AREA } from '../actions/types'
 */
 
 const initialState = {
-    isDirtyFlag: false,
+    bIsDirtyFlag: false,
     oCardStaging: {}
 }
 
@@ -35,11 +35,11 @@ export default function dirtyFlag(state = initialState, action) {
             //Update the object with owned amounts
             state.oCardStaging[action.payload.sCardId][action.payload.sTypeName] = action.payload.nAmt
             state.oCardStaging[action.payload.sCardId]["sExpansionId"] = action.payload.sExpansionId
-            state.isDirtyFlag = true
+            state.bIsDirtyFlag = true
             return {...state}
         case RESET_STAGING_AREA:
             return {
-                isDirtyFlag: false,
+                bIsDirtyFlag: false,
                 oCardStaging: {}
             }
         default:

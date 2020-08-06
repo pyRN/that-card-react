@@ -3,20 +3,20 @@ import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 
 function NavBarComponent(){
-    const fDispatch = useDispatch()
-    const fHistory = useHistory()
+    const fnDispatch = useDispatch()
+    const fnHistory = useHistory()
 
     //Global State
     const oHeaderInfo = useSelector(state => state.oDisplayedCardsReducer.oHeaderValues)
     const oUserInfo = useSelector(state => state.oCurrentUserReducer)
 
-    console.log("TESTING: NavBarComponent Render")
+    const fDispatch = useDispatch()
 
     function handleOnSubmit(event){
-        event.preventDefault();
+        event.preventDefault();        
         let sSearchInput = document.getElementById("searchInput").value
 
-        fDispatch({ 
+        fnDispatch({ 
             type: 'SET_LOADING',
             payload: {
                 bIsDataLoading: true
@@ -36,7 +36,7 @@ function NavBarComponent(){
                             getCardsFromExpansion(cards, data.next_page)
                         }
                         else{
-                            fDispatch({ 
+                            fnDispatch({ 
                                 type: 'SET_SEARCH_RESULTS',
                                 payload: {
                                     sTitle: `Do I Have: ${sSearchInput.trim().toUpperCase()}`,
@@ -50,7 +50,7 @@ function NavBarComponent(){
                     }
                     //If search is invalid (error 404), return undefined card list
                     else{
-                        fDispatch({ 
+                        fnDispatch({ 
                             type: 'SET_SEARCH_RESULTS',
                             payload: {
                                 sTitle: `Do I Have: ${sSearchInput.trim().toUpperCase()}`,
@@ -65,7 +65,7 @@ function NavBarComponent(){
 
         getCardsFromExpansion([], `https://api.scryfall.com/cards/search?unique=prints&q=%22${sSearchInput}%22`)
         document.getElementById("searchInput").value = ''
-        fHistory.push('/cards')
+        fnHistory.push('/cards')
     }
 
     return ( 

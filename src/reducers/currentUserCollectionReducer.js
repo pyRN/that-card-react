@@ -24,7 +24,6 @@ const initialState = {
 }
 
 export default function currentUserCollection(state = initialState, action) {
-    console.log("Payload", action.payload)
     switch (action.type) {
         case CREATE_USER_COLLECTION:
             return {
@@ -51,7 +50,6 @@ export default function currentUserCollection(state = initialState, action) {
 
                 state.oUserCollection[sCardId]["sExpansionId"] = action.payload.oCardsToUpdate[sCardId].sExpansionId
             }
-            console.log("State", state)
 
             return {...state}
             
