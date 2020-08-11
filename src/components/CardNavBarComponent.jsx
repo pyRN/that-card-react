@@ -1,10 +1,24 @@
 import  React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 function CardNavBarComponent({fSetViewSelected, fSetCardFilter}){
-    
-    const handleOnSubmit = (event) =>{
+    const fnDispatch = useDispatch()
+    const oStagedAmts = useSelector(state => state.oDirtyFlagReducer.oCardStaging)
+
+    const handleOnSave = (event) =>{
         event.preventDefault()
-        console.log("save btn clicked")
+
+        if(event.target.name === "Save"){
+            //Update currentUserCollection State
+            fnDispatch({
+                type: 'UPDATE_USER_COLLECTION',
+                payload: {
+                    oCardsToUpdate: oStagedAmts
+                }
+            }) 
+        }
+        
+        fnDispatch({type: 'RESET_STAGING_AREA'}) 
     }
 
     const handleOnChange = (event) =>{
@@ -51,7 +65,8 @@ function CardNavBarComponent({fSetViewSelected, fSetCardFilter}){
 
             {/* Save Button */}
             <div className="btn-group">
-                <button className="btn btn-sm btn-success btn-outline-success" type="submit" onClick={handleOnSubmit} style={{color: "black"}}>SAVE</button>
+                <button className="btn btn-sm btn-success btn-outline-success m-1 rounded" type="submit" name="Save" onClick={handleOnSave} style={{color: "black"}}>SAVE</button>
+                <button className="btn btn-sm btn-danger btn-outline-danger m-1 rounded" type="submit" name="Cancel" onClick={handleOnSave} style={{color: "black"}}>CANCEL</button>
             </div>
             
         </nav>

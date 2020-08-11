@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 //Components
@@ -23,14 +23,28 @@ function DisplayedCardsContainer(){
     //Local States
     const [sCardFilter, fSetCardFilter] = useState(null)
     const [sViewSelected, fSetViewSelected] = useState('cardView')
+    const bIsDirtyFlag = useSelector(state => state.oDirtyFlagReducer.bIsDirtyFlag)
 
     console.log("TESTING: CardsComponent Render")
+
+    //Scroll to top when navigating to this page
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [sCardFilter])
 
     //Render "Loading..." while loading data
     if(bIsDataLoading){
         return(
             <div align="center" className="justify-content-center mt-3">
-                <h2 className="text-primary">Loading. . .</h2>
+                <h2 className="text-primary d-inline-flex">Loading</h2>
+                <div className="spinner-border text-primary d-inline-flex" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                {bIsDirtyFlag ? 
+                    <h2 align="center" className="m-1 text-danger">You have unsaved data</h2>
+                    : 
+                    null
+                }
             </div>
         )
     }
@@ -38,6 +52,11 @@ function DisplayedCardsContainer(){
     else if(!sSearchInput){
         return(
             <div align="center" className="justify-content-center mt-3" style={{backgroundColor: "black"}}>
+                {bIsDirtyFlag ? 
+                    <h2 align="center" className="m-1 text-danger">You have unsaved data</h2>
+                    : 
+                    null
+                }
                 <h3 className="text-primary">Search for a card</h3>
                 <img className="w-25" src={VampiricTutor} alt="Vampiric Tutor"/>
             </div>
@@ -47,6 +66,11 @@ function DisplayedCardsContainer(){
     else if(!aDisplayedCardList){
         return(
             <div align="center" className="justify-content-center mt-3" style={{backgroundColor: "black"}}>
+                {bIsDirtyFlag ? 
+                    <h2 align="center" className="m-1 text-danger">You have unsaved data</h2>
+                    : 
+                    null
+                }
                 <h3 className="text-primary">Not a valid search</h3>
                 <img className="w-25" src={LastChance} alt="Last Chance"/>
             </div>
@@ -100,9 +124,16 @@ function DisplayedCardsContainer(){
 
         if(sViewSelected === 'cardView'){
             return(
-                <div align="center" className="justify-content-center mt-3 mb-5" style={{backgroundColor: "black", display: "flex", flexWrap: "wrap"}}>
-                    {aDisplayCards}
-                    <CardNavBarComponent fSetCardFilter={fSetCardFilter} fSetViewSelected={fSetViewSelected}/> 
+                <div>
+                    {bIsDirtyFlag ? 
+                        <h2 align="center" className="m-1 text-danger">You have unsaved data</h2>
+                        : 
+                        null
+                    }
+                    <div align="center" className="justify-content-center mt-3 mb-5" style={{backgroundColor: "black", display: "flex", flexWrap: "wrap"}}>
+                        {aDisplayCards}
+                        <CardNavBarComponent fSetCardFilter={fSetCardFilter} fSetViewSelected={fSetViewSelected}/> 
+                    </div>
                 </div>) 
         }
         

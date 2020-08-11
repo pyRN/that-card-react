@@ -6,11 +6,13 @@ import { CREATE_USER_COLLECTION, UPDATE_USER_COLLECTION } from '../actions/types
         oUserCollection: {
             "cardId": {
                 "nRegularAmount": "integer",
-                "nFoilAmount": "integer"
+                "nFoilAmount": "integer",
+                "sExpansionId" "string"
             },
             "cardId": {
                 "nRegularAmount": "integer",
-                "nFoilAmount": "integer"
+                "nFoilAmount": "integer",
+                "sExpansionId" "string"
             }
         }
     }
@@ -29,24 +31,28 @@ export default function currentUserCollection(state = initialState, action) {
                 oUserCollection: {}
             }
         case UPDATE_USER_COLLECTION:
-            //If first entry in state
-            if(Object.keys(state.oUserCollection).length === 0){
-                state.oUserCollection = {
-                    [action.payload.sCardId]: {
-                        [action.payload.sTypeName]: action.payload.nAmt
-                    }
+            //Iterate through all cards in staging area
+            for(let sCardId in action.payload.oCardsToUpdate){
+
+                //If card is not in state, create the object
+                if(!state.oUserCollection[sCardId]){
+                    state.oUserCollection[sCardId] = {}
                 }
+
+                //Update the object with owned amounts
+                if(action.payload.oCardsToUpdate[sCardId]["nRegularAmount"] || action.payload.oCardsToUpdate[sCardId]["nRegularAmount"] === 0){
+                    state.oUserCollection[sCardId]["nRegularAmount"] = action.payload.oCardsToUpdate[sCardId].nRegularAmount
+                } 
+
+                if(action.payload.oCardsToUpdate[sCardId].nFoilAmount || action.payload.oCardsToUpdate[sCardId]["nFoilAmount"] === 0){
+                    state.oUserCollection[sCardId]["nFoilAmount"] = action.payload.oCardsToUpdate[sCardId].nFoilAmount
+                } 
+
+                state.oUserCollection[sCardId]["sExpansionId"] = action.payload.oCardsToUpdate[sCardId].sExpansionId
             }
-            //If Card not in state
-            else if(!(action.payload.sCardId in state.oUserCollection)){
-                state.oUserCollection[action.payload.sCardId] = {
-                    [action.payload.sTypeName]: action.payload.nAmt
-                }
-            }
-            else{
-                state.oUserCollection[action.payload.sCardId][action.payload.sTypeName] = action.payload.nAmt
-            }
+
             return {...state}
+            
         default:
             return state
     }
