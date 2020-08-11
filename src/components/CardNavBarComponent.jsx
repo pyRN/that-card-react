@@ -8,15 +8,16 @@ function CardNavBarComponent({fSetViewSelected, fSetCardFilter}){
     const handleOnSave = (event) =>{
         event.preventDefault()
 
-        //Update currentUserCollection State
-        fnDispatch({
-            type: 'UPDATE_USER_COLLECTION',
-            payload: {
-                oCardsToUpdate: oStagedAmts
-            }
-        }) 
-
-        //Reset staging area
+        if(event.target.name === "Save"){
+            //Update currentUserCollection State
+            fnDispatch({
+                type: 'UPDATE_USER_COLLECTION',
+                payload: {
+                    oCardsToUpdate: oStagedAmts
+                }
+            }) 
+        }
+        
         fnDispatch({type: 'RESET_STAGING_AREA'}) 
     }
 
@@ -64,7 +65,8 @@ function CardNavBarComponent({fSetViewSelected, fSetCardFilter}){
 
             {/* Save Button */}
             <div className="btn-group">
-                <button className="btn btn-sm btn-success btn-outline-success" type="submit" onClick={handleOnSave} style={{color: "black"}}>SAVE</button>
+                <button className="btn btn-sm btn-success btn-outline-success m-1 rounded" type="submit" name="Save" onClick={handleOnSave} style={{color: "black"}}>SAVE</button>
+                <button className="btn btn-sm btn-danger btn-outline-danger m-1 rounded" type="submit" name="Cancel" onClick={handleOnSave} style={{color: "black"}}>CANCEL</button>
             </div>
             
         </nav>

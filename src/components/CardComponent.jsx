@@ -19,14 +19,11 @@ function CardComponent({ oCardInfo }){
 
     //Local States
     const [bFrontOfCard, fnSetFrontOfCard] = useState(true)
-    const [nRegAmt, fnSetnRegAmt] = useState(oStagedAmts !== undefined ? (oStagedAmts.nRegularAmount ? oStagedAmts.nRegularAmount : 0) : (oCurrentCardAmts !== undefined ? (oCurrentCardAmts.nRegularAmount ? oCurrentCardAmts.nRegularAmount : 0) : 0))
-    const [nFoilAmt, fnSetnFoilAmt] = useState(oStagedAmts !== undefined ? (oStagedAmts.nFoilAmount ? oStagedAmts.nFoilAmount : 0) : (oCurrentCardAmts !== undefined ? (oCurrentCardAmts.nFoilAmount ? oCurrentCardAmts.nFoilAmount : 0) : 0))
+    const nRegAmt = oStagedAmts !== undefined ? (oStagedAmts.nRegularAmount ? oStagedAmts.nRegularAmount : 0) : (oCurrentCardAmts !== undefined ? (oCurrentCardAmts.nRegularAmount ? oCurrentCardAmts.nRegularAmount : 0) : 0)
+    const nFoilAmt = oStagedAmts !== undefined ? (oStagedAmts.nFoilAmount ? oStagedAmts.nFoilAmount : 0) : (oCurrentCardAmts !== undefined ? (oCurrentCardAmts.nFoilAmount ? oCurrentCardAmts.nFoilAmount : 0) : 0)
+
 
     const handleIncrement = (event) => {
-        event.target.name === 'nRegularAmount' ? fnSetnRegAmt(nRegAmt + 1) : fnSetnFoilAmt(nFoilAmt + 1)
-
-        console.log(event.target.name)
-
         fnDispatch({
             type: 'UPDATE_STAGING_AREA',
             payload: {
@@ -40,8 +37,6 @@ function CardComponent({ oCardInfo }){
     }
 
     const handleDecrement = (event) => {
-        event.target.name === 'nRegularAmount' ? (nRegAmt !== 0 ? fnSetnRegAmt(nRegAmt - 1) : fnSetnRegAmt(0)) : (nFoilAmt !== 0 ? fnSetnFoilAmt(nFoilAmt - 1) : fnSetnFoilAmt(0))
-
         fnDispatch({
             type: 'UPDATE_STAGING_AREA',
             payload: {

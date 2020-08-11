@@ -50,10 +50,10 @@ function ExpansionListContainer(){
     //If no expansion list, show loading 
     return(
         <div align="center" className="justify-content-center mt-3">
-            <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
+            <h2 className="text-primary d-inline-flex">Loading</h2>
+            <div className="spinner-border text-primary d-inline-flex" role="status">
+                <span className="sr-only">Loading...</span>
             </div>
-            <h2 className="text-primary">Loading. . .</h2>
             {bIsDirtyFlag ? 
                 <h2 align="center" className="m-1 text-danger">You have unsaved data</h2>
                 : 
