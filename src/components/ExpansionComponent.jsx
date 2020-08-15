@@ -5,7 +5,13 @@ import { useSelector, useDispatch } from 'react-redux'
 function ExpansionComponent({ oExpansionInfo }){
     const fDispatch = useDispatch()
     const fHistory = useHistory()
-    const oUserInfo = useSelector(state => state.oCurrentUserReducer)
+    // const oUserInfo = useSelector(state => state.oCurrentUserReducer)
+    const bIsUserLoggedIn = true //TESTING ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //const bIsUserLoggedIn = useSelector(state => state.oCurrentUserReducer.userEmail) ? true : false
+
+    const oUserCollectionExpansion = useSelector(state => state.oCurrentUserCollectionReducer.oUserCollection[oExpansionInfo.code])
+    const nOwnedCards = oUserCollectionExpansion !== undefined ? Object.keys(oUserCollectionExpansion).length : 0
+    const nPercentageOwned = isNaN(nOwnedCards / parseInt(oExpansionInfo.card_count) * 100) ? 0 : nOwnedCards / parseInt(oExpansionInfo.card_count) * 100
     
     const handleOnClick = (event) => {
         event.preventDefault()
@@ -52,14 +58,14 @@ function ExpansionComponent({ oExpansionInfo }){
             <div className="card-body justify-content-center">
                 <h5 className="text-primary text-center">{oExpansionInfo.name}</h5>
             </div>
-                {oUserInfo.userEmail ? 
+                {bIsUserLoggedIn ? 
                         <div>
                             <div className="d-flex justify-content-around">
-                                <p className="text-success">Owned: </p>
+                                <p className="text-success">Owned: {nOwnedCards}</p>
                                 <p className="text-success">Total: {oExpansionInfo.card_count}</p>
                             </div>  
                             <div className="progress" style={{height: 20}}>
-                                <div className="progress-bar bg-primary" role="progressbar" style={{width: "50%"}} aria-valuemin="0" aria-valuemax="100">50%</div>
+                                <div className="progress-bar progress-bar-striped bg-primary" role="progressbar" style={{width: nPercentageOwned.toString() + "%"}} aria-valuemin="0" aria-valuemax="100">{nPercentageOwned.toString() + "%"}</div>
                             </div>
                         </div> 
                     : 
