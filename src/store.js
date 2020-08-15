@@ -5,11 +5,17 @@ import rootReducer from './reducers'
 const initialState = {}
 const middleware = [thunk]
 
-//For Dev Use Only
-const store = createStore(rootReducer, initialState, compose(applyMiddleware(...middleware), window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : f => f) )
-
-//For Prod Use
-// const store = createStore(rootReducer, initialState, compose(applyMiddleware(...middleware)) )
+const store = createStore(
+  rootReducer,
+  initialState,
+  compose(
+    applyMiddleware(...middleware),
+    require("redux-devtools").devTools(),
+    require("redux-devtools").persistState(
+      window.location.href.match(/[?&]debug_session=([^&]+)\b/)
+    )
+  )
+);
 
 
 export default store
