@@ -14,8 +14,10 @@ function CardComponent({ oCardInfo }){
     //const bIsUserLoggedIn = useSelector(state => state.oCurrentUserReducer.userEmail) ? true : false
 
     const oHeaderValues = useSelector(state => state.oDisplayedCardsReducer.oHeaderValues)
-    const oCurrentCardAmts = useSelector(state => state.oCurrentUserCollectionReducer.oUserCollection[oCardInfo.id])
+    const oCurrentCardSet = useSelector(state => state.oCurrentUserCollectionReducer.oUserCollection[oCardInfo.set])
+    const oCurrentCardAmts = oCurrentCardSet !== undefined ? oCurrentCardSet[oCardInfo.id] : undefined
     const oStagedAmts = useSelector(state => state.oDirtyFlagReducer.oCardStaging[oCardInfo.id])
+    // console.log("rerender - same component not changing spinner")
 
     //Local States
     const [bFrontOfCard, fnSetFrontOfCard] = useState(true)
