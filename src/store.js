@@ -5,17 +5,12 @@ import rootReducer from './reducers'
 const initialState = {}
 const middleware = [thunk]
 
+//For Dev Use Only
 const store = createStore(
-  rootReducer,
-  initialState,
-  compose(
-    applyMiddleware(...middleware),
-    require("redux-devtools").devTools(),
-    require("redux-devtools").persistState(
-      window.location.href.match(/[?&]debug_session=([^&]+)\b/)
-    )
-  )
-);
+                rootReducer, 
+                initialState, 
+                compose(
+                    applyMiddleware(...middleware)) )
 
 
 export default store
