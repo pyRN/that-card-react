@@ -7,6 +7,8 @@ export const CREATE_USER_COLLECTION = "CREATE_USER_COLLECTION"
 export const UPDATE_USER_COLLECTION = "UPDATE_USER_COLLECTION"
 export const SET_DIRTY_FLAG = 'SET_DIRTY_FLAG'
 export const SET_SEARCH_RESULTS = 'SET_SEARCH_RESULTS'
+export const SET_COLLECTION_ID = 'SET_COLLECTION_ID'
+export const LOGOUT = 'LOGOUT'
 
 /*@description Types for dirtyFlagReducer*/
 //Type is used to reset staging area once user presses save or cancel

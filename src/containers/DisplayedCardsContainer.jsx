@@ -1,3 +1,10 @@
+/**
+ * Bugs to fix:  
+ * 1)Line 121 give error if you select a set and there are no cards in that set.  
+ * 2)If in 'Table View' - 'Card View' button stays activated (still able to toggle betweet them)
+ * 3)In 'Table View', there is no way to flip double sided cards
+ */
+
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 

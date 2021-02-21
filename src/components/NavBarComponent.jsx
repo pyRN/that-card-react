@@ -9,8 +9,7 @@ function NavBarComponent(){
     //Global State
     const oHeaderInfo = useSelector(state => state.oDisplayedCardsReducer.oHeaderValues)
     const oUserInfo = useSelector(state => state.oCurrentUserReducer)
-
-    const fDispatch = useDispatch()
+    const bIsLoggedIn = useSelector(state => state.oCurrentUserReducer.bIsLoggedIn)
 
     function handleOnSubmit(event){
         event.preventDefault();        
@@ -99,7 +98,7 @@ function NavBarComponent(){
                             </div>
                     </li>
                     <li className="nav-item mr-4">
-                        <Link className="nav-link text-primary" to="/login">Login</Link>
+                        <Link className="nav-link text-primary" to="/login">{bIsLoggedIn ? "Logout" : "Login"}</Link>
                     </li>
                     <li>
                         <form className="form-inline" onSubmit={handleOnSubmit}>

@@ -1,9 +1,11 @@
 import  React from 'react'
+// import { updateUserCollection } from '../actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 function CardNavBarComponent({fSetViewSelected, fSetCardFilter}){
     const fnDispatch = useDispatch()
     const oStagedAmts = useSelector(state => state.oDirtyFlagReducer.oCardStaging)
+    // const oCardCollection = useSelector(state => state.oCurrentUserCollectionReducer)
 
     const handleOnSave = (event) =>{
         event.preventDefault()
@@ -16,6 +18,9 @@ function CardNavBarComponent({fSetViewSelected, fSetCardFilter}){
                     oCardsToUpdate: oStagedAmts
                 }
             }) 
+            
+            // fnDispatch(updateUserCollection(oCardCollection.sUserCollectionId, oCardCollection.oUserCollection))
+            // fnDispatch(updateUserCollection("5f579dea83374115e407f97e", oCardCollection.oUserCollection))
         }
         
         fnDispatch({type: 'RESET_STAGING_AREA'}) 
