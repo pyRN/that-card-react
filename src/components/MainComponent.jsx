@@ -1,23 +1,8 @@
-import React, { useState } from "react";
-import { useSelector} from "react-redux";
+import React from "react";
 
-//Multimedia
-// import CarouselImg1 from '../multimedia/Carousel_Img_1.jpg'
-// import CarouselImg2 from '../multimedia/Carousel_Img_2.jpg'
-
-function MainComponent() {
-  //State
-  const [bIsDirtyFlag] = useState(
-    useSelector((state) => state.oDirtyFlagReducer.bIsDirtyFlag)
-  );
-
+export default function MainComponent() {
   return (
     <div>
-      {bIsDirtyFlag ? (
-        <h2 align="center" className="m-1 text-danger">
-          You have unsaved data
-        </h2>
-      ) : null}
       <div
         className="jumbotron jumbotron-fluid mt-3"
         style={{ backgroundColor: "#111" }}
@@ -27,11 +12,8 @@ function MainComponent() {
           <p className="lead text-success ml-3">
             A database for logging Magic: The Gathering&#169; cards
           </p>
-          
         </div>
       </div>
     </div>
   );
 }
-
-export default MainComponent;
