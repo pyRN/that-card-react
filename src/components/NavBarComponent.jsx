@@ -107,7 +107,6 @@ export default function NavBarComponent() {
       className="navbar navbar-expand-lg  navbar-dark border border-primary"
       style={{ backgroundColor: "black" }}
     >
-      {/* className="btn btn-outline-success my-2 my-sm-0" */}
       {bIsDirtyFlag ? (
         <form className="form-inline">
           <h3 className="btn-sm btn-danger btn-outline-danger m-1 rounded text-white bg-danger">
