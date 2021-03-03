@@ -68,7 +68,11 @@ export default function DisplayedCardsContainer() {
         style={{ backgroundColor: "black" }}
       >
         <h3 className="text-primary">Search for a card</h3>
-        <img className="w-25" src={VampiricTutor} alt="Vampiric Tutor" />
+        <img
+          src={VampiricTutor}
+          alt="Vampiric Tutor"
+          style={{ width: "250px" }}
+        />
       </div>
     );
   }
@@ -80,8 +84,8 @@ export default function DisplayedCardsContainer() {
         className="justify-content-center mt-3"
         style={{ backgroundColor: "black" }}
       >
-        <h3 className="text-primary">Not a valid search</h3>
-        <img className="w-25" src={LastChance} alt="Last Chance" />
+        <h2 className="text-danger">{`"${sSearchInput}" is not a valid card name`}</h2>
+        <img src={LastChance} alt="Last Chance" style={{ width: "250px" }} />
       </div>
     );
   }
