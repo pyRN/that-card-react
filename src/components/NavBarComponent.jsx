@@ -206,20 +206,25 @@ export default function NavBarComponent() {
           </li>
           <li>
             <form className="form-inline" onSubmit={handleOnSubmit}>
-              <input
-                className="form-control mr-sm-2"
-                type="search"
-                id="searchInput"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button
-                className="btn btn-outline-success my-2 my-sm-0"
-                type="submit"
-                onClick={handleOnSubmit}
-              >
-                Search
-              </button>
+              <div className="input-group">
+                <input
+                  className="form-control border border-success"
+                  type="search"
+                  id="searchInput"
+                  placeholder="Search"
+                  aria-label="Search"
+                  style={{ backgroundColor: "#222", color: "green" }}
+                />
+                <div className="input-group-append">
+                  <button
+                    className="btn btn-outline-success "
+                    type="submit"
+                    onClick={handleOnSubmit}
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
             </form>
           </li>
         </ul>
