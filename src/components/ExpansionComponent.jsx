@@ -3,11 +3,14 @@ import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 function ExpansionComponent({ oExpansionInfo }) {
-  const fDispatch = useDispatch();
-  const fHistory = useHistory();
-  // const oUserInfo = useSelector(state => state.oCurrentUserReducer)
-  const bIsUserLoggedIn = true; //TESTING ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //const bIsUserLoggedIn = useSelector(state => state.oCurrentUserReducer.userEmail) ? true : false
+  const fnDispatch = useDispatch();
+  const fnHistory = useHistory();
+  // const bIsUserLoggedIn = true; //TESTING ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  const bIsUserLoggedIn = useSelector(
+    (state) => state.oCurrentUserReducer.sEmailAddress
+  )
+    ? true
+    : false;
 
   const oUserCollectionExpansion = useSelector(
     (state) =>
@@ -27,7 +30,7 @@ function ExpansionComponent({ oExpansionInfo }) {
     event.preventDefault();
 
     function getCardsFromExpansion(cards, currentURL) {
-      fDispatch({
+      fnDispatch({
         type: "SET_LOADING",
         payload: {
           bIsDataLoading: true,
@@ -41,7 +44,7 @@ function ExpansionComponent({ oExpansionInfo }) {
           if (data.has_more) {
             getCardsFromExpansion(cards, data.next_page);
           } else {
-            fDispatch({
+            fnDispatch({
               type: "SET_SEARCH_RESULTS",
               payload: {
                 sTitle: `Do I Have Cards From: ${oExpansionInfo.name}`,
@@ -59,7 +62,7 @@ function ExpansionComponent({ oExpansionInfo }) {
       [],
       `https://api.scryfall.com/cards/search?order=set&q=e%3A${oExpansionInfo.code}&unique=prints`
     );
-    fHistory.push("/cards");
+    fnHistory.push("/cards");
   };
 
   return (
