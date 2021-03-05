@@ -111,7 +111,7 @@ function CardComponent({ oCardInfo }) {
       style={{ width: "18rem" }}
     >
       <p
-        className="mt-1 mb-1 text-primary text-center text-wrap linkTextHover border border-primary "
+        className="mt-1 mb-1 text-success text-center text-wrap linkTextHover border border-success"
         style={{ backgroundColor: "#222" }}
       >
         {oCardInfo.name}
