@@ -62,30 +62,48 @@ export default function DisplayedCardsContainer() {
   //Render if on card page without search
   else if (!sSearchInput) {
     return (
-      <div
-        align="center"
-        className="justify-content-center mt-3"
-        style={{ backgroundColor: "black" }}
-      >
-        <h3 className="text-primary">Search for a card</h3>
-        <img
-          src={VampiricTutor}
-          alt="Vampiric Tutor"
-          style={{ width: "250px" }}
-        />
+      <div>
+        <div
+          className="jumbotron jumbotron-fluid m-3"
+          style={{
+            backgroundColor: "#222",
+          }}
+        >
+          <div align="center" className="container">
+            <h3 className="text-success">Search for a card</h3>
+          </div>
+          <div align="center" className="container">
+            <img
+              src={VampiricTutor}
+              alt="Vampiric Tutor"
+              style={{ width: "250px" }}
+            />
+          </div>
+        </div>
       </div>
     );
   }
   //Render if search is invalid
   else if (!aDisplayedCardList) {
     return (
-      <div
-        align="center"
-        className="justify-content-center mt-3"
-        style={{ backgroundColor: "black" }}
-      >
-        <h2 className="text-danger">{`"${sSearchInput}" is not a valid card name`}</h2>
-        <img src={LastChance} alt="Last Chance" style={{ width: "250px" }} />
+      <div>
+        <div
+          className="jumbotron jumbotron-fluid m-3"
+          style={{
+            backgroundColor: "#222",
+          }}
+        >
+          <div align="center" className="container">
+            <h3 className="text-danger">{`"${sSearchInput}" is not a valid card name`}</h3>
+          </div>
+          <div align="center" className="container">
+            <img
+              src={LastChance}
+              alt="Last Chance"
+              style={{ width: "250px" }}
+            />
+          </div>
+        </div>
       </div>
     );
   }

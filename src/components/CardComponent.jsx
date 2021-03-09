@@ -84,7 +84,7 @@ function CardComponent({ oCardInfo }) {
           data-target={"#" + sImageId.replace(/-/g, "")}
         />
         <input
-          className="btn btn-primary btn-block mt-1"
+          className="btn btn-primary btn-block mt-1 mb-1"
           type="submit"
           value="Flip"
         />
@@ -111,11 +111,10 @@ function CardComponent({ oCardInfo }) {
       style={{ width: "18rem" }}
     >
       <p
-        className="mt-1 mb-1 text-success text-center text-wrap linkTextHover border border-success"
+        className="mt-1 mb-1 text-success text-center text-wrap linkTextHover border border-success rounded"
         style={{ backgroundColor: "#222" }}
       >
-        {oCardInfo.name}
-        {/* {oCardInfo.name} ({oCardInfo.rarity.slice(0, 1).toUpperCase()}) */}
+        {oCardInfo.name} ({oCardInfo.rarity.slice(0, 1).toUpperCase()})
       </p>
       <div className="mt-0 mb-0 card-body p-0">
         {aCardImage}

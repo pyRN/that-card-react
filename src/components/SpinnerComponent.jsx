@@ -47,12 +47,14 @@ export default function SpinnerComponent({
           </p>
           <input
             type="number"
-            className="form-control justify-content-center border border-primary rounded"
+            className="form-control justify-content-center border border-primary"
             min="0"
             name={sCardAmountType}
             step="1"
             style={{
               textAlign: "center",
+              backgroundColor: "#333",
+              color: "green",
             }}
             onChange={fnHandleOnChange}
             value={nAmount}
