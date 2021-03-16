@@ -19,6 +19,7 @@ export default function SpinnerComponent({
       payload: {
         nAmt: parseInt(event.target.value), //Removes leading zeros
         sCardId: oCardInfo.id,
+        sCardName: oCardInfo.name,
         sTypeName: event.target.name,
         sExpansionId: oCardInfo.set,
         bIsDirtyFlag: true,
@@ -37,11 +38,11 @@ export default function SpinnerComponent({
           <p className="text-primary mb-1">
             {sCardAmountType === "nRegularAmount"
               ? `Reg: ${
-                  !oCardInfo.prices.usd ? null : "$" + oCardInfo.prices.usd
+                  !oCardInfo.prices.usd ? "$0.00" : "$" + oCardInfo.prices.usd
                 }`
               : `Foil: ${
                   !oCardInfo.prices.usd_foil
-                    ? null
+                    ? "$0.00"
                     : "$" + oCardInfo.prices.usd_foil
                 }`}
           </p>

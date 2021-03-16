@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { updateCollection } from "../actions";
 
 export default function NavBarComponent() {
   const fnDispatch = useDispatch();
@@ -13,6 +14,7 @@ export default function NavBarComponent() {
   const bIsLoggedIn = useSelector(
     (state) => state.oCurrentUserReducer.bIsLoggedIn
   );
+  // const bIsLoggedIn = true;   ////#######################TESTING ONLY!!!!!!!!!!!!!!!!!!!!!!!!
   const oHeaderInfo = useSelector(
     (state) => state.oDisplayedCardsReducer.oHeaderValues
   );
@@ -88,12 +90,17 @@ export default function NavBarComponent() {
 
     if (event.target.name === "Save") {
       //Update currentUserCollection State
-      fnDispatch({
-        type: "UPDATE_USER_COLLECTION",
-        payload: {
-          oCardsToUpdate: oStagedAmts,
-        },
-      });
+
+      console.log(oStagedAmts);
+      //PUT staged items to DB
+      fnDispatch(updateCollection(oUserInfo.sEmailAddress, oStagedAmts));
+
+      // fnDispatch({
+      //   type: "UPDATE_USER_COLLECTION",
+      //   payload: {
+      //     oCardsToUpdate: oStagedAmts,
+      //   },
+      // });
 
       // fnDispatch(updateUserCollection(oCardCollection.sUserCollectionId, oCardCollection.oUserCollection))
       // fnDispatch(updateUserCollection("5f579dea83374115e407f97e", oCardCollection.oUserCollection))
@@ -200,8 +207,8 @@ export default function NavBarComponent() {
             </div>
           </li>
           <li className="nav-item mr-4">
-            <Link className="nav-link text-primary" to="/login">
-              {bIsLoggedIn ? "Logout" : "Login"}
+            <Link className="nav-link text-primary" to="/signIn">
+              {bIsLoggedIn ? "Sign Out" : "Sign In"}
             </Link>
           </li>
           <li>

@@ -10,12 +10,12 @@ function CardComponent({ oCardInfo }) {
   let aCardImagesSrcs = [];
 
   //Global States
-  // const bIsUserLoggedIn = true; //TESTING ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  const bIsUserLoggedIn = useSelector(
-    (state) => state.oCurrentUserReducer.sEmailAddress
-  )
-    ? true
-    : false;
+  const bIsUserLoggedIn = true; //TESTING ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // const bIsUserLoggedIn = useSelector(
+  //   (state) => state.oCurrentUserReducer.sEmailAddress
+  // )
+  //   ? true
+  //   : false;
 
   const oCurrentCardSet = useSelector(
     (state) =>

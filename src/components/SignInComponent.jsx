@@ -1,46 +1,56 @@
 /*
 * TODO:
-    1)Use useHistory to return to cards page if login was successful
+    1)Show error if login is unsuccessful
+    2)Validate email regex prior to setting required field true
 */
+
+//Changelog: Componente refactored on 3/16/21
+
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { getCurrentUser, fnLogout } from "../actions";
+import { fnSignIn, fnSignOut } from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 
-function LoginComponent() {
-  const fnDispatch = useDispatch();
-  const fnHistory = useHistory();
-
+export default function SignInComponent() {
   //Gloabal State
   const bIsLoggedIn = useSelector(
     (state) => state.oCurrentUserReducer.bIsLoggedIn
   );
 
-  //State
+  //Local State
   const [bRequiredFields, fnSetRequiredFields] = useState(false);
 
-  const handleOnSubmit = (event) => {
-    event.preventDefault();
-    let sEmailEntered = document.getElementById("inputEmail").value;
-    let sPasswordEntered = document.getElementById("inputPassword").value;
+  //Methods
+  const fnDispatch = useDispatch();
+  const fnHistory = useHistory();
 
-    fnDispatch(getCurrentUser(sEmailEntered, sPasswordEntered));
-    fnHistory.push("/cards");
+  const fnOnSubmit = (event) => {
+    event.preventDefault();
+    if (bRequiredFields) {
+      fnDispatch(
+        fnSignIn(
+          document.getElementById("email-input").value,
+          document.getElementById("password-input").value
+        )
+      );
+      fnHistory.push("/cards");
+    }
   };
 
-  const handleOnChange = (event) => {
-    //Check to see if both Email and Password field is valid
+  const fnOnInputChange = (event) => {
+    //Check to see if both Email and Password field is entered
     event.preventDefault();
-    let sUserEmail = document.getElementById("inputEmail").value;
-    let sPassword = document.getElementById("inputPassword").value;
 
-    if (sUserEmail && sPassword) {
+    if (
+      document.getElementById("email-input").value &&
+      document.getElementById("password-input").value
+    ) {
       fnSetRequiredFields(true);
     }
   };
 
-  const handleOnLogout = (event) => {
-    fnDispatch(fnLogout());
+  const fnOnSignOut = (event) => {
+    fnDispatch(fnSignOut());
   };
 
   return (
@@ -48,61 +58,58 @@ function LoginComponent() {
       {bIsLoggedIn ? (
         <div className="form-signin border border-danger bg-dark rounded">
           <h1 className="h3 mb-3 font-weight-normal text-danger">
-            Do you want to logout
+            Do you want to sign out?
           </h1>
           <button
-            id="registerBtn"
             className="btn btn-lg btn-danger btn-block mt-3"
+            id="registerBtn"
+            onClick={fnOnSignOut}
             type="submit"
-            onClick={handleOnLogout}
           >
-            Logout
+            Sign Out
           </button>
         </div>
       ) : (
         <form className="form-signin border border-primary bg-dark rounded">
-          <h1 className="h3 mb-3 font-weight-normal text-primary">
-            Please sign in
-          </h1>
           <input
-            type="email"
-            id="inputEmail"
             aria-describedby="emailHelp"
-            name="inputEmail"
-            onChange={handleOnChange}
+            autoFocus
             className="form-control mb-1"
+            id="email-input"
+            name="email-input"
+            onChange={fnOnInputChange}
             placeholder="Email address"
             required
-            autoFocus
+            type="email"
           />
           <input
-            type="password"
-            id="inputPassword"
             aria-describedby="passwordHelp"
-            name="inputPassword"
-            onChange={handleOnChange}
             className="form-control mb-0"
+            id="password-input"
+            name="password-input"
+            onChange={fnOnInputChange}
             placeholder="Password"
             required
+            type="password"
           />
           {bRequiredFields ? (
             <button
-              id="registerBtn"
               className="btn btn-lg btn-success btn-block mt-3"
+              id="registerBtn"
+              onClick={fnOnSubmit}
               type="submit"
-              onClick={handleOnSubmit}
             >
-              Login
+              Sign In
             </button>
           ) : (
             <button
-              id="registerBtn"
               className="btn btn-lg btn-outline-primary btn-block mt-3"
-              type="submit"
-              onClick={handleOnSubmit}
               disabled
+              id="registerBtn"
+              onClick={fnOnSubmit}
+              type="submit"
             >
-              Login
+              Sign In
             </button>
           )}
           <div className="row justify-content-center">
@@ -118,5 +125,3 @@ function LoginComponent() {
     </div>
   );
 }
-
-export default LoginComponent;
