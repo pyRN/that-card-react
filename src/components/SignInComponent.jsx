@@ -2,9 +2,10 @@
 * TODO:
     1)Show error if login is unsuccessful
     2)Validate email regex prior to setting required field true
+    3)Change global state variable name (bIsLoggedIn) in component and reducer
 */
 
-//Changelog: Componente refactored on 3/16/21
+//Changelog: Component refactored on 3/16/21
 
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
@@ -24,19 +25,6 @@ export default function SignInComponent() {
   const fnDispatch = useDispatch();
   const fnHistory = useHistory();
 
-  const fnOnSubmit = (event) => {
-    event.preventDefault();
-    if (bRequiredFields) {
-      fnDispatch(
-        fnSignIn(
-          document.getElementById("email-input").value,
-          document.getElementById("password-input").value
-        )
-      );
-      fnHistory.push("/cards");
-    }
-  };
-
   const fnOnInputChange = (event) => {
     //Check to see if both Email and Password field is entered
     event.preventDefault();
@@ -46,6 +34,20 @@ export default function SignInComponent() {
       document.getElementById("password-input").value
     ) {
       fnSetRequiredFields(true);
+    }
+  };
+
+  const fnOnSignIn = (event) => {
+    event.preventDefault();
+
+    if (bRequiredFields) {
+      fnDispatch(
+        fnSignIn(
+          document.getElementById("email-input").value,
+          document.getElementById("password-input").value
+        )
+      );
+      fnHistory.push("/cards");
     }
   };
 
@@ -96,7 +98,7 @@ export default function SignInComponent() {
             <button
               className="btn btn-lg btn-success btn-block mt-3"
               id="registerBtn"
-              onClick={fnOnSubmit}
+              onClick={fnOnSignIn}
               type="submit"
             >
               Sign In
@@ -106,7 +108,7 @@ export default function SignInComponent() {
               className="btn btn-lg btn-outline-primary btn-block mt-3"
               disabled
               id="registerBtn"
-              onClick={fnOnSubmit}
+              onClick={fnOnSignIn}
               type="submit"
             >
               Sign In
