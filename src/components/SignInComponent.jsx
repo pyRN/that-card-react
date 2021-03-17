@@ -1,11 +1,10 @@
 /*
 * TODO:
     1)Show error if login is unsuccessful
-    2)Validate email regex prior to setting required field true
-    3)Change global state variable name (bIsLoggedIn) in component and reducer
+    2)Change global state variable name (bIsLoggedIn) in component and reducer
 */
 
-//Changelog: Component refactored on 3/16/21
+//Changelog: Component refactored on 3/17/21
 
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
@@ -14,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function SignInComponent() {
   //Gloabal State
-  const bIsLoggedIn = useSelector(
+  const bIsSignedIn = useSelector(
     (state) => state.oCurrentUserReducer.bIsLoggedIn
   );
 
@@ -26,20 +25,23 @@ export default function SignInComponent() {
   const fnHistory = useHistory();
 
   const fnOnInputChange = (event) => {
-    //Check to see if both Email and Password field is entered
     event.preventDefault();
 
+    //Check to see if both Email and Password field is filled
     if (
       document.getElementById("email-input").value &&
       document.getElementById("password-input").value
     ) {
-      fnSetRequiredFields(true);
+      fnSetRequiredFields(true); //Activates submit button
+    } else {
+      fnSetRequiredFields(false); //Deactivates submit button
     }
   };
 
   const fnOnSignIn = (event) => {
     event.preventDefault();
 
+    //If both required fields are present, submit data to  backend
     if (bRequiredFields) {
       fnDispatch(
         fnSignIn(
@@ -57,7 +59,7 @@ export default function SignInComponent() {
 
   return (
     <div align="center" className="justify-content-center mt-5">
-      {bIsLoggedIn ? (
+      {bIsSignedIn ? (
         <div className="form-signin border border-danger bg-dark rounded">
           <h1 className="h3 mb-3 font-weight-normal text-danger">
             Do you want to sign out?
