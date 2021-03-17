@@ -47,7 +47,7 @@ export const fnSignIn = (sEmailEntered, sPasswordEntered) => (dispatch) => {
 };
 
 //Function call for registering a user
-export const addNewUser = (sEmailAddress, sPassword) => (dispatch) => {
+export const fnRegisterUser = (sEmailAddress, sPassword) => (dispatch) => {
   axios
     .post(`/api/users/`, {
       sEmailAddress: sEmailAddress,
