@@ -1,4 +1,10 @@
-import { GET_CURRENT_USER, SET_REGISTERED, LOGOUT } from "./types";
+import {
+  GET_CURRENT_USER,
+  SET_REGISTERED,
+  LOGOUT,
+  VALIDATE_EMAIL,
+  VALIDATE_CODE,
+} from "./types";
 import axios from "axios";
 
 export const updateCollection = (sEmailAddress, oStagedAmts) => (dispatch) => {
@@ -12,8 +18,38 @@ export const updateCollection = (sEmailAddress, oStagedAmts) => (dispatch) => {
     });
 };
 
+export const fnCheckValidEmail = (sEmailEntered) => (dispatch) => {
+  //Check if email is in DB, if not send error to user, if in DB set secret code and email it to user
+  axios
+    .post(`/api/forgotPasswordAPI/:sEmailEntered`, {
+      sEmailEntered: sEmailEntered,
+    })
+    .then((results) => {
+      //Send information from DB about user to reducer to load collection information into the app
+      dispatch({
+        type: VALIDATE_EMAIL,
+        payload: {
+          bIsEmailValid: results.data.bIsValidEmail,
+        },
+      });
+    })
+    .catch((error) => {
+      /***TODO: Need to display to user that email/password combination is incorect***/
+
+      console.log("This isn't working bob.", error);
+      // dispatch({
+      //     type: SET_REGISTERED,
+      //     payload: {
+      //         bEmailAlreadyExists: true,
+      //         bRegistrationSuccessfull: false
+      //     }
+      // })
+    });
+};
+
 //Function call for logging user in
 export const fnSignIn = (sEmailEntered, sPasswordEntered) => (dispatch) => {
+  console.log("login");
   //Post request to `/api/users/:sEmailedEnter` (routes/api/users.js) and send data for sEmailedEntered and sPasswordEntered
   axios
     .post(`/api/users/:sEmailEntered`, {

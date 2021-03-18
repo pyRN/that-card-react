@@ -6,7 +6,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 //Components
-import ForgotComponent from "./components/ForgotComponent";
+import ForgotContainer from "./components/ForgotPage/ForgotContainer";
 import LifeCounterComponent from "./components/LifeCounterComponent";
 import SignInComponent from "./components/SignInComponent";
 import MainComponent from "./components/MainComponent";
@@ -50,7 +50,7 @@ class App extends React.Component {
             <Route
               path="/forgotPass"
               exact
-              render={(props) => <ForgotComponent />}
+              render={(props) => <ForgotContainer />}
             />
             <Route
               path="/register"
