@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   GET_CURRENT_USER,
   SET_REGISTERED,
@@ -5,8 +6,37 @@ import {
   VALIDATE_EMAIL,
   VALIDATE_CODE,
 } from "./types";
-import axios from "axios";
 
+//Function used to validate reset code on 'Forgot Password'
+export const fnCheckValidCode = (sValidationCode, sId) => (dispatch) => {
+  axios
+    .post("/api/forgotPasswordAPI/validateCode", {
+      sValidationCode: sValidationCode,
+      sId: sId,
+    })
+    .then((results) => {
+      dispatch({
+        type: VALIDATE_CODE,
+        payload: {
+          bIsCodeValid: results.data.bIsCodeValid,
+        },
+      });
+    });
+};
+
+//Function used to reset users password
+export const fnResetPassword = (sId, sPasswordEntered) => (dispatch) => {
+  axios
+    .post(`/api/forgotPasswordAPI/resetPassword`, {
+      sId: sId,
+      sPasswordEntered: sPasswordEntered,
+    })
+    .catch((err) => {
+      console.log("Error Resetting Password");
+    });
+};
+
+//Function used to update users collection of cards
 export const updateCollection = (sEmailAddress, oStagedAmts) => (dispatch) => {
   axios
     .put(`/api/users/:sEmailAddress`, {
@@ -18,10 +48,11 @@ export const updateCollection = (sEmailAddress, oStagedAmts) => (dispatch) => {
     });
 };
 
+//Function used to validate email on 'Forgot Password'
 export const fnCheckValidEmail = (sEmailEntered) => (dispatch) => {
   //Check if email is in DB, if not send error to user, if in DB set secret code and email it to user
   axios
-    .post(`/api/forgotPasswordAPI/:sEmailEntered`, {
+    .post(`/api/forgotPasswordAPI/validateEmail`, {
       sEmailEntered: sEmailEntered,
     })
     .then((results) => {
@@ -30,6 +61,7 @@ export const fnCheckValidEmail = (sEmailEntered) => (dispatch) => {
         type: VALIDATE_EMAIL,
         payload: {
           bIsEmailValid: results.data.bIsValidEmail,
+          sId: results.data.sId,
         },
       });
     })
@@ -47,7 +79,7 @@ export const fnCheckValidEmail = (sEmailEntered) => (dispatch) => {
     });
 };
 
-//Function call for logging user in
+//Function used to sign in a user
 export const fnSignIn = (sEmailEntered, sPasswordEntered) => (dispatch) => {
   console.log("login");
   //Post request to `/api/users/:sEmailedEnter` (routes/api/users.js) and send data for sEmailedEntered and sPasswordEntered
@@ -82,7 +114,7 @@ export const fnSignIn = (sEmailEntered, sPasswordEntered) => (dispatch) => {
     });
 };
 
-//Function call for registering a user
+//Function used to register a user
 export const fnRegisterUser = (sEmailAddress, sPassword) => (dispatch) => {
   axios
     .post(`/api/users/`, {
@@ -110,7 +142,7 @@ export const fnRegisterUser = (sEmailAddress, sPassword) => (dispatch) => {
     });
 };
 
-//Function for logging user out
+//Function used for signing out a user
 export const fnSignOut = () => (dispatch) => {
   dispatch({
     type: LOGOUT,

@@ -48,7 +48,6 @@ export default function ForgotComponent() {
         {bRequiredField ? (
           <button
             className="btn btn-lg btn-success btn-block mt-3"
-            id="registerBtn"
             onClick={fnOnResetPassword}
             type="submit"
           >
@@ -58,7 +57,6 @@ export default function ForgotComponent() {
           <button
             className="btn btn-lg btn-outline-primary btn-block mt-3"
             disabled
-            id="registerBtn"
             onClick={fnOnResetPassword}
             type="submit"
           >

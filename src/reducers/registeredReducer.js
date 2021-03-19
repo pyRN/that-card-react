@@ -12,6 +12,7 @@ const initialState = {
   bRegistrationSuccessfull: null,
   bIsCodeValid: null,
   bIsEmailValid: null,
+  sId: null,
 };
 
 export default function checkRegistration(state = initialState, action) {
@@ -25,10 +26,18 @@ export default function checkRegistration(state = initialState, action) {
       };
       break;
     case VALIDATE_EMAIL:
-      console.log("VALIDATE", action.payload.bIsEmailValid);
-      return { ...state, bIsEmailValid: action.payload.bIsEmailValid };
+      return {
+        ...state,
+        bIsEmailValid: action.payload.bIsEmailValid,
+        sId: action.payload.sId,
+      };
       break;
     case VALIDATE_CODE:
+      return {
+        ...state,
+        bIsCodeValid: action.payload.bIsCodeValid,
+      };
+      break;
       break;
 
     default:
