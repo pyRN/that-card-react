@@ -1,4 +1,4 @@
-import { RESET_STAGING_AREA, UPDATE_STAGING_AREA } from '../actions/types'
+import { RESET_STAGING_AREA, UPDATE_STAGING_AREA } from "../actions/types";
 
 /*Example state
     {
@@ -7,11 +7,13 @@ import { RESET_STAGING_AREA, UPDATE_STAGING_AREA } from '../actions/types'
             "cardId": {
                 "nRegularAmount": "integer",
                 "nFoilAmount": "integer",
+                "sCardName": "string",
                 "sExpansionId" "string"
             },
             "cardId": {
                 "nRegularAmount": "integer",
                 "nFoilAmount": "integer",
+                "sCardName": "string",
                 "sExpansionId" "string"
             }
         }
@@ -19,30 +21,34 @@ import { RESET_STAGING_AREA, UPDATE_STAGING_AREA } from '../actions/types'
 */
 
 const initialState = {
-    bIsDirtyFlag: false,
-    oCardStaging: {}
-}
+  bIsDirtyFlag: false,
+  oCardStaging: {},
+};
 
 export default function dirtyFlag(state = initialState, action) {
-    // console.log(action)
-    switch (action.type) {
-        case UPDATE_STAGING_AREA:
-            //If card is not in state, create the object
-            if(!state.oCardStaging[action.payload.sCardId]){
-                state.oCardStaging[action.payload.sCardId] = {}
-            }
+  // console.log(action)
+  switch (action.type) {
+    case UPDATE_STAGING_AREA:
+      //If card is not in state, create the object
+      if (!state.oCardStaging[action.payload.sCardId]) {
+        state.oCardStaging[action.payload.sCardId] = {};
+      }
 
-            //Update the object with owned amounts
-            state.oCardStaging[action.payload.sCardId][action.payload.sTypeName] = action.payload.nAmt
-            state.oCardStaging[action.payload.sCardId]["sExpansionId"] = action.payload.sExpansionId
-            state.bIsDirtyFlag = true
-            return {...state}
-        case RESET_STAGING_AREA:
-            return {
-                bIsDirtyFlag: false,
-                oCardStaging: {}
-            }
-        default:
-            return state
-    }
+      //Update the object with owned amounts
+      state.oCardStaging[action.payload.sCardId][action.payload.sTypeName] =
+        action.payload.nAmt;
+      state.oCardStaging[action.payload.sCardId]["sExpansionId"] =
+        action.payload.sExpansionId;
+      state.oCardStaging[action.payload.sCardId]["sCardName"] =
+        action.payload.sCardName;
+      state.bIsDirtyFlag = true;
+      return { ...state };
+    case RESET_STAGING_AREA:
+      return {
+        bIsDirtyFlag: false,
+        oCardStaging: {},
+      };
+    default:
+      return state;
+  }
 }

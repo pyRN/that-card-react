@@ -1,4 +1,5 @@
-html, .mainContainer{
+html,
+.mainContainer {
     background-color: black;
 }
 
@@ -11,6 +12,6 @@ html, .mainContainer{
     margin: auto;
 }
 /*Styling for resources dropdown*/
-.linkTextHover:hover{
+.linkTextHover:hover {
     cursor: pointer;
 }

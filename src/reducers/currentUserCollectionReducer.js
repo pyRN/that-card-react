@@ -78,7 +78,6 @@ export default function currentUserCollection(state = initialState, action) {
                     delete state.oUserCollection[sExpansionKey]
                 }
             }
-            console.log(state)
 
             return {...state}
             

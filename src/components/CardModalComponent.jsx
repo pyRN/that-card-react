@@ -11,9 +11,9 @@ function CardModalComponent({ oCardInfo, bFrontOfCard }){
                     </div>
                     <div className="modal-body bg-dark border border-success">
                         {oCardInfo.card_faces && oCardInfo.card_faces[0].image_uris ?
-                            <img src={bFrontOfCard  ? oCardInfo.card_faces[0].image_uris.normal : oCardInfo.card_faces[1].image_uris.normal} className="card-img-top" alt={oCardInfo.name} style={{height: "75%", width: "75%"}}/>
+                            <img src={bFrontOfCard  ? oCardInfo.card_faces[0].image_uris.normal : oCardInfo.card_faces[1].image_uris.normal} className="card-img-top" alt={oCardInfo.name} />
                             :
-                            <img src={oCardInfo.image_uris.normal} className="card-img-top" alt={oCardInfo.name} style={{height: "75%", width: "75%"}}/>
+                            <img src={oCardInfo.image_uris.normal} className="card-img-top" alt={oCardInfo.name} />
                         }
                     </div>
                     <div className="modal-footer bg-dark border border-success d-flex justify-content-center">
