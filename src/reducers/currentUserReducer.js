@@ -1,28 +1,27 @@
-/* Action sets logged in user */
-import { GET_CURRENT_USER, LOGOUT } from "../actions/types";
+import { SIGN_IN_USER, SIGN_OUT_USER } from "../actions/types";
 
 const initialState = {
-  sEmailAddress: null,
-  bIsLoggedIn: false,
   bIsLoading: false,
+  bIsSignedIn: false,
   oCollection: {},
+  sEmailAddress: null,
 };
 
 export default function currentUser(state = initialState, action) {
   switch (action.type) {
-    case GET_CURRENT_USER:
+    case SIGN_IN_USER:
       return {
-        sEmailAddress: action.payload.sEmailAddress,
-        bIsLoggedIn: action.payload.bIsLoggedIn,
         bIsLoading: action.payload.bIsLoading,
+        bIsSignedIn: action.payload.bIsSignedIn,
         oCollection: action.payload.oCollection,
+        sEmailAddress: action.payload.sEmailAddress,
       };
-    case LOGOUT:
+    case SIGN_OUT_USER:
       return {
-        sEmailAddress: null,
-        bIsLoggedIn: false,
         bIsLoading: false,
+        bIsSignedIn: false,
         oCollection: {},
+        sEmailAddress: null,
       };
     default:
       return state;

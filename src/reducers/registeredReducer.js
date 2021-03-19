@@ -24,21 +24,17 @@ export default function checkRegistration(state = initialState, action) {
         bIsCodeValid: null,
         bIsEmailValid: null,
       };
-      break;
     case VALIDATE_EMAIL:
       return {
         ...state,
         bIsEmailValid: action.payload.bIsEmailValid,
         sId: action.payload.sId,
       };
-      break;
     case VALIDATE_CODE:
       return {
         ...state,
         bIsCodeValid: action.payload.bIsCodeValid,
       };
-      break;
-      break;
 
     default:
       return state;

@@ -1,8 +1,8 @@
 import axios from "axios";
 import {
-  GET_CURRENT_USER,
   SET_REGISTERED,
-  LOGOUT,
+  SIGN_IN_USER,
+  SIGN_OUT_USER,
   VALIDATE_EMAIL,
   VALIDATE_CODE,
 } from "./types";
@@ -91,10 +91,10 @@ export const fnSignIn = (sEmailEntered, sPasswordEntered) => (dispatch) => {
     .then((results) => {
       //Send information from DB about user to reducer to load collection information into the app
       dispatch({
-        type: GET_CURRENT_USER,
+        type: SIGN_IN_USER,
         payload: {
           sEmailAddress: results.data.sEmailAddress,
-          bIsLoggedIn: true,
+          bIsSignedIn: true,
           bIsLoading: true,
           oCollection: results.data.oCollection,
         },
@@ -145,6 +145,6 @@ export const fnRegisterUser = (sEmailAddress, sPassword) => (dispatch) => {
 //Function used for signing out a user
 export const fnSignOut = () => (dispatch) => {
   dispatch({
-    type: LOGOUT,
+    type: SIGN_OUT_USER,
   });
 };
