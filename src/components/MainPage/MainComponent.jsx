@@ -1,7 +1,7 @@
 import React from "react";
 
 //Media
-import MTGCard from "../multimedia/Magic_card_back.jpg";
+import MTGCard from "../../multimedia/Magic_card_back.jpg";
 
 export default function MainComponent() {
   return (

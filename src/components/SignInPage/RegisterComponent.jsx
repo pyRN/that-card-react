@@ -5,7 +5,7 @@
 //Changelog: Component refactored on 3/17/21
 
 import React, { useState } from "react";
-import { fnRegisterUser } from "../actions";
+import { fnRegisterUser } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function RegisterComponent() {

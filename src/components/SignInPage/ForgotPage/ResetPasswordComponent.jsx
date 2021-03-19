@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { fnResetPassword } from "../../actions";
+import { fnResetPassword } from "../../../actions";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function ResetPasswordComponent() {

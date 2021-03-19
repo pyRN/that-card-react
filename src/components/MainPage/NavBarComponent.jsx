@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { updateCollection } from "../actions";
+import { updateCollection } from "../../actions";
 
 export default function NavBarComponent() {
   const fnDispatch = useDispatch();

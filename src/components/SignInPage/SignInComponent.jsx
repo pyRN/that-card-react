@@ -8,7 +8,7 @@
 
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { fnSignIn, fnSignOut } from "../actions";
+import { fnSignIn, fnSignOut } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function SignInComponent() {
@@ -120,7 +120,7 @@ export default function SignInComponent() {
             <Link className="nav-link text-primary" to="/forgotPass">
               Forgot Password
             </Link>
-            <Link className="nav-link text-primary" to="register/">
+            <Link className="nav-link text-primary" to="/register">
               Register
             </Link>
           </div>

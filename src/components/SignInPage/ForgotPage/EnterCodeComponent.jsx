@@ -5,14 +5,12 @@
 //Changelog: Component refactored on 3/18/21
 
 import React, { useState } from "react";
-import { fnCheckValidEmail } from "../../actions";
+import { fnCheckValidCode } from "../../../actions";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function ForgotComponent() {
+export default function EnterCodeComponent() {
   //Gloabal State
-  const bIsEmailValid = useSelector(
-    (state) => state.oRegisteredReducer.bIsEmailValid
-  );
+  const sId = useSelector((state) => state.oRegisteredReducer.sId);
 
   //Local State
   const [bRequiredField, fnSetRequiredField] = useState(false);
@@ -20,47 +18,51 @@ export default function ForgotComponent() {
   const fnDispatch = useDispatch();
 
   const fnOnInputChange = (event) => {
-    let rEmailValidation = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    rEmailValidation.test(document.getElementById("email-input").value)
+    let sVerificationCode = document.getElementById("code-input").value;
+    sVerificationCode.length === 6
       ? fnSetRequiredField(true)
       : fnSetRequiredField(false);
   };
 
-  const fnOnResetPassword = (event) => {
+  const fnOnVerifyCode = (event) => {
     event.preventDefault();
-    fnDispatch(fnCheckValidEmail(document.getElementById("email-input").value));
+    fnDispatch(
+      fnCheckValidCode(document.getElementById("code-input").value),
+      sId
+    );
   };
 
   return (
     <div align="center" className="justify-content-center mt-5">
-      <h2 className="text-primary mb-4">Forgot Password?</h2>
+      <h2 className="text-primary mb-4">
+        A code has been emailed to you, please enter code
+      </h2>
       <form className="form-signin border border-primary bg-dark rounded">
         <input
-          aria-describedby="emailHelp"
           autoFocus
           className="form-control mb-1"
-          id="email-input"
+          id="code-input"
           onChange={fnOnInputChange}
-          placeholder="Email address"
+          placeholder="Verification Code"
           required
-          type="email"
+          type="text"
         />
         {bRequiredField ? (
           <button
             className="btn btn-lg btn-success btn-block mt-3"
-            onClick={fnOnResetPassword}
+            onClick={fnOnVerifyCode}
             type="submit"
           >
-            Reset Password
+            Verify Code
           </button>
         ) : (
           <button
             className="btn btn-lg btn-outline-primary btn-block mt-3"
             disabled
-            onClick={fnOnResetPassword}
+            onClick={fnOnVerifyCode}
             type="submit"
           >
-            Reset Password
+            Verify Code
           </button>
         )}
       </form>

@@ -9,13 +9,13 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 //Components
-import CardComponent from "../components/CardComponent";
-import CardNavBarComponent from "../components/CardNavBarComponent";
-import TableComponent from "../components/TableComponent";
+import CardComponent from "./CardComponent";
+import CardNavBarComponent from "./CardNavBarComponent";
+import TableComponent from "./TableComponent";
 
 //Media
-import LastChance from "../multimedia/Last-chance.jpg";
-import VampiricTutor from "../multimedia/Vampiric-tutor.jpg";
+import LastChance from "../../multimedia/Last-chance.jpg";
+import VampiricTutor from "../../multimedia/Vampiric-tutor.jpg";
 
 export default function DisplayedCardsContainer() {
   let aFilterdCardList, aDisplayCards;

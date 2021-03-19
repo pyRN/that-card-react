@@ -6,16 +6,14 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 //Components
-import ForgotContainer from "./components/ForgotPage/ForgotContainer";
+import DisplayedCardsContainer from "./components/CardsPage/DisplayedCardsContainer";
+import ExpansionListContainer from "./components/ExpansionsPage/ExpansionListContainer";
+import ForgotContainer from "./components/SignInPage/ForgotPage/ForgotContainer";
 import LifeCounterComponent from "./components/LifeCounterComponent";
-import SignInComponent from "./components/SignInComponent";
-import MainComponent from "./components/MainComponent";
-import NavBarComponent from "./components/NavBarComponent";
-import RegisterComponent from "./components/RegisterComponent";
-
-//Containers
-import DisplayedCardsContainer from "./containers/DisplayedCardsContainer";
-import ExpansionListContainer from "./containers/ExpansionListContainer";
+import SignInComponent from "./components/SignInPage/SignInComponent";
+import MainComponent from "./components/MainPage/MainComponent";
+import NavBarComponent from "./components/MainPage/NavBarComponent";
+import RegisterComponent from "./components/SignInPage/RegisterComponent";
 
 class App extends React.Component {
   render() {

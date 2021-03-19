@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 //Components
-import ExpansionComponent from "../components/ExpansionComponent";
+import ExpansionComponent from "./ExpansionComponent";
 
 function ExpansionListContainer() {
   const aExpansionsList = useSelector(
