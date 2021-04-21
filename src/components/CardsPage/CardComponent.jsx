@@ -116,6 +116,12 @@ function CardComponent({ oCardInfo }) {
       >
         {oCardInfo.name} ({oCardInfo.rarity.slice(0, 1).toUpperCase()})
       </p>
+      <p
+        className="mt-1 mb-1 text-warning text-center text-wrap linkTextHover border border-warning rounded"
+        style={{ backgroundColor: "#222" }}
+      >
+        {oCardInfo.set_name}
+      </p>
       <div className="mt-0 mb-0 card-body p-0">
         {aCardImage}
         {oCardInfo.nonfoil ? (

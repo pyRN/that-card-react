@@ -1,10 +1,9 @@
 /*
 * TODO:
-    1)Show error if login is unsuccessful
-    2)Change global state variable name (bIsLoggedIn) in component and reducer
+    1)Fix multiple rendering
 */
 
-//Changelog: Component refactored on 3/17/21
+//Changelog: Component refactored on 4/21/21
 
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
@@ -13,9 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function SignInComponent() {
   //Gloabal State
-  const bIsSignedIn = useSelector(
-    (state) => state.oCurrentUserReducer.bIsLoggedIn
-  );
+  const oCurrentUser = useSelector((state) => state.oCurrentUserReducer);
 
   //Local State
   const [bRequiredFields, fnSetRequiredFields] = useState(false);
@@ -49,7 +46,7 @@ export default function SignInComponent() {
           document.getElementById("password-input").value
         )
       );
-      fnHistory.push("/cards");
+      if (oCurrentUser.bIsSignedIn) fnHistory.push("/cards");
     }
   };
 
@@ -57,9 +54,16 @@ export default function SignInComponent() {
     fnDispatch(fnSignOut());
   };
 
+  console.log("CurrentUser: ", oCurrentUser);
+
   return (
     <div align="center" className="justify-content-center mt-5">
-      {bIsSignedIn ? (
+      {oCurrentUser.sId === "No Match" ? (
+        <h1 className="h3 mb-3 font-weight-normal text-danger">
+          Incorrect email or password
+        </h1>
+      ) : null}
+      {oCurrentUser.bIsSignedIn ? (
         <div className="form-signin border border-danger bg-dark rounded">
           <h1 className="h3 mb-3 font-weight-normal text-danger">
             Do you want to sign out?

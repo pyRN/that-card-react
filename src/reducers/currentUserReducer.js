@@ -4,7 +4,7 @@ const initialState = {
   bIsLoading: false,
   bIsSignedIn: false,
   oCollection: {},
-  sEmailAddress: null,
+  sId: null,
 };
 
 export default function currentUser(state = initialState, action) {
@@ -14,14 +14,14 @@ export default function currentUser(state = initialState, action) {
         bIsLoading: action.payload.bIsLoading,
         bIsSignedIn: action.payload.bIsSignedIn,
         oCollection: action.payload.oCollection,
-        sEmailAddress: action.payload.sEmailAddress,
+        sId: action.payload.sId,
       };
     case SIGN_OUT_USER:
       return {
         bIsLoading: false,
         bIsSignedIn: false,
         oCollection: {},
-        sEmailAddress: null,
+        sId: null,
       };
     default:
       return state;

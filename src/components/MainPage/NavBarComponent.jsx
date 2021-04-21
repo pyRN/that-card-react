@@ -93,7 +93,7 @@ export default function NavBarComponent() {
 
       console.log(oStagedAmts);
       //PUT staged items to DB
-      fnDispatch(updateCollection(oUserInfo.sEmailAddress, oStagedAmts));
+      // fnDispatch(updateCollection(oUserInfo.sEmailAddress, oStagedAmts));
 
       // fnDispatch({
       //   type: "UPDATE_USER_COLLECTION",

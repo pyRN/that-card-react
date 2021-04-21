@@ -46,6 +46,7 @@ export default function SpinnerComponent({
                     : "$" + oCardInfo.prices.usd_foil
                 }`}
           </p>
+
           <input
             type="number"
             className="form-control justify-content-center border border-primary"

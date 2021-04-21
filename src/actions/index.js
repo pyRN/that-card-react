@@ -39,7 +39,7 @@ export const fnResetPassword = (sId, sPasswordEntered) => (dispatch) => {
 //Function used to update users collection of cards
 export const updateCollection = (sEmailAddress, oStagedAmts) => (dispatch) => {
   axios
-    .put(`/api/users/:sEmailAddress`, {
+    .put(`/api/usersCards/:sEmailAddress`, {
       sEmailAddress: "jacobmayeux@gmail.com", //sEmailAddress,
       oStagedAmts: oStagedAmts,
     })
@@ -81,10 +81,9 @@ export const fnCheckValidEmail = (sEmailEntered) => (dispatch) => {
 
 //Function used to sign in a user
 export const fnSignIn = (sEmailEntered, sPasswordEntered) => (dispatch) => {
-  console.log("login");
   //Post request to `/api/users/:sEmailedEnter` (routes/api/users.js) and send data for sEmailedEntered and sPasswordEntered
   axios
-    .post(`/api/users/:sEmailEntered`, {
+    .post(`/api/users/signIn/:sEmailEntered`, {
       sEmailEntered: sEmailEntered,
       sPasswordEntered: sPasswordEntered,
     })
@@ -93,31 +92,22 @@ export const fnSignIn = (sEmailEntered, sPasswordEntered) => (dispatch) => {
       dispatch({
         type: SIGN_IN_USER,
         payload: {
-          sEmailAddress: results.data.sEmailAddress,
-          bIsSignedIn: true,
-          bIsLoading: true,
+          bIsSignedIn: results.data.bIsSignedIn,
+          bIsLoading: results.data.bIsLoading,
           oCollection: results.data.oCollection,
+          sId: results.data.sId,
         },
       });
     })
     .catch((error) => {
-      /***TODO: Need to display to user that email/password combination is incorect***/
-
-      console.log("This isn't working bob.", error);
-      // dispatch({
-      //     type: SET_REGISTERED,
-      //     payload: {
-      //         bEmailAlreadyExists: true,
-      //         bRegistrationSuccessfull: false
-      //     }
-      // })
+      console.log("Error signing in to database:  ", error);
     });
 };
 
 //Function used to register a user
 export const fnRegisterUser = (sEmailAddress, sPassword) => (dispatch) => {
   axios
-    .post(`/api/users/`, {
+    .post(`/api/users/register/`, {
       sEmailAddress: sEmailAddress,
       sPassword: sPassword,
     })
